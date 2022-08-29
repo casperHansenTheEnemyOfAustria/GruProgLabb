@@ -1,6 +1,6 @@
 import random as r
 
-def singe_game(player_name):
+def single_game(player_name):
     user_input = input()
     total_score = 0 
     dice = 0
