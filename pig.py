@@ -5,7 +5,7 @@ def single_game(player_name):
     user_input = input()
     total_score = 0 
     dice = 0
-    while user_input == "yes" or user_input == "y" and dice != 1 :
+    while user_input == "yes" or user_input == "y" and dice != 1:
         print("rolling")
         dice = r.randrange(1,7)
         if dice == 1:
