@@ -76,8 +76,7 @@ def single_round(current_player, player_playing, winning_points):
     while player_playing:
         game_end = False #sets aborted state
         print()
-        print(current_player.name + ", do you want to roll or hold? (type r or n)")
-        player_choice = str(input())
+        player_choice = game_start_choice(current_player.name)
         if player_choice == "r":
             player_playing = game_logic_instance(current_player) #runs game logic
         elif player_choice == "n":
@@ -87,13 +86,20 @@ def single_round(current_player, player_playing, winning_points):
             player_playing = False
             abort_message(current_player)
         if current_player.totalPts >= winning_points or current_player.roundPts >= winning_points: #checks if current player has won. Double checks for current round to see if its a singel round win
-            game_end = True #sets abort status to true
-            print("woaaa epic win!!")
+            game_end = win_msg() #sets abort status to true
             break
             
         print(f"{current_player.name} got a total of {current_player.roundPts} points this round")  
     return game_end
 # ---- IO Methods --------------
+def win_msg():
+    print("woaaa epic win!!")
+    return True
+
+def game_start_choice(player_name):
+    print(player_name + ", do you want to roll or hold? (type r or n)")
+    player_choice = str(input())
+    return player_choice
 
 def abort_message(player):
     print("aww, sad to see you go! :(" + str(player.name))
