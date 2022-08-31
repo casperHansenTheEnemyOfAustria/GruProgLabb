@@ -68,29 +68,35 @@ def game_logic_instance(current_player):
         continue_playing = False
     return continue_playing
 
+def round_ender(player_to_be_added_points_to):
+    player_to_be_added_points_to.totalPts += player_to_be_added_points_to.roundPts #adds up total points TODO: escape to other function
+    return False #returns false to set player playing
+
 def single_round(current_player, player_playing, winning_points):
     while player_playing:
-        aborted = False #sets aborted state
+        game_end = False #sets aborted state
         print()
         print(current_player.name + ", do you want to roll or hold? (type r or n)")
         player_choice = str(input())
         if player_choice == "r":
             player_playing = game_logic_instance(current_player) #runs game logic
         elif player_choice == "n":
-            current_player.totalPts += current_player.roundPts #adds up total points TODO: escape to other function
-            player_playing = False
+            player_playing = round_ender(current_player)
         else:
-            aborted = True
+            game_end = True
             player_playing = False
-            print("aww, sad to see you go! :(")
+            abort_message(current_player)
         if current_player.totalPts >= winning_points or current_player.roundPts >= winning_points: #checks if current player has won. Double checks for current round to see if its a singel round win
-            aborted = True #sets abort status to true
+            game_end = True #sets abort status to true
             print("woaaa epic win!!")
             break
             
         print(f"{current_player.name} got a total of {current_player.roundPts} points this round")  
-    return aborted
+    return game_end
 # ---- IO Methods --------------
+
+def abort_message(player):
+    print("aww, sad to see you go! :(" + str(player.name))
 
 def welcome_msg(win_pts):
     print("Welcome to PIG!")
