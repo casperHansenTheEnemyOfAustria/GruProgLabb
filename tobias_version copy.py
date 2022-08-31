@@ -49,42 +49,42 @@ def get_index(players, current):
             return i
 
 def regular_roll(current_player, dice_result):
-    print(f"You rolled {dice_result}")
+    round_msg(dice_result, current_player)
     current_player.roundPts += dice_result
 
 def roll_one(current_player):
-    print(f"You rolled 1 and all your points are lost :(")
+    round_msg(1, current_player)
     current_player.roundPts = 0
     current_player.totalPts = 0
     
 def game_logic_instance(current_player):
     print(current_player.name + " rolled")
-    result = roll_result()
+    result = roll_result() #rolls dice
     if result != 1:
-        regular_roll(current_player, result)
+        regular_roll(current_player, result) #method for rolling anothing other than a 1
         continue_playing = True
     else:
-        roll_one(current_player)
+        roll_one(current_player) #method for rolling a 1
         continue_playing = False
     return continue_playing
 
 def single_round(current_player, player_playing, winning_points):
     while player_playing:
-        aborted = False
+        aborted = False #sets aborted state
         print()
         print(current_player.name + ", do you want to roll or hold? (type r or n)")
         player_choice = str(input())
         if player_choice == "r":
-            player_playing = game_logic_instance(current_player)
+            player_playing = game_logic_instance(current_player) #runs game logic
         elif player_choice == "n":
-            current_player.totalPts += current_player.roundPts
+            current_player.totalPts += current_player.roundPts #adds up total points TODO: escape to other function
             player_playing = False
         else:
             aborted = True
             player_playing = False
             print("aww, sad to see you go! :(")
-        if current_player.totalPts >= winning_points or current_player.roundPts >= winning_points:
-            aborted = True
+        if current_player.totalPts >= winning_points or current_player.roundPts >= winning_points: #checks if current player has won. Double checks for current round to see if its a singel round win
+            aborted = True #sets abort status to true
             print("woaaa epic win!!")
             break
             
