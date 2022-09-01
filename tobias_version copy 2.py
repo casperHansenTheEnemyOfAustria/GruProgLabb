@@ -8,6 +8,7 @@ import random as r
 def run():
     win_points = 20  # Points to win (decrease if testing)
     aborted = False
+    # Hard coded players, replace *last* of all with ... (see below)
     players = get_players()    # ... this (method to read in all players)
 
     welcome_msg(win_points)
@@ -17,12 +18,12 @@ def run():
     # TODO Game logic, using small step, functional decomposition
 
     while current.totalPts < win_points and not aborted:
-        for i in [((a + index) % len(players)) for a in range(len(players))]:
-            current = players[i]
-            player_playing = True
-            aborted = single_round(current, player_playing, win_points)
-            if aborted:
-                break
+            for i in [((a + index) % len(players)) for a in range(len(players))]:
+                current = players[i]
+                player_playing = True
+                aborted = single_round(current, player_playing, win_points)
+                if aborted:
+                    break
     game_over_msg(current, aborted)
 
 
@@ -72,32 +73,23 @@ def round_ender(player_to_be_added_points_to):
 def single_round(current_player, player_playing, winning_points):
     while player_playing:
         game_end = False # sets aborted state
+        print()
         player_choice = game_start_choice(current_player.name)
         # TODO move if sats to different function
-        game_output = run_game(current_player, player_choice)
-        game_end = game_output["game_ended"]
-        player_playing = game_output["player_playing"]
+        if player_choice == "r":
+            player_playing = game_logic_instance(current_player) # runs game logic
+        elif player_choice == "n":
+            player_playing = round_ender(current_player)
+        else:
+            game_end = True
+            player_playing = False
+            abort_message(current_player)
         if current_player.totalPts >= winning_points or current_player.roundPts >= winning_points: # checks if current player has won. Double checks for current round to see if its a singel round win
             game_end = game_over_msg(current_player, game_end) # runs winning message and sets game to end
             break
     return game_end
-
+    
 # ---- IO Methods --------------
-def run_game(player, player_choice):
-    game_end = False
-    player_playing = True
-    if player_choice == "r":
-        player_playing = game_logic_instance(player) # runs game logic
-    elif player_choice == "n":
-        player_playing = round_ender(player)
-    else:
-        game_end = True
-        player_playing = False
-        abort_message(player)
-    return {
-        "game_ended": game_end,
-        "player_playing": player_playing
-    }
 
 def game_start_choice(player_name):
     print(player_name + ", do you want to roll or hold? (type r or n)")
@@ -121,7 +113,7 @@ def status_msg(the_players):
 
 def round_msg(result, current_player):
     if result > 1:
-        print("Got " + str(result) + " running total is " + str(current_player.roundPts + result) + " this round")
+        print("Got " + str(result) + " running total are " + str(current_player.roundPts + result) + " this round")
     else:
         print("Got 1 lost it all!")
 
@@ -142,7 +134,6 @@ def get_player_choice(player):
 def get_players():
     n_players = int(input("How many players will there be?"))
     players = []
-    # TODO: check so input is integer
     for i in range(n_players):
         player = str(input(f"Player {i+1} is >"))
         players.append(Player(name=player))
