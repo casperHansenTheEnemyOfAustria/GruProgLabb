@@ -77,6 +77,7 @@ def single_round(current_player, player_playing, winning_points):
         game_end = False # sets aborted state
         print()
         player_choice = game_start_choice(current_player.name)
+        # TODO move if sats to different function
         if player_choice == "r":
             player_playing = game_logic_instance(current_player) # runs game logic
         elif player_choice == "n":
