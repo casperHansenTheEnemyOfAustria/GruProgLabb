@@ -9,8 +9,7 @@ def run():
     win_points = 20  # Points to win (decrease if testing)
     aborted = False
     # Hard coded players, replace *last* of all with ... (see below)
-    players = [Player(name='Olle'), Player(name='Fia')]
-    # players = getPlayers()    # ... this (method to read in all players)
+    players = get_players()    # ... this (method to read in all players)
 
     welcome_msg(win_points)
     status_msg(players)
@@ -132,9 +131,12 @@ def get_player_choice(player):
 
 
 def get_players():
-    # TODO
-    pass
-
+    n_players = int(input("How many players will there be?"))
+    players = []
+    for i in range(n_players):
+        player = str(input(f"Player {i+1} is >"))
+        players.append(Player(name=player))
+    return players
 
 # ----- Testing -----------------
 # Here you run your tests i.e. call your game logic methods
