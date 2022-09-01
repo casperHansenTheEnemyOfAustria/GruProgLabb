@@ -113,7 +113,7 @@ def status_msg(the_players):
 
 def round_msg(result, current_player):
     if result > 1:
-        print("Got " + str(result) + " running total are " + str(current_player.roundPts + result))
+        print("Got " + str(result) + " running total are " + str(current_player.roundPts + result) + " this round")
     else:
         print("Got 1 lost it all!")
 
