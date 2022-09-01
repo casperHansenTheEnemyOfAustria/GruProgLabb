@@ -55,7 +55,6 @@ def regular_roll(current_player, dice_result):
 def roll_one(current_player):
     round_msg(1, current_player)
     current_player.roundPts = 0
-    current_player.totalPts = 0
     
 def game_logic_instance(current_player):
     print(current_player.name + " rolled")
@@ -87,15 +86,10 @@ def single_round(current_player, player_playing, winning_points):
             player_playing = False
             abort_message(current_player)
         if current_player.totalPts >= winning_points or current_player.roundPts >= winning_points: # checks if current player has won. Double checks for current round to see if its a singel round win
-            game_end = win_msg() # runs winning message and sets game to end
+            game_end = game_over_msg(current_player, game_end) # runs winning message and sets game to end
             break
-            
-        print(f"{current_player.name} got a total of {current_player.roundPts} points this round")  
     return game_end
 # ---- IO Methods --------------
-def win_msg():
-    print("woaaa epic win!!")
-    return True
 
 def game_start_choice(player_name):
     print(player_name + ", do you want to roll or hold? (type r or n)")
@@ -119,7 +113,7 @@ def status_msg(the_players):
 
 def round_msg(result, current_player):
     if result > 1:
-        print("Got " + result + " running total are " + current_player.roundPts)
+        print("Got " + str(result) + " running total are " + str(current_player.roundPts + result))
     else:
         print("Got 1 lost it all!")
 
@@ -130,6 +124,7 @@ def game_over_msg(player, is_aborted):
     else:
         print("Game over! Winner is player " + player.name + " with "
               + str(player.totalPts + player.roundPts) + " points")
+    return True
 
 
 def get_player_choice(player):

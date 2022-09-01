@@ -5,6 +5,7 @@
 #  */
 import random as r
 
+
 def run():
     win_points = 20  # Points to win (decrease if testing)
     aborted = False
@@ -14,42 +15,44 @@ def run():
 
     welcome_msg(win_points)
     status_msg(players)
-    current = players[r.randint(0, len(players)-1)]  # TODO Set random player to start
-    index = get_index(players, current)
+    current = players[r.randint(0, len(players) - 1)]  # TODO Set random player to start
+    player_index = get_index(players, current)
     # TODO Game logic, using small step, functional decomposition
+    winner_winner_chicken_dinner = False
 
     while current.totalPts < win_points and not aborted:
-            for i in [((a + index) % len(players)) for a in range(len(players))]:
-                current = players[i]
-                player_playing = True
-                while player_playing:
-                    print()
-                    print(current.name + ", do you want to roll or hold? (type r or n)")
-                    player_choice = str(input())
-                    if player_choice == "r":
-                        print(current.name + " rolled")
-                        result = roll_result()
-                        if result != 1:
-                            print(f"You rolled {result}")
-                            current.roundPts += result
-                        else:
-                            print(f"You rolled {result} and all your points are lost")
-                            current.roundPts = 0
-                            current.totalPts = 0
+        for i in [((a + player_index) % len(players)) for a in range(len(players))]:
+            current = players[i]
+            player_playing = True
+            while player_playing:
+                print()
+                print(current.name + ", do you want to roll or hold? (type r or n or q)")
+                player_choice = str(input())
+                if player_choice == "r":
+                    print(current.name + " rolled")
+                    result = roll_result()
+                    if result != 1:
+                        print(f"You rolled {result}")
+                        current.roundPts += result
+                        if current.totalPts + result >= win_points:
                             player_playing = False
-
-                    elif player_choice == "n":
-                        current.totalPts = players[i].roundPts
-                        player_playing = False
-
                     else:
-                        aborted = True
+                        print(f"You rolled {result} and all your points are lost")
+                        current.roundPts = 0
                         player_playing = False
 
-                    print(f"{current.name} got a total of {current.roundPts} points this round")
+                elif player_choice == "n":
+                    current.totalPts += current.roundPts
+                    player_playing = False
 
-            if current.totalPts >= win_points and not aborted:
-                break
+                else:
+                    aborted = True
+                    break
+
+                print(f"{current.name} got a total of {current.roundPts} points this round")
+        if (current.totalPts or current.roundPts) >= win_points or aborted:
+            break
+
     game_over_msg(current, aborted)
 
 
@@ -72,8 +75,6 @@ def get_index(players, current):
     for i in range(len(players)):
         if players[i] == current:
             return i
-
-
 
 
 # ---- IO Methods --------------
