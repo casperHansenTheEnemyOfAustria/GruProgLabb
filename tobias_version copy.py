@@ -140,12 +140,17 @@ def get_player_choice(player):
 
 
 def get_players():
-    n_players = int(input("How many players will there be?"))
     players = []
-    # TODO: check so input is integer
-    for i in range(n_players):
-        player = str(input(f"Player {i+1} is >"))
-        players.append(Player(name=player))
+    while 1:
+        try:
+            n_players = int(input("How many players are there?"))
+            for i in range(n_players):
+                player = str(input(f"Player {i + 1} is >"))
+                players.append(Player(name=player))
+            break
+        except ValueError:
+            print("TYPE AN INTEGER")
+            continue
     return players
 
 # ----- Testing -----------------
