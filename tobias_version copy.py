@@ -69,24 +69,24 @@ def game_logic_instance(current_player):
     return continue_playing
 
 def round_ender(player_to_be_added_points_to):
-    player_to_be_added_points_to.totalPts += player_to_be_added_points_to.roundPts #adds up total points TODO: escape to other function
-    return False #returns false to set player playing
+    player_to_be_added_points_to.totalPts += player_to_be_added_points_to.roundPts # adds up total points TODO: escape to other function
+    return False # returns false to set player playing
 
 def single_round(current_player, player_playing, winning_points):
     while player_playing:
-        game_end = False #sets aborted state
+        game_end = False # sets aborted state
         print()
         player_choice = game_start_choice(current_player.name)
         if player_choice == "r":
-            player_playing = game_logic_instance(current_player) #runs game logic
+            player_playing = game_logic_instance(current_player) # runs game logic
         elif player_choice == "n":
             player_playing = round_ender(current_player)
         else:
             game_end = True
             player_playing = False
             abort_message(current_player)
-        if current_player.totalPts >= winning_points or current_player.roundPts >= winning_points: #checks if current player has won. Double checks for current round to see if its a singel round win
-            game_end = win_msg() #sets abort status to true
+        if current_player.totalPts >= winning_points or current_player.roundPts >= winning_points: # checks if current player has won. Double checks for current round to see if its a singel round win
+            game_end = win_msg() # runs winning message and sets game to end
             break
             
         print(f"{current_player.name} got a total of {current_player.roundPts} points this round")  
