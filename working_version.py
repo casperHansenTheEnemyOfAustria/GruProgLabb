@@ -115,7 +115,6 @@ def single_round(current_player, player_playing, winning_points, player_lst):
 
     return game_end
 
-
 # ---- IO Methods --------------
 
 # Function
@@ -138,9 +137,9 @@ def run_game(player, player_choice):
     }
 
 # Function
-# Input: 
-# Method: 
-# Output: 
+# Input: player name String
+# Method: Gets choice inout from player
+# Output: players choice String
 def game_start_choice(player_name):
     print(player_name + ", do you want to roll or hold? (type r or n)")
     player_choice = str(input())
@@ -149,30 +148,45 @@ def game_start_choice(player_name):
         player_choice = str(input())
     return player_choice
 
-
+# Function
+# Input: Player Object 
+# Method: Prints message
+# Output: None
 def abort_message(player):
     print("aww, sad to see you go! :(" + str(player.name))
 
-
+# Function
+# Input: Amount of winning points Integer
+# Method: Prints message containint winning amount of points
+# Output: None
 def welcome_msg(win_pts):
     print("Welcome to PIG!")
     print("First player to get " + str(win_pts) + " points will win!")
     print("Commands are: r = roll , n = next, q = quit")
 
-
+# Function
+# Input: Players Array
+# Method: Prints out total points for each player
+# Output: None
 def status_msg(the_players):
     print("Points: ")
     for player in the_players:
         print("\t" + player.name + " = " + str(player.totalPts) + " ")
 
-
+# Function
+# Input: Result Integer, Player Object
+# Method: Checks if result is over 1 and prints different messages for the two
+# Output: None
 def round_msg(result, current_player):
     if result > 1:
         print("Got " + str(result) + " running total is " + str(current_player.roundPts) + " this round")
     else:
         print("Got 1 lost it all!")
 
-
+# Function
+# Input: Player Object, Abortion status Bool, Array of players
+# Method: Checks if game is aborted or not and sends out different messages for each
+# Output: Bool set to true for game over checks
 def game_over_msg(player, is_aborted, player_lst):
     if is_aborted:
         print("Goodbye")
@@ -183,11 +197,17 @@ def game_over_msg(player, is_aborted, player_lst):
         score_board(player_lst)
     return True
 
-
+# Function
+# Input: Player Object
+# Method: Gets input
+# Output: None
 def get_player_choice(player):
     input("Player is " + player.name + " > ")
 
-
+# Function
+# Input: None
+# Method: Creates an array of newly created player objects
+# Output: Array of players
 def get_players():
     players = []
     while 1:
@@ -201,9 +221,11 @@ def get_players():
             print("Type in an integer.")
             continue
     return players
+
 # Function
-# Input: List of player objects
-# 
+# Input: Array of players
+# Method: prints out score board with total points of Player Objects
+# Output: None 
 def score_board(player_lst): # Dynamic score board. To look good, max characters in name 13, 
     print()
     print("*-------- SCORE BOARD --------*")
