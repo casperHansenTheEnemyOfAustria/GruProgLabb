@@ -5,28 +5,30 @@
 #  */
 import random as r
 
+# Function
+# Input: nothing
+# Method: Runs program
+# Output: Nothing
 def run():
     win_points = 5  # Points to win (decrease if testing)
-    aborted = False
+    aborted = False # Variable for checking state of game anf ending if aborted
     players = get_players()    # ... this (method to read in all players)
 
-    welcome_msg(win_points)
-    status_msg(players)
+    welcome_msg(win_points) # Sends welcoming message :)
+    status_msg(players) # Sends status of how many players
     current = players[r.randint(0, len(players)-1)]  # TODO Set random player to start
-    index = get_index(players, current)
-    # TODO Game logic, using small step, functional decomposition
+    index = get_index(players, current) # Checks index for current player
 
-    while current.totalPts < win_points and not aborted:
+    while current.totalPts < win_points and not aborted: # Checks if players has not won nor aborted
         for i in [((a + index) % len(players)) for a in range(len(players))]: #list comprehension, creating a new list that we are stepping through
             current = players[i]
-            player_playing = True
-            aborted = single_round(current, player_playing, win_points, players)
-            #players[i] = current
+            player_playing = True 
+            aborted = single_round(current, player_playing, win_points, players) # If functions returns true game is aborted
             if aborted:
                 break
     game_over_msg(current, aborted, players)
 
-
+# Initializing player class
 class Player:
 
     def __init__(self, name=''):
@@ -36,34 +38,44 @@ class Player:
 
 
 # ---- Game logic methods --------------
-# TODO
+
 # Function
-# Input Nothing
+# Input: Nothing
 # Method: selects random integer from 1 to 6
 # Output: random integer from 1 to 6
 def roll_result():
     dice_number = r.randint(1, 6)
     return dice_number
 
-
+# Function
+# Input: Array of players, Object of current player
+# Method: FInds index in array for the current player
+# Output: index of input player in input array 
 def get_index(players, current):
     for i in range(len(players)):
         if players[i] == current:
             return i
 
-
+# Function
+# Input: Player Object, Integer
+# Method: adds Integer to Player Objects rounts points
+# Output: None
 def regular_roll(current_player, dice_result): 
     current_player.roundPts += dice_result
     round_msg(dice_result, current_player)
     
-    
-
-
+# Function
+# Input: Player Object
+# Method: Sends out special message for rolling a 1 and resets Player Objects roiund points
+# Output: None
 def roll_one(current_player):
     round_msg(1, current_player)
     current_player.roundPts = 0
 
-
+# Function
+# Input: Player Object
+# Method: Rolls and checks score ends round if roll is 1
+# Output: Bool, to continue or not
 def game_logic_instance(current_player):
     print(current_player.name + " rolled")
     result = roll_result() #rolls dice
@@ -75,13 +87,19 @@ def game_logic_instance(current_player):
         continue_playing = False
     return continue_playing
 
-
+# Function
+# Input: Player Object
+# Method: Adds up round points in to Players total points
+# Output: Since rounds has ended function returns Bool, set False
 def round_ender(player_to_be_added_points_to):
     player_to_be_added_points_to.totalPts += player_to_be_added_points_to.roundPts # adds up total points TODO: escape to other function
     player_to_be_added_points_to.roundPts = 0
     return False # returns false to set player playing
 
-
+# Function
+# Input: Player Object, Playing Bool, Points to win Integer, Array of players
+# Method: starts and runs a single round of the game aslso checks if players has won
+# Output: Bool if player has won
 def single_round(current_player, player_playing, winning_points, player_lst):
     while player_playing:
         player_choice = game_start_choice(current_player.name)
@@ -89,17 +107,21 @@ def single_round(current_player, player_playing, winning_points, player_lst):
         game_output = run_game(current_player, player_choice)
         game_end = game_output["game_ended"]
         player_playing = game_output["player_playing"]
-        current_player_index = get_index(player_lst, current_player)
-        player_lst[current_player_index].totalPts = current_player.totalPts
-        print(current_player_index)
+
         if current_player.totalPts >= winning_points or current_player.roundPts >= winning_points: # checks if current player has won. Double checks for current round to see if its a singel round win
             round_ender(current_player)
             game_end = game_over_msg(current_player, game_end, player_lst) # runs winning message and sets game to end
             break
+
     return game_end
 
 
 # ---- IO Methods --------------
+
+# Function
+# Input: Player Object, Player choice String
+# Method: checks player choice and either runs game, aborts session or ends round 
+# Output: Dict of two Bools to end a game or round
 def run_game(player, player_choice):
     game_end = False
     if player_choice == "r":
@@ -115,7 +137,10 @@ def run_game(player, player_choice):
         "player_playing": player_playing
     }
 
-
+# Function
+# Input: 
+# Method: 
+# Output: 
 def game_start_choice(player_name):
     print(player_name + ", do you want to roll or hold? (type r or n)")
     player_choice = str(input())
@@ -180,7 +205,6 @@ def get_players():
 # Input: List of player objects
 # 
 def score_board(player_lst): # Dynamic score board. To look good, max characters in name 13, 
-    print(player_lst[1].totalPts)
     print()
     print("*-------- SCORE BOARD --------*")
     print("*---  NAME  ------  SCORE  ---*")
@@ -190,7 +214,7 @@ def score_board(player_lst): # Dynamic score board. To look good, max characters
             mid_spacer = mid_spacer.replace('-', '', 1)
         for a in str(player_lst[i].totalPts):
             mid_spacer = mid_spacer.replace('-', '', 1)
-        print("*---  " + player_lst[i].name + "  " + mid_spacer + "  " + str(player_lst[i].totalPts) + "   ---*" + str(player_lst[i].roundPts))
+        print("*---  " + player_lst[i].name + "  " + mid_spacer + "  " + str(player_lst[i].totalPts) + "   ---*")
     print("*-----------------------------*")
     print()
 
