@@ -142,7 +142,7 @@ def game_over_msg(player, is_aborted):
     else:
         print("Game over! Winner is player " + player.name + " with "
               + str(player.totalPts + player.roundPts) + " points")
-        score_board(player_lst)
+        score_board(player)
     return True
 
 
