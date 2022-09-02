@@ -6,9 +6,9 @@
 import random as r
 
 # Function
-# Input: nothing
+# Input: None
 # Method: Runs program
-# Output: Nothing
+# Output: None
 def run():
     win_points = 5  # Points to win (decrease if testing)
     aborted = False # Variable for checking state of game anf ending if aborted
@@ -40,17 +40,17 @@ class Player:
 # ---- Game logic methods --------------
 
 # Function
-# Input: Nothing
-# Method: selects random integer from 1 to 6
-# Output: random integer from 1 to 6
+# Input: None
+# Method: Selects random integer from 1 to 6
+# Output: Random integer from 1 to 6
 def roll_result():
     dice_number = r.randint(1, 6)
     return dice_number
 
 # Function
 # Input: Array of players, Object of current player
-# Method: FInds index in array for the current player
-# Output: index of input player in input array 
+# Method: Finds index in array for the current player
+# Output: Index of input player in input array 
 def get_index(players, current):
     for i in range(len(players)):
         if players[i] == current:
@@ -58,7 +58,7 @@ def get_index(players, current):
 
 # Function
 # Input: Player Object, Integer
-# Method: adds Integer to Player Objects rounts points
+# Method: Adds Integer to Player Objects rounts points
 # Output: None
 def regular_roll(current_player, dice_result): 
     current_player.roundPts += dice_result
@@ -98,7 +98,7 @@ def round_ender(player_to_be_added_points_to):
 
 # Function
 # Input: Player Object, Playing Bool, Points to win Integer, Array of players
-# Method: starts and runs a single round of the game aslso checks if players has won
+# Method: Starts and runs a single round of the game aslso checks if players has won
 # Output: Bool if player has won
 def single_round(current_player, player_playing, winning_points, player_lst):
     while player_playing:
@@ -119,7 +119,7 @@ def single_round(current_player, player_playing, winning_points, player_lst):
 
 # Function
 # Input: Player Object, Player choice String
-# Method: checks player choice and either runs game, aborts session or ends round 
+# Method: Checks player choice and either runs game, aborts session or ends round 
 # Output: Dict of two Bools to end a game or round
 def run_game(player, player_choice):
     game_end = False
@@ -137,9 +137,9 @@ def run_game(player, player_choice):
     }
 
 # Function
-# Input: player name String
+# Input: Player name String
 # Method: Gets choice inout from player
-# Output: players choice String
+# Output: Players choice String
 def game_start_choice(player_name):
     print(player_name + ", do you want to roll or hold? (type r or n)")
     player_choice = str(input())
@@ -224,7 +224,7 @@ def get_players():
 
 # Function
 # Input: Array of players
-# Method: prints out score board with total points of Player Objects
+# Method: Prints out score board with total points of Player Objects
 # Output: None 
 def score_board(player_lst): # Dynamic score board. To look good, max characters in name 13, 
     print()
