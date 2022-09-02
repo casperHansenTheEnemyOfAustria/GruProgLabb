@@ -17,7 +17,7 @@ def run():
     # TODO Game logic, using small step, functional decomposition
 
     while current.totalPts < win_points and not aborted:
-        for i in [((a + index) % len(players)) for a in range(len(players))]:
+        for i in [((a + index) % len(players)) for a in range(len(players))]: #list comprehension, creating a new list that we are stepping through
             current = players[i]
             player_playing = True
             aborted = single_round(current, player_playing, win_points)
@@ -46,14 +46,17 @@ def get_index(players, current):
         if players[i] == current:
             return i
 
+
 def regular_roll(current_player, dice_result):
     round_msg(dice_result, current_player)
     current_player.roundPts += dice_result
 
+
 def roll_one(current_player):
     round_msg(1, current_player)
     current_player.roundPts = 0
-    
+
+
 def game_logic_instance(current_player):
     print(current_player.name + " rolled")
     result = roll_result() #rolls dice
@@ -65,13 +68,14 @@ def game_logic_instance(current_player):
         continue_playing = False
     return continue_playing
 
+
 def round_ender(player_to_be_added_points_to):
     player_to_be_added_points_to.totalPts += player_to_be_added_points_to.roundPts # adds up total points TODO: escape to other function
     return False # returns false to set player playing
 
+
 def single_round(current_player, player_playing, winning_points):
     while player_playing:
-        game_end = False # sets aborted state
         player_choice = game_start_choice(current_player.name)
         # TODO move if sats to different function
         game_output = run_game(current_player, player_choice)
@@ -82,15 +86,15 @@ def single_round(current_player, player_playing, winning_points):
             break
     return game_end
 
+
 # ---- IO Methods --------------
 def run_game(player, player_choice):
     game_end = False
-    player_playing = True
     if player_choice == "r":
         player_playing = game_logic_instance(player) # runs game logic
     elif player_choice == "n":
         player_playing = round_ender(player)
-    else:
+    elif player_choice == 'q':
         game_end = True
         player_playing = False
         abort_message(player)
@@ -99,13 +103,19 @@ def run_game(player, player_choice):
         "player_playing": player_playing
     }
 
+
 def game_start_choice(player_name):
     print(player_name + ", do you want to roll or hold? (type r or n)")
     player_choice = str(input())
+    while player_choice != "n" and player_choice != "r" and player_choice != "q":
+        print("Wrong input, try again")
+        player_choice = str(input())
     return player_choice
+
 
 def abort_message(player):
     print("aww, sad to see you go! :(" + str(player.name))
+
 
 def welcome_msg(win_pts):
     print("Welcome to PIG!")
@@ -149,7 +159,7 @@ def get_players():
                 players.append(Player(name=player))
             break
         except ValueError:
-            print("TYPE AN INTEGER")
+            print("Type in an integer.")
             continue
     return players
 
