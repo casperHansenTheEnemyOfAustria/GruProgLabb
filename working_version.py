@@ -6,7 +6,7 @@
 import random as r
 
 def run():
-    win_points = 20  # Points to win (decrease if testing)
+    win_points = 5  # Points to win (decrease if testing)
     aborted = False
     players = get_players()    # ... this (method to read in all players)
 
@@ -20,10 +20,11 @@ def run():
         for i in [((a + index) % len(players)) for a in range(len(players))]: #list comprehension, creating a new list that we are stepping through
             current = players[i]
             player_playing = True
-            aborted = single_round(current, player_playing, win_points)
+            aborted = single_round(current, player_playing, win_points, players)
+            #players[i] = current
             if aborted:
                 break
-    game_over_msg(current, aborted)
+    game_over_msg(current, aborted, players)
 
 
 class Player:
@@ -47,9 +48,11 @@ def get_index(players, current):
             return i
 
 
-def regular_roll(current_player, dice_result):
-    round_msg(dice_result, current_player)
+def regular_roll(current_player, dice_result): 
     current_player.roundPts += dice_result
+    round_msg(dice_result, current_player)
+    
+    
 
 
 def roll_one(current_player):
@@ -71,18 +74,23 @@ def game_logic_instance(current_player):
 
 def round_ender(player_to_be_added_points_to):
     player_to_be_added_points_to.totalPts += player_to_be_added_points_to.roundPts # adds up total points TODO: escape to other function
+    player_to_be_added_points_to.roundPts = 0
     return False # returns false to set player playing
 
 
-def single_round(current_player, player_playing, winning_points):
+def single_round(current_player, player_playing, winning_points, player_lst):
     while player_playing:
         player_choice = game_start_choice(current_player.name)
         # TODO move if sats to different function
         game_output = run_game(current_player, player_choice)
         game_end = game_output["game_ended"]
         player_playing = game_output["player_playing"]
+        current_player_index = get_index(player_lst, current_player)
+        player_lst[current_player_index].totalPts = current_player.totalPts
+        print(current_player_index)
         if current_player.totalPts >= winning_points or current_player.roundPts >= winning_points: # checks if current player has won. Double checks for current round to see if its a singel round win
-            game_end = game_over_msg(current_player, game_end) # runs winning message and sets game to end
+            round_ender(current_player)
+            game_end = game_over_msg(current_player, game_end, player_lst) # runs winning message and sets game to end
             break
     return game_end
 
@@ -131,18 +139,19 @@ def status_msg(the_players):
 
 def round_msg(result, current_player):
     if result > 1:
-        print("Got " + str(result) + " running total is " + str(current_player.roundPts + result) + " this round")
+        print("Got " + str(result) + " running total is " + str(current_player.roundPts) + " this round")
     else:
         print("Got 1 lost it all!")
 
 
-def game_over_msg(player, is_aborted):
+def game_over_msg(player, is_aborted, player_lst):
     if is_aborted:
         print("Goodbye")
     else:
         print("Game over! Winner is player " + player.name + " with "
               + str(player.totalPts + player.roundPts) + " points")
-        score_board(player)
+        print(player_lst[0].totalPts)
+        score_board(player_lst)
     return True
 
 
@@ -167,6 +176,7 @@ def get_players():
 # Input: List of player objects
 # 
 def score_board(player_lst): # Dynamic score board. To look good, max characters in name 13, 
+    print(player_lst[1].totalPts)
     print()
     print("*-------- SCORE BOARD --------*")
     print("*---  NAME  ------  SCORE  ---*")
@@ -176,7 +186,7 @@ def score_board(player_lst): # Dynamic score board. To look good, max characters
             mid_spacer = mid_spacer.replace('-', '', 1)
         for a in str(player_lst[i].totalPts):
             mid_spacer = mid_spacer.replace('-', '', 1)
-        print("*---  " + player_lst[i].name + "  " + mid_spacer + "  " + str(player_lst[i].totalPts) + "   ---*")
+        print("*---  " + player_lst[i].name + "  " + mid_spacer + "  " + str(player_lst[i].totalPts) + "   ---*" + str(player_lst[i].roundPts))
     print("*-----------------------------*")
     print()
 
