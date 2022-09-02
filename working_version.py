@@ -36,6 +36,10 @@ class Player:
 
 # ---- Game logic methods --------------
 # TODO
+# Function
+# Input Nothing
+# Method: selects random integer from 1 to 6
+# Output: random integer from 1 to 6
 def roll_result():
     dice_number = r.randint(1, 6)
     return dice_number
