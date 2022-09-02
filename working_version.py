@@ -142,6 +142,7 @@ def game_over_msg(player, is_aborted):
     else:
         print("Game over! Winner is player " + player.name + " with "
               + str(player.totalPts + player.roundPts) + " points")
+        score_board(player_lst)
     return True
 
 
@@ -162,6 +163,22 @@ def get_players():
             print("Type in an integer.")
             continue
     return players
+# Function
+# Input: List of player objects
+# 
+def score_board(player_lst): # Dynamic score board. To look good, max characters in name 13, 
+    print()
+    print("*-------- SCORE BOARD --------*")
+    print("*---  NAME  ------  SCORE  ---*")
+    for i in range(len(player_lst)):
+        mid_spacer = "--------------"
+        for a in player_lst[i].name:
+            mid_spacer = mid_spacer.replace('-', '', 1)
+        for a in str(player_lst[i].totalPts):
+            mid_spacer = mid_spacer.replace('-', '', 1)
+        print("*---  " + player_lst[i].name + "  " + mid_spacer + "  " + str(player_lst[i].totalPts) + "   ---*")
+    print("*-----------------------------*")
+    print()
 
 # ----- Testing -----------------
 # Here you run your tests i.e. call your game logic methods
