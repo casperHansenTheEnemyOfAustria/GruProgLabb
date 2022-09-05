@@ -3,7 +3,7 @@
 #  * See http://en.wikipedia.org/wiki/Pig_%28dice_game%29
 #  *
 #  */
-import random as r
+from random import randint
 
 # Function
 # Input: None
@@ -16,7 +16,7 @@ def run():
 
     welcome_msg(win_points) # Sends welcoming message :)
     status_msg(players) # Sends status of how many players
-    current = players[r.randint(0, len(players)-1)]  # TODO Set random player to start
+    current = players[randint(0, len(players)-1)]  # TODO Set random player to start
     index = get_index(players, current) # Checks index for current player
 
     while current.totalPts < win_points and not aborted: # Checks if players has not won nor aborted
@@ -44,7 +44,7 @@ class Player:
 # Method: Selects random integer from 1 to 6
 # Output: Random integer from 1 to 6
 def roll_result():
-    dice_number = r.randint(1, 6)
+    dice_number = randint(1, 6)
     return dice_number
 
 # Function
@@ -104,9 +104,7 @@ def single_round(current_player, player_playing, winning_points, player_lst):
     while player_playing:
         player_choice = game_start_choice(current_player.name)
         # TODO move if sats to different function
-        game_output = run_game(current_player, player_choice)
-        game_end = game_output["game_ended"]
-        player_playing = game_output["player_playing"]
+        game_end, player_playing = run_game(current_player, player_choice)
 
         if current_player.totalPts >= winning_points or current_player.roundPts >= winning_points: # checks if current player has won. Double checks for current round to see if its a singel round win
             round_ender(current_player)
@@ -131,10 +129,7 @@ def run_game(player, player_choice):
         game_end = True
         player_playing = False
         abort_message(player)
-    return {
-        "game_ended": game_end,
-        "player_playing": player_playing
-    }
+    return game_end, player_playing
 
 # Function
 # Input: Player name String
@@ -193,7 +188,6 @@ def game_over_msg(player, is_aborted, player_lst):
     else:
         print("Game over! Winner is player " + player.name + " with "
               + str(player.totalPts + player.roundPts) + " points")
-        print(player_lst[0].totalPts)
         score_board(player_lst)
     return True
 
