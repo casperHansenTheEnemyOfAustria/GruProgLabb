@@ -208,13 +208,22 @@ def get_players():
         try:
             n_players = int(input("How many players are there?"))
             for i in range(n_players):
-                player = str(input(f"Player {i + 1} is >"))
-                players.append(Player(name=player))
+                players = create_player(players, i)
             break
         except ValueError:
             print("Type in an integer.")
             continue
     return players
+
+# Function
+# Input: array of players, index for xurrent player to be created
+# Method: takes input from user and creates a player object which is then put in an array of players
+# Out: array of players
+def create_player(player_array, index):
+    name = str(input(f"Player {index + 1} is >"))
+    player = Player(name)
+    player_array.append(player)
+    return player_array
 
 # Function
 # Input: Array of players
