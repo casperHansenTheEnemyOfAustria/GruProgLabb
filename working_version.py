@@ -18,7 +18,7 @@ def run():
     welcome_msg(win_points) # Sends welcoming message :)
     status_msg(players) # Sends status of how many players
     current = players[randint(0, len(players)-1)]  # TODO Set random player to start
-    index = get_index(players, current) # Checks index for current player
+    index = players.index(current) # Checks index for current player
 
     while current.totalPts < win_points and not aborted: # Checks if players has not won nor aborted
         for i in [((a + index) % len(players)) for a in range(len(players))]: #list comprehension, creating a new list that we are stepping through
@@ -41,50 +41,65 @@ class Player:
 # ---- Game logic methods --------------
 
 
-def roll_result():
-    """
-        Returns:
-            (Integer) Random from 1 to 6
-    """
-    dice_number = randint(1, 6)
-    return dice_number
+def roll_result(max:int = 6):
+    """This function generates a random number between 1 and the input with a default max of 6
 
+    Args:
+        max (Integer, optional): range of roll,  defaults to 6.
 
-def get_index(players, current):
-    """Finds index in array for the current player
-        Args:
-            (Array) players, (Object) current
-        Returns
-            (Integer) index of player"""
-            
-    for i in range(len(players)):
-        if players[i] == current:
-            return i
+    Returns:
+        (Integer) randomly generated integer
+    """
+    return randint(1, max)
+
+#-----------Unused-----------
+# def get_index(players, current):
+#     """Finds index in array for the current player
+
+#     Args:
+#         (Array) players, (Object) current player
+
+#     Returns
+#         (Integer) index of player
+
+#     """
+
+#     for i in range(len(players)):
+#         if players[i] == current:
+#             return i
+
 
 def regular_roll(current_player, dice_result): 
     """Adds Integer to Player Objects rounts points
-        Args:
-            (Object) player, (Integer) dice result
-        """
+
+    Args:
+        (Object) player, (Integer) dice result
+
+    """
     current_player.roundPts += dice_result
     round_msg(dice_result, current_player)
     
 
 def roll_one(current_player):
     """Sends out special message for rolling a 1 and resets Player Object's round points
-        Args: 
-            (Object) player
-        """
+
+    Args: 
+        (Object) player
+
+    """
     round_msg(1, current_player)
     current_player.roundPts = 0
 
 
 def game_logic_instance(current_player):
     """Rolls and checks score ends round if roll is 1
-        Args:
-            (Object) player
-        Retruns:
-            (Bool) to continue or not"""
+
+    Args:
+        (Object) player
+
+    Retruns:
+        (Bool) to continue or not
+    """
     print(current_player.name + " rolled")
     result = roll_result() #rolls dice
     if result != 1:
@@ -97,21 +112,28 @@ def game_logic_instance(current_player):
 
 def round_ender(player_to_be_added_points_to):
     """Adds up round points in to Players total points
-        Args: 
-            (Object) player
-        Returns:
-            (Bool) Set to false"""
+
+    Args: 
+        (Object) player
+
+    Returns:
+        (Bool) Set to false
+        
+    """
     player_to_be_added_points_to.totalPts += player_to_be_added_points_to.roundPts # adds up total points TODO: escape to other function
     player_to_be_added_points_to.roundPts = 0
     return False # returns false to set player playing
 
 def single_round(current_player, player_playing, winning_points, player_lst):
     """Starts and runs a single round of the game aslso checks if players has won
-        Args: 
-            (Object) player, (Bool) playing?, (Integer) points to win, (Array) players
-        Returns:
-            (Bool) if player has won
-        """
+    
+    Args: 
+        (Object) player, (Bool) playing?, (Integer) points to win, (Array) players
+    
+    Returns:
+        (Bool) if player has won
+    
+    """
     while player_playing:
         player_choice = game_start_choice(current_player.name)
         # TODO move if sats to different function
@@ -128,10 +150,14 @@ def single_round(current_player, player_playing, winning_points, player_lst):
 
 def run_game(player, player_choice):
     """Checks player choice and either runs game, aborts session or ends round 
-        Args:
-            (Object ) player, (String) player choice
-        Returns: 
-            (Bool) Eng game?, (Bool) End round?"""
+    
+    Args:
+        (Object ) player, (String) player choice
+    
+    Returns: 
+        (Bool) Eng game?, (Bool) End round?
+        
+    """
     game_end = False
     if player_choice == "r":
         player_playing = game_logic_instance(player) # runs game logic
@@ -145,11 +171,14 @@ def run_game(player, player_choice):
 
 def game_start_choice(player_name):
     """Gets choice inout from player
-        Args: 
-            (String) player name
-        Returns:
-            (String) player choice
-        """
+
+    Args: 
+        (String) player name
+
+    Returns:
+        (String) player choice
+
+    """
     print(player_name + ", do you want to roll or hold? (type r or n)")
     player_choice = str(input())
     while player_choice != "n" and player_choice != "r" and player_choice != "q":
@@ -157,46 +186,55 @@ def game_start_choice(player_name):
         player_choice = str(input())
     return player_choice
 
-# Function
-# Input: Player Object 
-# Method: Prints message
-# Output: None
 def abort_message(player):
+    """Prints message for ending session
+    """
     print("aww, sad to see you go! :(" + str(player.name))
 
-# Function
-# Input: Amount of winning points Integer
-# Method: Prints message containint winning amount of points
-# Output: None
 def welcome_msg(win_pts):
+    """Prints message containint winning amount of points
+
+    Args:
+        (Integer) Amound of winning points
+
+    """
     print("Welcome to PIG!")
     print("First player to get " + str(win_pts) + " points will win!")
     print("Commands are: r = roll , n = next, q = quit")
 
-# Function
-# Input: Players Array
-# Method: Prints out total points for each player
-# Output: None
 def status_msg(the_players):
+    """Prints out total poitns for each player
+
+    Args:
+        (Array) players
+
+    """
     print("Points: ")
     for player in the_players:
         print("\t" + player.name + " = " + str(player.totalPts) + " ")
 
-# Function
-# Input: Result Integer, Player Object
-# Method: Checks if result is over 1 and prints different messages for the two
-# Output: None
 def round_msg(result, current_player):
+    """Checks if result is over 1 and prints different messages for the two
+
+    Args:
+        (Integer) result, (Object) player
+
+    """
     if result > 1:
         print("Got " + str(result) + " running total is " + str(current_player.roundPts) + " this round")
     else:
         print("Got 1 lost it all!")
 
-# Function
-# Input: Player Object, Abortion status Bool, Array of players
-# Method: Checks if game is aborted or not and sends out different messages for each
-# Output: Bool set to true for game over checks
 def game_over_msg(player, is_aborted, player_lst):
+    """Checks if game is aborted or not
+    
+    Args:
+        (Object) player, (Bool) aborted?, (Array) players
+
+    Returns:
+        (Bool) True
+
+    """
     if is_aborted:
         print("Goodbye")
     else:
@@ -205,18 +243,20 @@ def game_over_msg(player, is_aborted, player_lst):
         score_board(player_lst)
     return True
 
-# Function
-# Input: Player Object
-# Method: Gets input
-# Output: None
 def get_player_choice(player):
+    """Prints player name
+    
+    Args: (Object) player
+
+    """
     input("Player is " + player.name + " > ")
 
-# Function
-# Input: None
-# Method: Creates an array of newly created player objects
-# Output: Array of players
 def get_players():
+    """Creates an array of players of the desired length
+        
+    Returns: (Array) players'
+
+    """
     players = []
     while 1:
         try:
@@ -229,21 +269,28 @@ def get_players():
             continue
     return players
 
-# Function
-# Input: array of players, index for xurrent player to be created
-# Method: takes input from user and creates a player object which is then put in an array of players
-# Out: array of players
 def create_player(player_array, index):
+    """Creates players
+
+    Args: 
+        (Array) for players, (Integer) The index of the player to be created
+
+    Returns: 
+        (Array) all the newly created players
+
+    """
     name = str(input(f"Player {index + 1} is >"))
     player = Player(name)
     player_array.append(player)
     return player_array
 
-# Function
-# Input: Array of players
-# Method: Prints out score board with total points of Player Objects
-# Output: None 
-def score_board(player_lst): # Dynamic score board. To look good, max characters in name 13, 
+def score_board(player_lst): 
+    """Prints out a dynamic score board
+
+    Args: 
+        (Array) list of players MAXIMUM LENGTH 13
+    
+    """
     print()
     print("*-------- SCORE BOARD --------*")
     print("*---  NAME  ------  SCORE  ---*")
@@ -269,4 +316,3 @@ def test():
 
 if __name__ == "__main__":
     run()
-print(print.__doc__)
