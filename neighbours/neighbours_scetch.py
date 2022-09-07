@@ -165,17 +165,17 @@ def generate_matrix_height(height):
 def insert_into_matrix(width, matrix, seed):
     start = 0
     row_indexer = width
-    for row in matrix:
+    for row_index, row in enumerate(matrix, start=0):
         for i in range(start, row_indexer-1):
             print(seed[i])
             if seed[i] == "red":
-                person = Actor.RED
+                person = Person(i, row_index, State.SATISFIED, Actor.RED)
                 row.append(person)
             elif seed[i] == "blue":
-                person = Actor.BLUE
+                person = Person(i, row_index, State.SATISFIED, Actor.BLUE)
                 row.append(person)
             else:
-                person = Actor.NONE
+                person = Person(i, row_index, State.NA, Actor.NONE)
                 row.append(person)
         start+=width
         row_indexer += width
@@ -269,7 +269,7 @@ class NeighboursView:
                 self.__draw_actor_at(col, row)
 
     def __draw_actor_at(self, col, row):
-        color = self.__get_color(self.model.world[row][col])
+        color = self.__get_color(self.model.world[row][col].color)
         xy = self.__calculate_coordinates(col, row)
         pg.draw.circle(self.screen, color, xy, self.dot_size / 2)
 
