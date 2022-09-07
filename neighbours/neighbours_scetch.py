@@ -25,10 +25,11 @@ class State(Enum):
 
 class Person:
 
-    def __init__(self, x, y, state) -> None:
+    def __init__(self, x, y, state, color) -> None:
         self.x = x
         self.y = y
         self.state = state
+        self.color = color
         
     
 
@@ -151,6 +152,15 @@ def generate_matrix_from_seed(seed, size):
         for row in empty_matrix:
             for i in range(start, row_indexer):
                 if seed[i] == "red":
+                    person = Person(i - start, row, State.SATISFIED, Actor.RED)
+                    empty_matrix.append(person)
+                elif seed[i] == "blue":
+                    person = Person(i - start, row, State.SATISFIED, Actor.BLUE)
+                    empty_matrix.append(person)
+                else:
+                    person = Person(i - start, row, None, Actor.NONE)
+                    empty_matrix.append(person)
+                    
                 
         return output
 
