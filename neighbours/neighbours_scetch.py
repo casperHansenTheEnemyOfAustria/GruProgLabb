@@ -65,7 +65,7 @@ class NeighborsModel:
         prob_map = create_probability_map(self.DIST)
         seed = generate_seed(size, prob_map)
 
-        brave_new_world = generate_matrix_from_seed()
+        brave_new_world = generate_matrix_from_seed(seed, size)
         return brave_new_world
 
     # This is the method called by the timer to update the world
@@ -129,9 +129,9 @@ def generate_seed(n_locations, odds):
     seed =[]
     for i in range(n_locations-1):
         random_state = randint(0, len(odds)-1)
-        color = assign_seed_colors(random_state)
+        color = assign_seed_colors(odds[random_state])
         seed.append(color)
-
+    print(seed)
     return  seed
 
 def assign_seed_colors(number):
@@ -143,26 +143,13 @@ def assign_seed_colors(number):
         return "empty"
    
 def generate_matrix_from_seed(seed, size):
-        output: List[List[any]] = []
         height = calculate_height(size)
         empty_matrix = generate_matrix_height(height)
-        width = size/height
-        start = 0
-        row_indexer = width
-        for row in empty_matrix:
-            for i in range(start, row_indexer):
-                if seed[i] == "red":
-                    person = Person(i - start, row, State.SATISFIED, Actor.RED)
-                    empty_matrix.append(person)
-                elif seed[i] == "blue":
-                    person = Person(i - start, row, State.SATISFIED, Actor.BLUE)
-                    empty_matrix.append(person)
-                else:
-                    person = Person(i - start, row, None, Actor.NONE)
-                    empty_matrix.append(person)
-                    
+        width = int(size/height)
+        empty_matrix = insert_into_matrix(width, empty_matrix, seed)
+        print(empty_matrix)    
                 
-        return output
+        return empty_matrix
 
 def calculate_height(size):
     root = sqrt(size)
@@ -174,6 +161,25 @@ def generate_matrix_height(height):
     for i in range(height):
         output.append([])
     return output
+
+def insert_into_matrix(width, matrix, seed):
+    start = 0
+    row_indexer = width
+    for row in matrix:
+        for i in range(start, row_indexer-1):
+            print(seed[i])
+            if seed[i] == "red":
+                person = Actor.RED
+                row.append(person)
+            elif seed[i] == "blue":
+                person = Actor.BLUE
+                row.append(person)
+            else:
+                person = Actor.NONE
+                row.append(person)
+        start+=width
+        row_indexer += width
+    return matrix
 
 # Check if inside world
 def is_valid_location(size: int, row: int, col: int):
