@@ -31,7 +31,17 @@ class Person:
         self.state = state
         self.color = color
         
-    
+        self.friend_count = 0
+        self.foe_count = 0
+
+        
+    def poke(self, external_color):
+        if external_color == self.color:    
+            self.friend_count += 1
+        else:
+            self.foe_count += 1
+
+        
 
             
         
@@ -131,7 +141,6 @@ def generate_seed(n_locations, odds):
         random_state = randint(0, len(odds)-1)
         color = assign_seed_colors(odds[random_state])
         seed.append(color)
-    print(seed)
     return  seed
 
 def assign_seed_colors(number):
@@ -147,7 +156,6 @@ def generate_matrix_from_seed(seed, size):
         empty_matrix = generate_matrix_height(height)
         width = int(size/height)
         empty_matrix = insert_into_matrix(width, empty_matrix, seed)
-        print(empty_matrix)    
                 
         return empty_matrix
 
@@ -167,7 +175,7 @@ def insert_into_matrix(width, matrix, seed):
     row_indexer = width
     for row_index, row in enumerate(matrix, start=0):
         for i in range(start, row_indexer-1):
-            print(seed[i])
+            # TODO make separate method
             if seed[i] == "red":
                 person = Person(i, row_index, State.SATISFIED, Actor.RED)
                 row.append(person)
@@ -180,6 +188,26 @@ def insert_into_matrix(width, matrix, seed):
         start+=width
         row_indexer += width
     return matrix
+
+    def cell_action(world):
+        for y, row in enumerate(world, start=0):
+            for x, column in enumerate(world, start=0):
+                x_edge, y_edge = check_edge(x, y, world)
+                # TODO make check for edge cases
+
+    def check_edge(x, y , world):
+        output_x = ""
+        output_y = ""
+        if x == len(world[y])-1:
+            output_x += "right"
+        elif x == 0:
+            output_x += "left"
+        elif y == len(world):
+            output_y += "bottom"
+        elif y == 0: 
+            output_y += "top"
+        
+        return output_x, output_y
 
 # Check if inside world
 def is_valid_location(size: int, row: int, col: int):
