@@ -189,7 +189,7 @@ def insert_into_matrix(width, matrix, seed):
         row_indexer += width
     return matrix
 
-    def cell_action(world):
+    def poke_cells_around(world):
         for y, row in enumerate(world, start=0):
             for x, column in enumerate(world, start=0):
                 x_edge, y_edge = check_edge(x, y, world)
