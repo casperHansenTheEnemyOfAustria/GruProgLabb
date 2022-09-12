@@ -156,7 +156,7 @@ def generate_matrix_from_seed(seed, size):
         height = calculate_height(size)
         empty_matrix = generate_matrix_height(height)
         width = int(size/height)
-        empty_matrix = insert_into_matrix(width, empty_matrix, seed)
+        empty_matrix = insert_people_into_matrix(width, empty_matrix, seed)
                 
         return empty_matrix
 
@@ -171,7 +171,7 @@ def generate_matrix_height(height):
         output.append([])
     return output
 
-def insert_into_matrix(width, matrix, seed):
+def insert_people_into_matrix(width, matrix, seed):
     start = 0
     row_indexer = width
     for row_index, row in enumerate(matrix, start=0):
@@ -213,7 +213,6 @@ def poke_cells_around(world):
                     world[y-1][x-1].poke(current)
                 # TODO add other edges in check
                   
-            # TODO make check for edge cases
 
 def check_if_cell_on_edge(x, y , world):
     output_x = ""
@@ -232,8 +231,10 @@ def check_if_cell_on_edge(x, y , world):
 def update_cells(self):
     for row in self.world:
         for item in row:
+            #cxatches zero div error
             if not item.friend_count+item.foe_count == 0:
-                print(self.THRESHOLD)
+                # TODO escape to different function
+                # checks for item threshold and updates state of items
                 if item.friend_count / (item.friend_count+item.foe_count) >= self.THRESHOLD:
                     item.state = State.SATISFIED
                 elif not item.color == Actor.NONE:
@@ -249,8 +250,11 @@ def move_cells(world):
             if item.state == State.UNSATISFIED:
                     color = item.color
                     random_empty_place = empty_indexes[randint(0, len(empty_indexes)-1)]
+                    #creates new object at emplty index
                     world[random_empty_place[0]][random_empty_place[1]] = Person(State.SATISFIED, color)
+                    #add an empty object at the old index
                     world[i][j] = empty_object
+                    #updates the list of empty indexes
                     empty_indexes = find_empty_indexes(world)
     return world
                     
