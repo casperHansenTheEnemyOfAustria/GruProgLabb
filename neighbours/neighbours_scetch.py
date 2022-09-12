@@ -1,3 +1,4 @@
+from multiprocessing import current_process
 from typing import List
 from enum import Enum, auto
 from random import *
@@ -25,9 +26,7 @@ class State(Enum):
 
 class Person:
 
-    def __init__(self, x, y, state, color) -> None:
-        self.x = x
-        self.y = y
+    def __init__(self, state, color) -> None:
         self.state = state
         self.color = color
         
@@ -40,7 +39,6 @@ class Person:
             self.friend_count += 1
         else:
             self.foe_count += 1
-
         
 
             
@@ -81,6 +79,9 @@ class NeighborsModel:
     # This is the method called by the timer to update the world
     # (i.e move unsatisfied) each "frame".
     def __update_world(self):
+        poke_cells_around(self.world)
+        update_cells(self)
+        self.world = move_cells(self.world)
         # TODO Update logical state of world based on self.THRESHOLD satisfaction parameter
         pass
 
@@ -177,37 +178,93 @@ def insert_into_matrix(width, matrix, seed):
         for i in range(start, row_indexer-1):
             # TODO make separate method
             if seed[i] == "red":
-                person = Person(i, row_index, State.SATISFIED, Actor.RED)
+                person = Person(State.SATISFIED, Actor.RED)
                 row.append(person)
             elif seed[i] == "blue":
-                person = Person(i, row_index, State.SATISFIED, Actor.BLUE)
+                person = Person(State.SATISFIED, Actor.BLUE)
                 row.append(person)
             else:
-                person = Person(i, row_index, State.NA, Actor.NONE)
+                person = Person(State.NA, Actor.NONE)
                 row.append(person)
         start+=width
         row_indexer += width
     return matrix
 
-    def poke_cells_around(world):
-        for y, row in enumerate(world, start=0):
-            for x, column in enumerate(world, start=0):
-                x_edge, y_edge = check_edge(x, y, world)
-                # TODO make check for edge cases
+def poke_cells_around(world):
+    for y, row in enumerate(world, start=0):
+        for x, column in enumerate(world, start=0):
+            current = world[y][x]
+            x_edge, y_edge = check_if_cell_on_edge(x, y, world)
+            if not current.color == Actor.NONE:
+                if x_edge == "" and y_edge == "":
+                    world[y][x+1].poke(current)
+                    world[y][x-1].poke(current)
+                    world[y-1][x+1].poke(current)
+                    world[y+1][x].poke(current)
+                    world[y-1][x].poke(current)
+                    world[y+1][x-1].poke(current)
+                    world[y+1][x+1].poke(current)
+                    world[y-1][x-1].poke(current)
+                if x_edge == "right" and y_edge == "":
+                    world[y][x-1].poke(current)
+                    world[y+1][x].poke(current)
+                    world[y-1][x].poke(current)
+                    world[y+1][x-1].poke(current)
+                    world[y-1][x-1].poke(current)
+                # TODO add other edges in check
+                  
+            # TODO make check for edge cases
 
-    def check_edge(x, y , world):
-        output_x = ""
-        output_y = ""
-        if x == len(world[y])-1:
-            output_x += "right"
-        elif x == 0:
-            output_x += "left"
-        elif y == len(world):
-            output_y += "bottom"
-        elif y == 0: 
-            output_y += "top"
-        
-        return output_x, output_y
+def check_if_cell_on_edge(x, y , world):
+    output_x = ""
+    output_y = ""
+    if x == len(world[y])-1:
+        output_x += "right"
+    if x == 0:
+        output_x += "left"
+    if y == len(world)-1:
+        output_y += "bottom"
+    if y == 0: 
+        output_y += "top"
+    
+    return output_x, output_y
+
+def update_cells(self):
+    for row in self.world:
+        for item in row:
+            if not item.friend_count+item.foe_count == 0:
+                print(self.THRESHOLD)
+                if item.friend_count / (item.friend_count+item.foe_count) >= self.THRESHOLD:
+                    item.state = State.SATISFIED
+                elif not item.color == Actor.NONE:
+                    item.state = State.UNSATISFIED
+            item.friend_count = 0
+            item.foe_count = 0
+
+def move_cells(world):
+    empty_indexes = find_empty_indexes(world)
+    empty_object = Person(State.NA, Actor.NONE)
+    for i, row in enumerate(world, start = 0):
+        for j, item in enumerate(row, start = 0):
+            if item.state == State.UNSATISFIED:
+                    color = item.color
+                    random_empty_place = empty_indexes[randint(0, len(empty_indexes)-1)]
+                    world[random_empty_place[0]][random_empty_place[1]] = Person(State.SATISFIED, color)
+                    world[i][j] = empty_object
+                    empty_indexes = find_empty_indexes(world)
+    return world
+                    
+
+
+def find_empty_indexes(world):
+    output = []
+    for i, row in enumerate(world, start = 0):
+        for j, item in enumerate(row, start = 0):
+            if item.color == Actor.NONE:
+                output.append([i,j])
+    return output
+
+    
 
 # Check if inside world
 def is_valid_location(size: int, row: int, col: int):
