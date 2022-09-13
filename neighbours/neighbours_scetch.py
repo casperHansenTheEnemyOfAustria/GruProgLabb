@@ -47,7 +47,7 @@ class Person:
 World = List[List[Actor]]  # Type alias
 
 
-SIZE = 30
+SIZE = 2000
 
 
 def neighbours():
@@ -60,9 +60,9 @@ def neighbours():
 class NeighborsModel:
 
     # Tune these numbers to test different distributions or update speeds
-    FRAME_RATE = 20            # Increase number to speed simulation up
+    FRAME_RATE = 20        # Increase number to speed simulation up
     DIST = [0.25, 0.25, 0.50]  # % of RED, BLUE, and NONE
-    THRESHOLD = 0.7            # % of surrounding neighbours that should be like me for satisfaction
+    THRESHOLD = 0.9   # % of surrounding neighbours that should be like me for satisfaction
 
     # ########### These following two methods are what you're supposed to implement  ###########
     # In this method you should generate a new world
@@ -138,7 +138,7 @@ def create_probability_map(chances):
 
 def generate_seed(n_locations, odds):
     seed =[]
-    for i in range(n_locations-1):
+    for i in range(n_locations):
         random_state = randint(0, len(odds)-1)
         color = assign_seed_colors(odds[random_state])
         seed.append(color)
@@ -156,6 +156,8 @@ def generate_matrix_from_seed(seed, size):
         height = calculate_height(size)
         empty_matrix = generate_matrix_height(height)
         width = int(size/height)
+        print(f"width: {width}")
+        print(f"height: {height}")
         empty_matrix = insert_people_into_matrix(width, empty_matrix, seed)
                 
         return empty_matrix
@@ -175,7 +177,7 @@ def insert_people_into_matrix(width, matrix, seed):
     start = 0
     row_indexer = width
     for row_index, row in enumerate(matrix, start=0):
-        for i in range(start, row_indexer-1):
+        for i in range(start, row_indexer):
             # TODO make separate method
             if seed[i] == "red":
                 person = Person(State.SATISFIED, Actor.RED)
@@ -186,6 +188,7 @@ def insert_people_into_matrix(width, matrix, seed):
             else:
                 person = Person(State.NA, Actor.NONE)
                 row.append(person)
+            
         start+=width
         row_indexer += width
     return matrix
@@ -197,20 +200,20 @@ def poke_cells_around(world):
             x_edge, y_edge = check_if_cell_on_edge(x, y, world)
             if not current.color == Actor.NONE:
                 if x_edge == "" and y_edge == "":
-                    world[y][x+1].poke(current)
-                    world[y][x-1].poke(current)
-                    world[y-1][x+1].poke(current)
-                    world[y+1][x].poke(current)
-                    world[y-1][x].poke(current)
-                    world[y+1][x-1].poke(current)
-                    world[y+1][x+1].poke(current)
-                    world[y-1][x-1].poke(current)
+                    world[y][x+1].poke(current.color)
+                    world[y][x-1].poke(current.color)
+                    world[y-1][x+1].poke(current.color)
+                    world[y+1][x].poke(current.color)
+                    world[y-1][x].poke(current.color)
+                    world[y+1][x-1].poke(current.color)
+                    world[y+1][x+1].poke(current.color)
+                    world[y-1][x-1].poke(current.color)
                 if x_edge == "right" and y_edge == "":
-                    world[y][x-1].poke(current)
-                    world[y+1][x].poke(current)
-                    world[y-1][x].poke(current)
-                    world[y+1][x-1].poke(current)
-                    world[y-1][x-1].poke(current)
+                    world[y][x-1].poke(current.color)
+                    world[y+1][x].poke(current.color)
+                    world[y-1][x].poke(current.color)
+                    world[y+1][x-1].poke(current.color)
+                    world[y-1][x-1].poke(current.color)
                 # TODO add other edges in check
                   
 
