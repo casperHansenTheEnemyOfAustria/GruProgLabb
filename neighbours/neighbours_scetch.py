@@ -180,7 +180,6 @@ def insert_people_into_matrix(width, matrix, seed):
     row_indexer = width
     for row_index, row in enumerate(matrix, start=0):
         for i in range(start, row_indexer):
-            # TODO make separate method
             row.append(create_person(seed[i]))   
         start+=width
         row_indexer += width
@@ -214,22 +213,29 @@ def update_cells(self):
             item.foe_count = 0
 
 def move_cells(world):
-    empty_indexes = find_empty_indexes(world)
-    empty_object = Person(State.NA, Actor.NONE)
     for i, row in enumerate(world, start = 0):
         for j, item in enumerate(row, start = 0):
             if item.state == State.UNSATISFIED:
                     color = item.color
-                    random_empty_place = empty_indexes[randint(0, len(empty_indexes)-1)]
+                    random_empty_place = find_random_empty_place(find_empty_indexes(world))
                     #creates new object at emplty index
-                    world[random_empty_place[0]][random_empty_place[1]] = Person(State.SATISFIED, color)
+                    world = create_new_object_at_empty_index(random_empty_place, world, color)
                     #add an empty object at the old index
-                    world[i][j] = empty_object
+                    world[i][j] = clear()
                     #updates the list of empty indexes
                     empty_indexes = find_empty_indexes(world)
     return world
                     
+def find_random_empty_place(empty_indexes):
+    random_empty_place = empty_indexes[randint(0, len(empty_indexes)-1)]
+    return random_empty_place
 
+def create_new_object_at_empty_index(empty_place, world, color):
+     world[empty_place[0]][empty_place[1]] = Person(State.SATISFIED, color)
+     return world
+
+def clear():
+    return Person(State.NA, Actor.NONE)
 
 def find_empty_indexes(world):
     output = []
@@ -242,12 +248,10 @@ def find_empty_indexes(world):
 def set_poke_indexes(current_x: int, current_y: int):
     """Sets the indexes thats are to be poked
     """
-
     x1 = current_x + 1
     x2 = current_x - 1
     y1 = current_y + 1
     y2 = current_y - 1
-
     output = [
         [x1, current_y],
         [x2, current_y],
@@ -268,6 +272,7 @@ def create_person(color: Actor):
     else:
         person = Person(State.NA, Actor.NONE)
     return person
+
     # Check if inside world
 def is_valid_location(size: int, row: int, col: int):
     return 0 <= row < size and 0 <= col < size
