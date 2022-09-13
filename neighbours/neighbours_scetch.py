@@ -61,9 +61,9 @@ def neighbours():
 class NeighborsModel:
 
     # Tune these numbers to test different distributions or update speeds
-    FRAME_RATE = 20        # Increase number to speed simulation up
-    DIST = [0.20, 0.20, 0.60]  # % of RED, BLUE, and NONE
-    THRESHOLD = 0.8   # % of surrounding neighbours that should be like me for satisfaction
+    FRAME_RATE = 40       # Increase number to speed simulation up
+    DIST = [0.25, 0.25, 0.50]  # % of RED, BLUE, and NONE
+    THRESHOLD = 0.7   # % of surrounding neighbours that should be like me for satisfaction
 
     # ########### These following two methods are what you're supposed to implement  ###########
     # In this method you should generate a new world
