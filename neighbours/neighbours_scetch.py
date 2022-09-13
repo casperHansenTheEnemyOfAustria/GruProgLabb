@@ -188,7 +188,7 @@ def insert_people_into_matrix(width, matrix, seed):
 def poke_cells_around(world):
     size = len(world)
     for y, row in enumerate(world, start=0):
-        for x, column in enumerate(world, start=0):
+        for x, column in enumerate(row, start=0):
             current = world[y][x]
             if not current.color == Actor.NONE: #checks so thats the index actually has an actor
                 check_indexes= set_poke_indexes(x, y)
