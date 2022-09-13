@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from multiprocessing import current_process
 from typing import List
 from enum import Enum, auto
@@ -47,7 +48,7 @@ class Person:
 World = List[List[Actor]]  # Type alias
 
 
-SIZE = 2000
+SIZE = 30
 
 
 def neighbours():
@@ -61,8 +62,8 @@ class NeighborsModel:
 
     # Tune these numbers to test different distributions or update speeds
     FRAME_RATE = 20        # Increase number to speed simulation up
-    DIST = [0.25, 0.25, 0.50]  # % of RED, BLUE, and NONE
-    THRESHOLD = 0.9   # % of surrounding neighbours that should be like me for satisfaction
+    DIST = [0.20, 0.20, 0.60]  # % of RED, BLUE, and NONE
+    THRESHOLD = 0.8   # % of surrounding neighbours that should be like me for satisfaction
 
     # ########### These following two methods are what you're supposed to implement  ###########
     # In this method you should generate a new world
@@ -70,8 +71,9 @@ class NeighborsModel:
     @staticmethod
     def __create_world(self, size) -> World:
         # TODO Create and populate world according to self.DIST distribution parameters
+        n_locations = size**2
         prob_map = create_probability_map(self.DIST)
-        seed = generate_seed(size, prob_map)
+        seed = generate_seed(n_locations, prob_map)
 
         brave_new_world = generate_matrix_from_seed(seed, size)
         return brave_new_world
@@ -153,9 +155,9 @@ def assign_seed_colors(number):
         return "empty"
    
 def generate_matrix_from_seed(seed, size):
-        height = calculate_height(size)
+        height = size
         empty_matrix = generate_matrix_height(height)
-        width = int(size/height)
+        width = size
         print(f"width: {width}")
         print(f"height: {height}")
         empty_matrix = insert_people_into_matrix(width, empty_matrix, seed)
@@ -179,57 +181,23 @@ def insert_people_into_matrix(width, matrix, seed):
     for row_index, row in enumerate(matrix, start=0):
         for i in range(start, row_indexer):
             # TODO make separate method
-            if seed[i] == "red":
-                person = Person(State.SATISFIED, Actor.RED)
-                row.append(person)
-            elif seed[i] == "blue":
-                person = Person(State.SATISFIED, Actor.BLUE)
-                row.append(person)
-            else:
-                person = Person(State.NA, Actor.NONE)
-                row.append(person)
-            
+            row.append(create_person(seed[i]))   
         start+=width
         row_indexer += width
     return matrix
 
 def poke_cells_around(world):
+    size = len(world)
     for y, row in enumerate(world, start=0):
         for x, column in enumerate(world, start=0):
             current = world[y][x]
-            x_edge, y_edge = check_if_cell_on_edge(x, y, world)
-            if not current.color == Actor.NONE:
-                if x_edge == "" and y_edge == "":
-                    world[y][x+1].poke(current.color)
-                    world[y][x-1].poke(current.color)
-                    world[y-1][x+1].poke(current.color)
-                    world[y+1][x].poke(current.color)
-                    world[y-1][x].poke(current.color)
-                    world[y+1][x-1].poke(current.color)
-                    world[y+1][x+1].poke(current.color)
-                    world[y-1][x-1].poke(current.color)
-                if x_edge == "right" and y_edge == "":
-                    world[y][x-1].poke(current.color)
-                    world[y+1][x].poke(current.color)
-                    world[y-1][x].poke(current.color)
-                    world[y+1][x-1].poke(current.color)
-                    world[y-1][x-1].poke(current.color)
-                # TODO add other edges in check
-                  
+            if not current.color == Actor.NONE: #checks so thats the index actually has an actor
+                check_indexes= set_poke_indexes(x, y)
 
-def check_if_cell_on_edge(x, y , world):
-    output_x = ""
-    output_y = ""
-    if x == len(world[y])-1:
-        output_x += "right"
-    if x == 0:
-        output_x += "left"
-    if y == len(world)-1:
-        output_y += "bottom"
-    if y == 0: 
-        output_y += "top"
-    
-    return output_x, output_y
+                for index in check_indexes: #checks if indexes are valid and pokes the valid ones
+                    if is_valid_location(size, index[1], index[0]): #checks if location is valid
+                        world[index[1]][index[0]].poke(current.color)
+                  
 
 def update_cells(self):
     for row in self.world:
@@ -271,9 +239,36 @@ def find_empty_indexes(world):
                 output.append([i,j])
     return output
 
-    
+def set_poke_indexes(current_x: int, current_y: int):
+    """Sets the indexes thats are to be poked
+    """
 
-# Check if inside world
+    x1 = current_x + 1
+    x2 = current_x - 1
+    y1 = current_y + 1
+    y2 = current_y - 1
+
+    output = [
+        [x1, current_y],
+        [x2, current_y],
+        [current_x, y1],
+        [current_x, y2],
+        [x1, y1],
+        [x2, y1],
+        [x1, y2],
+        [x2, y2]    
+    ]
+    return output
+
+def create_person(color: Actor):
+    if color == "red":
+        person = Person(State.SATISFIED, Actor.RED)
+    elif color == "blue":
+        person = Person(State.SATISFIED, Actor.BLUE)
+    else:
+        person = Person(State.NA, Actor.NONE)
+    return person
+    # Check if inside world
 def is_valid_location(size: int, row: int, col: int):
     return 0 <= row < size and 0 <= col < size
 
