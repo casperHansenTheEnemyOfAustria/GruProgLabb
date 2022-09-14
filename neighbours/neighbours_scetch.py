@@ -27,7 +27,7 @@ class State(Enum):
 
 class Person:
 
-    def __init__(self, state, color) -> None:
+    def __init__(self, state: State, color:Actor) -> None:
         self.state = state
         self.color = color
         
@@ -35,7 +35,11 @@ class Person:
         self.foe_count = 0
 
         
-    def poke(self, external_color:State):
+    def poke(self, external_color:Actor):
+        """Wehn cell is poked. Compares color of poking cell and itself
+            Args: 
+                color of poing cell 
+        """
         if external_color == self.color:    
             self.friend_count += 1
         else:
@@ -69,7 +73,7 @@ class NeighborsModel:
     # In this method you should generate a new world
     # using randomization according to the given arguments.
     @staticmethod
-    def __create_world(self, size) -> World:
+    def __create_world(self, size:int) -> World:
         # TODO Create and populate world according to self.DIST distribution parameters
         n_locations = size**2
         prob_map = create_probability_map(self.DIST)
@@ -88,7 +92,7 @@ class NeighborsModel:
         pass
 
     # ########### the rest of this class is already defined, to handle the simulation clock  ###########
-    def __init__(self, size):
+    def __init__(self, size:int):
         self.world: World = self.__create_world(self, size)
         self.observers = []  # for enabling discoupled updating of the view, ignore
 
@@ -131,14 +135,14 @@ class NeighborsModel:
 
 # ---------------- Helper methods ---------------------
 
-def create_probability_map(chances):
+def create_probability_map(chances:list):
     output = []
     for prob in range(len(chances)):
         for i in range(int(100*chances[prob])):
             output.append(prob)   
     return output
 
-def generate_seed(n_locations, odds):
+def generate_seed(n_locations:int, odds:list):
     seed =[]
     for i in range(n_locations):
         random_state = randint(0, len(odds)-1)
@@ -146,7 +150,7 @@ def generate_seed(n_locations, odds):
         seed.append(color)
     return  seed
 
-def assign_seed_colors(number):
+def assign_seed_colors(number:int):
     if number == 0:
         return "red"
     elif number == 1:
@@ -154,7 +158,7 @@ def assign_seed_colors(number):
     else:
         return "empty"
    
-def generate_matrix_from_seed(seed, size):
+def generate_matrix_from_seed(seed:list, size:int):
         height = size
         empty_matrix = generate_matrix_height(height)
         width = size
@@ -164,18 +168,18 @@ def generate_matrix_from_seed(seed, size):
                 
         return empty_matrix
 
-def calculate_height(size):
+def calculate_height(size:int):
     root = sqrt(size)
     height = int(size/root)
     return height
 
-def generate_matrix_height(height):
+def generate_matrix_height(height:int):
     output: List[List[any]] = []
     for i in range(height):
         output.append([])
     return output
 
-def insert_people_into_matrix(width, matrix, seed):
+def insert_people_into_matrix(width:int, matrix:list, seed:list):
     start = 0
     row_indexer = width
     for row_index, row in enumerate(matrix, start=0):
@@ -185,7 +189,7 @@ def insert_people_into_matrix(width, matrix, seed):
         row_indexer += width
     return matrix
 
-def poke_cells_around(world):
+def poke_cells_around(world:list):
     size = len(world)
     for y, row in enumerate(world, start=0):
         for x, column in enumerate(row, start=0):
@@ -212,7 +216,7 @@ def update_cells(self):
             item.friend_count = 0
             item.foe_count = 0
 
-def move_cells(world):
+def move_cells(world:list):
     for i, row in enumerate(world, start = 0):
         for j, item in enumerate(row, start = 0):
             if item.state == State.UNSATISFIED:
@@ -224,18 +228,18 @@ def move_cells(world):
                     world[i][j] = clear()
     return world
                     
-def find_random_empty_place(empty_indexes):
+def find_random_empty_place(empty_indexes:list):
     random_empty_place = empty_indexes[randint(0, len(empty_indexes)-1)]
     return random_empty_place
 
-def create_new_object_at_empty_index(empty_place, world, color):
+def create_new_object_at_empty_index(empty_place:list, world:list, color:Actor):
      world[empty_place[0]][empty_place[1]] = Person(State.SATISFIED, color)
      return world
 
 def clear():
     return Person(State.NA, Actor.NONE)
 
-def find_empty_indexes(world):
+def find_empty_indexes(world:list):
     output = []
     for i, row in enumerate(world, start = 0):
         for j, item in enumerate(row, start = 0):
