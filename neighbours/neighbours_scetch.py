@@ -63,7 +63,7 @@ class NeighborsModel:
     # Tune these numbers to test different distributions or update speeds
     FRAME_RATE = 40       # Increase number to speed simulation up
     DIST = [0.25, 0.25, 0.50]  # % of RED, BLUE, and NONE
-    THRESHOLD = 0.8   # % of surrounding neighbours that should be like me for satisfaction
+    THRESHOLD = 0.77   # % of surrounding neighbours that should be like me for satisfaction
 
     # ########### These following two methods are what you're supposed to implement  ###########
     # In this method you should generate a new world
@@ -201,8 +201,8 @@ def poke_cells_around(world):
 def update_cells(self):
     for row in self.world:
         for item in row:
-            #cxatches zero div error
-            if not item.friend_count+item.foe_count == 0:
+            #cxatches zero div error also the clause that makes blank spaces not matter in the calcultion of neightbours
+            if not item.friend_count+item.foe_count == 0: 
                 # TODO escape to different function
                 # checks for item threshold and updates state of items
                 if item.friend_count / (item.friend_count+item.foe_count) >= self.THRESHOLD:
@@ -222,8 +222,6 @@ def move_cells(world):
                     world = create_new_object_at_empty_index(random_empty_place, world, color)
                     #add an empty object at the old index
                     world[i][j] = clear()
-                    #updates the list of empty indexes
-                    empty_indexes = find_empty_indexes(world)
     return world
                     
 def find_random_empty_place(empty_indexes):
