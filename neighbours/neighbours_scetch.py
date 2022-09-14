@@ -35,7 +35,7 @@ class Person:
         self.foe_count = 0
 
         
-    def poke(self, external_color):
+    def poke(self, external_color:State):
         if external_color == self.color:    
             self.friend_count += 1
         else:
