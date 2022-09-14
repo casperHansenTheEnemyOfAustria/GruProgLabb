@@ -182,6 +182,7 @@ def generate_matrix_height(height:int):
 def insert_people_into_matrix(width:int, matrix:list, seed:list):
     start = 0
     row_indexer = width
+    # TODO maybe modulo 30
     for row_index, row in enumerate(matrix, start=0):
         for i in range(start, row_indexer):
             row.append(create_person(seed[i]))   
