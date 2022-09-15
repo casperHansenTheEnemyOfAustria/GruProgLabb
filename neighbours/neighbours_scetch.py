@@ -135,7 +135,7 @@ class NeighborsModel:
 
 # ---------------- Helper methods ---------------------
 
-def create_probability_map(chances:list):
+def create_probability_map(chances:list[int]):
     """Creates a map where there are more of the more probable outcomes
         Args: 
             List of chances for the different outcomes
@@ -149,7 +149,7 @@ def create_probability_map(chances:list):
             output.append(prob)   
     return output
 
-def generate_seed(n_locations:int, odds:list):
+def generate_seed(n_locations:int, odds:list[int]):
     """Generates seed from probability map
         Args:
             size of the map and the probability map
@@ -179,7 +179,7 @@ def assign_seed_colors(number:int):
     else:
         return "empty"
    
-def generate_matrix_from_seed(seed:list, size:int):
+def generate_matrix_from_seed(seed:list[str], size:int):
     """Generates a matrix from a seed filled with stings that are either "red", "blue" or "empty" 
         Args:
             Seed, Size of the matrix
@@ -213,7 +213,7 @@ def generate_matrix_height(height:int):
         output.append([])
     return output
 
-def insert_people_into_matrix(width:int, matrix:list, seed:list):
+def insert_people_into_matrix(width:int, matrix:list[Person], seed:list[str]):
     """Adds object of the Person class to a matrix
         Args:
             The wanted width of the matrix, The matrix itself, A seed for how the diestribution of people should be
@@ -230,7 +230,7 @@ def insert_people_into_matrix(width:int, matrix:list, seed:list):
         row_indexer += width
     return matrix
 
-def poke_cells_around(world:list):
+def poke_cells_around(world:list[list[Person]]):
     """Pokes all cells aroud all cells
         Args:
             A matrix of the world
@@ -277,7 +277,7 @@ def has_neighbours(item:Person):
     else:
         return False
 
-def move_cells(world:list):
+def move_cells(world:list[list[Person]]):
     """Moves cells that are unsatisfied to new empty spaces
         Args:
             The world matrix
@@ -295,7 +295,7 @@ def move_cells(world:list):
                     world[i][j] = clear()
     return world
                     
-def find_random_empty_place(empty_indexes:list):
+def find_random_empty_place(empty_indexes:list[list[int]]):
     """checks throug hempty indexes and finds a random one
         Args:
             List of empty indexes
@@ -305,7 +305,7 @@ def find_random_empty_place(empty_indexes:list):
     random_empty_place = empty_indexes[randint(0, len(empty_indexes)-1)]
     return random_empty_place
 
-def create_new_object_at_empty_index(empty_place:list, world:list, color:Actor):
+def create_new_object_at_empty_index(empty_place:list[int], world:list[list[Person]], color:Actor):
     """Creates new object at an index
         Args:
             Empty index[x and y, the world matrix, color of the actor to be created
@@ -319,7 +319,7 @@ def clear():
     """
     return Person(State.NA, Actor.NONE)
 
-def find_empty_indexes(world:list):
+def find_empty_indexes(world:list[list[Person]]):
     """Finds empty indexes in the world
         Args:
             The world matrix
