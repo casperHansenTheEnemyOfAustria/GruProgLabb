@@ -26,7 +26,7 @@ class State(Enum):
     NA = auto()  # Not applicable (NA), used for NONEs
 
 class Person:
-
+    """Object for storing all cell data and counters"""
     def __init__(self, state: State, color:Actor) -> None:
         self.state = state
         self.color = color
@@ -36,7 +36,7 @@ class Person:
 
         
     def poke(self, external_color:Actor):
-        """Wehn cell is poked. Compares color of poking cell and itself
+        """When cell is poked. Compares color of poking cell and itself
             Args: 
                 color of poing cell 
         """
@@ -52,7 +52,7 @@ class Person:
 World = List[List[Actor]]  # Type alias
 
 
-SIZE = 30
+SIZE = 40
 
 
 def neighbours():
@@ -67,14 +67,14 @@ class NeighborsModel:
     # Tune these numbers to test different distributions or update speeds
     FRAME_RATE = 40       # Increase number to speed simulation up
     DIST = [0.25, 0.25, 0.50]  # % of RED, BLUE, and NONE
-    THRESHOLD = 0.77   # % of surrounding neighbours that should be like me for satisfaction
+    THRESHOLD = 0.75   # % of surrounding neighbours that should be like me for satisfaction
 
     # ########### These following two methods are what you're supposed to implement  ###########
     # In this method you should generate a new world
     # using randomization according to the given arguments.
     @staticmethod
     def __create_world(self, size:int) -> World:
-        # TODO Create and populate world according to self.DIST distribution parameters
+        
         n_locations = size**2
         prob_map = create_probability_map(self.DIST)
         seed = generate_seed(n_locations, prob_map)
@@ -136,6 +136,13 @@ class NeighborsModel:
 # ---------------- Helper methods ---------------------
 
 def create_probability_map(chances:list):
+    """Creates a map where there are more of the more probable outcomes
+        Args: 
+            List of chances for the different outcomes
+        
+        Returns:
+            List of 100 items that correspond to the chances
+    """
     output = []
     for prob in range(len(chances)):
         for i in range(int(100*chances[prob])):
@@ -143,6 +150,13 @@ def create_probability_map(chances:list):
     return output
 
 def generate_seed(n_locations:int, odds:list):
+    """Generates seed from probability map
+        Args:
+            size of the map and the probability map
+        
+        Returns:
+            List of where everythings going to be
+    """
     seed =[]
     for i in range(n_locations):
         random_state = randint(0, len(odds)-1)
@@ -151,6 +165,13 @@ def generate_seed(n_locations:int, odds:list):
     return  seed
 
 def assign_seed_colors(number:int):
+    """Assigns a seed color from the input number where 0 is red, 1 is blue and anything else is empty
+        Args:
+            A number
+
+        Returns:    
+            String of what color it is
+    """
     if number == 0:
         return "red"
     elif number == 1:
@@ -159,27 +180,46 @@ def assign_seed_colors(number:int):
         return "empty"
    
 def generate_matrix_from_seed(seed:list, size:int):
-        height = size
-        empty_matrix = generate_matrix_height(height)
-        width = size
-        print(f"width: {width}")
-        print(f"height: {height}")
-        empty_matrix = insert_people_into_matrix(width, empty_matrix, seed)
-                
-        return empty_matrix
+    """Generates a matrix from a seed filled with stings that are either "red", "blue" or "empty" 
+        Args:
+            Seed, Size of the matrix
 
-def calculate_height(size:int):
-    root = sqrt(size)
-    height = int(size/root)
-    return height
+        Returns:
+            A matrix filled with Person objects
+    """
+    height = size
+    empty_matrix = generate_matrix_height(height)
+    width = size
+    print(f"width: {width}")
+    print(f"height: {height}")
+    empty_matrix = insert_people_into_matrix(width, empty_matrix, seed)
+            
+    return empty_matrix
+
+# def calculate_height(size:int):
+#     root = sqrt(size)
+#     height = int(size/root)
+#     return height
 
 def generate_matrix_height(height:int):
+    """Generates a matrix with no width and a certain height
+        Args:   
+            How high the matrix should be
+        Returns:
+            Matrix with input height and no width
+    """
     output: List[List[any]] = []
     for i in range(height):
         output.append([])
     return output
 
 def insert_people_into_matrix(width:int, matrix:list, seed:list):
+    """Adds object of the Person class to a matrix
+        Args:
+            The wanted width of the matrix, The matrix itself, A seed for how the diestribution of people should be
+        Returns:
+            The filled matrix
+    """
     start = 0
     row_indexer = width
     # TODO maybe modulo 30
@@ -191,6 +231,10 @@ def insert_people_into_matrix(width:int, matrix:list, seed:list):
     return matrix
 
 def poke_cells_around(world:list):
+    """Pokes all cells aroud all cells
+        Args:
+            A matrix of the world
+    """
     size = len(world)
     for y, row in enumerate(world, start=0):
         for x, column in enumerate(row, start=0):
@@ -204,10 +248,14 @@ def poke_cells_around(world:list):
                   
 
 def update_cells(self):
+    """Updates the cells depending on how many times and by who theyre been poked
+        Args:
+            self
+    """
     for row in self.world:
         for item in row:
             #cxatches zero div error also the clause that makes blank spaces not matter in the calcultion of neightbours
-            if not item.friend_count+item.foe_count == 0: 
+            if has_neighbours(item): 
                 # TODO escape to different function
                 # checks for item threshold and updates state of items
                 if item.friend_count / (item.friend_count+item.foe_count) >= self.THRESHOLD:
@@ -217,7 +265,25 @@ def update_cells(self):
             item.friend_count = 0
             item.foe_count = 0
 
+def has_neighbours(item:Person):
+    """Checks if there are any neighbours around the given item
+        Args:
+            a Person object to be checked
+        Returns:
+            A bool of wther the object has neighbours or not
+    """
+    if not item.friend_count+item.foe_count == 0: 
+        return True
+    else:
+        return False
+
 def move_cells(world:list):
+    """Moves cells that are unsatisfied to new empty spaces
+        Args:
+            The world matrix
+        Returns:
+            The new updated world matrix
+    """
     for i, row in enumerate(world, start = 0):
         for j, item in enumerate(row, start = 0):
             if item.state == State.UNSATISFIED:
