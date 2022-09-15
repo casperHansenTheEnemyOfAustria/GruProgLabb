@@ -296,17 +296,36 @@ def move_cells(world:list):
     return world
                     
 def find_random_empty_place(empty_indexes:list):
+    """checks throug hempty indexes and finds a random one
+        Args:
+            List of empty indexes
+        Returns:
+            a random one in the list
+    """
     random_empty_place = empty_indexes[randint(0, len(empty_indexes)-1)]
     return random_empty_place
 
 def create_new_object_at_empty_index(empty_place:list, world:list, color:Actor):
-     world[empty_place[0]][empty_place[1]] = Person(State.SATISFIED, color)
-     return world
+    """Creates new object at an index
+        Args:
+            Empty index[x and y, the world matrix, color of the actor to be created
+    """
+    world[empty_place[0]][empty_place[1]] = Person(State.SATISFIED, color)
+    return world
 
 def clear():
+    """Creates an empty player
+        Returns: empty player
+    """
     return Person(State.NA, Actor.NONE)
 
 def find_empty_indexes(world:list):
+    """Finds empty indexes in the world
+        Args:
+            The world matrix
+        Returns:
+            All empty indexes in world
+    """
     output = []
     for i, row in enumerate(world, start = 0):
         for j, item in enumerate(row, start = 0):
@@ -334,6 +353,12 @@ def set_poke_indexes(current_x: int, current_y: int):
     return output
 
 def create_person(color: Actor):
+    """creates person from given arguments
+        Args:
+            Color of the person
+        Returns:
+            the created person
+    """
     if color == "red":
         person = Person(State.SATISFIED, Actor.RED)
     elif color == "blue":
