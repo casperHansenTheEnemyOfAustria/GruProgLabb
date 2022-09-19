@@ -56,15 +56,12 @@ class Person:
         else:
             self.foe_count += 1
         self.check_neighbour_percentage()
-    
 
-            
-        
         pass
 World = List[List[Actor]]  # Type alias
 
 
-SIZE = 30
+SIZE = 150
 
 
 def neighbours():
@@ -78,8 +75,8 @@ class NeighborsModel:
 
     # Tune these numbers to test different distributions or update speeds
     FRAME_RATE = 120    # Increase number to speed simulation up
-    DIST = [0.20, 0.20, 0.60]  # % of RED, BLUE, and NONE
-    THRESHOLD = 0.75   # % of surrounding neighbours that should be like me for satisfaction
+    DIST = [0.25, 0.25, 0.50]  # % of RED, BLUE, and NONE
+    THRESHOLD = 0.8   # % of surrounding neighbours that should be like me for satisfaction
 
     # ########### These following two methods are what you're supposed to implement  ###########
     # In this method you should generate a new world
