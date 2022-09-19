@@ -65,7 +65,7 @@ def neighbours():
 class NeighborsModel:
 
     # Tune these numbers to test different distributions or update speeds
-    FRAME_RATE = 40       # Increase number to speed simulation up
+    FRAME_RATE = 1       # Increase number to speed simulation up
     DIST = [0.25, 0.25, 0.50]  # % of RED, BLUE, and NONE
     THRESHOLD = 0.75   # % of surrounding neighbours that should be like me for satisfaction
 
@@ -87,12 +87,13 @@ class NeighborsModel:
         poke_cells_around(self.world)
         update_cells(self)
         self.world = move_cells(self.world)
-        # TODO Update logical state of world based on self.THRESHOLD satisfaction parameter
+        
         pass
 
     # ########### the rest of this class is already defined, to handle the simulation clock  ###########
     def __init__(self, size:int):
         self.world: World = self.__create_world(self, size)
+        # self.world: World = test()
         self.observers = []  # for enabling discoupled updating of the view, ignore
 
     def run(self):
@@ -242,7 +243,13 @@ def poke_cells_around(world:list[list[Person]]):
                     if is_valid_location(size, index[1], index[0]): #checks if location is valid
                         world[index[1]][index[0]].poke(current.color)
                   
-def is_person(person):
+def is_person(person:Person):
+    """checks if input item is empty square or person
+        Args:
+            person object
+        Returns:
+            Bool for if it is empty or person
+    """
     if person.color == Actor.NONE:
         return False
     return  True
@@ -265,10 +272,18 @@ def update_cells(self):
             item.friend_count = 0
             item.foe_count = 0
 
-def set_satisfied(person):
+def set_satisfied(person:Person):
+    """sets person state to satisfied
+        Args:
+            person object
+    """
     person.state = State.SATISFIED
 
 def set_unsatisfied(person):
+    """sets person state to unsatisfied
+        Args:
+            person object
+    """
     person.state = State.UNSATISFIED
 
 def check_item_enough_friends(person, world):
@@ -390,11 +405,11 @@ def is_valid_location(size: int, row: int, col: int):
 def test():
     # A small hard coded world for testing
     test_world = [
-        [Actor.RED, Actor.RED, Actor.NONE],
-        [Actor.NONE, Actor.BLUE, Actor.NONE],
-        [Actor.RED, Actor.NONE, Actor.BLUE]
+        [Person(State.SATISFIED, Actor.RED), Person(State.SATISFIED, Actor.RED), Person(State.NA, Actor.NONE)],
+        [Person(State.NA, Actor.NONE), Person(State.SATISFIED, Actor.BLUE), Person(State.NA, Actor.NONE)],
+        [Person(State.SATISFIED, Actor.RED), Person(State.NA, Actor.NONE), Person(State.SATISFIED, Actor.BLUE)]
     ]
-
+     
     th = 0.5  # Simpler threshold used for testing
 
     size = len(test_world)
@@ -404,7 +419,7 @@ def test():
     print(is_valid_location(size, 2, 2))
 
     # TODO More tests
-
+    return test_world
     exit(0)
 
 
