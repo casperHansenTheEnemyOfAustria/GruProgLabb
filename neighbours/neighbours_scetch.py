@@ -82,8 +82,7 @@ class NeighborsModel:
         brave_new_world = generate_matrix_from_seed(seed, size)
         return brave_new_world
 
-    # This is the method called by the timer to update the world
-    # (i.e move unsatisfied) each "frame".
+    #updates world
     def __update_world(self):
         poke_cells_around(self.world)
         update_cells(self)
@@ -136,7 +135,7 @@ class NeighborsModel:
 # ---------------- Helper methods ---------------------
 
 def create_probability_map(chances:list[int]):
-    """Creates a map where there are more of the more probable outcomes
+    """Creates a 100 place long array where there are more of the more probable outcomes. This is for chanced randomization
         Args: 
             List of chances for the different outcomes
         
@@ -188,18 +187,14 @@ def generate_matrix_from_seed(seed:list[str], size:int):
             A matrix filled with Person objects
     """
     height = size
-    empty_matrix = generate_matrix_height(height)
     width = size
+    empty_matrix = generate_matrix_height(height)
+    
     print(f"width: {width}")
     print(f"height: {height}")
     empty_matrix = insert_people_into_matrix(width, empty_matrix, seed)
             
     return empty_matrix
-
-# def calculate_height(size:int):
-#     root = sqrt(size)
-#     height = int(size/root)
-#     return height
 
 def generate_matrix_height(height:int):
     """Generates a matrix with no width and a certain height
@@ -221,13 +216,13 @@ def insert_people_into_matrix(width:int, matrix:list[Person], seed:list[str]):
             The filled matrix
     """
     start = 0
-    row_indexer = width
+    end = width
     # TODO maybe modulo 30
     for row_index, row in enumerate(matrix, start=0):
-        for i in range(start, row_indexer):
+        for i in range(start, end):
             row.append(create_person(seed[i]))   
         start+=width
-        row_indexer += width
+        end += width
     return matrix
 
 def poke_cells_around(world:list[list[Person]]):
@@ -237,16 +232,21 @@ def poke_cells_around(world:list[list[Person]]):
     """
     size = len(world)
     for y, row in enumerate(world, start=0):
-        for x, column in enumerate(row, start=0):
+        #checks row index for lenghth incase canvas is not square
+        for x in range(len(row)):
             current = world[y][x]
-            if not current.color == Actor.NONE: #checks so thats the index actually has an actor
-                check_indexes= set_poke_indexes(x, y)
+            if is_person(current): #checks so thats the index actually has an actor
+                indexes_to_be_poked = set_poke_indexes(x, y)
 
-                for index in check_indexes: #checks if indexes are valid and pokes the valid ones
+                for index in indexes_to_be_poked: #checks if indexes are valid and pokes the valid ones
                     if is_valid_location(size, index[1], index[0]): #checks if location is valid
                         world[index[1]][index[0]].poke(current.color)
                   
-
+def is_person(person):
+    if person.color == Actor.NONE:
+        return False
+    return  True
+    
 def update_cells(self):
     """Updates the cells depending on how many times and by who theyre been poked
         Args:
@@ -258,12 +258,23 @@ def update_cells(self):
             if has_neighbours(item): 
                 # TODO escape to different function
                 # checks for item threshold and updates state of items
-                if item.friend_count / (item.friend_count+item.foe_count) >= self.THRESHOLD:
-                    item.state = State.SATISFIED
-                elif not item.color == Actor.NONE:
-                    item.state = State.UNSATISFIED
+                if check_item_enough_friends(item, self):
+                    set_satisfied(item)
+                elif is_person(item):
+                    set_unsatisfied(item)
             item.friend_count = 0
             item.foe_count = 0
+
+def set_satisfied(person):
+    person.state = State.SATISFIED
+
+def set_unsatisfied(person):
+    person.state = State.UNSATISFIED
+
+def check_item_enough_friends(person, world):
+    if person.friend_count / (person.friend_count+person.foe_count) >= world.THRESHOLD:
+         return True
+    return False
 
 def has_neighbours(item:Person):
     """Checks if there are any neighbours around the given item
