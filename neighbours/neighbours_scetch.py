@@ -35,7 +35,11 @@ class Person:
         self.friend_count = 0
         self.foe_count = 0
 
-    def  check_neighbour_percentage(self):
+    def  check_neighbour_percentage(self) -> None:
+        """checks the neighbour percentage and updates the state accordingly
+            Args:
+                self
+        """
         if self.friend_count/(self.friend_count+self.foe_count) < self.threshold and has_neighbours(self) and is_person(self):
             set_unsatisfied(self)
             self.friend_count = 0
@@ -60,7 +64,7 @@ class Person:
 World = List[List[Actor]]  # Type alias
 
 
-SIZE = 70
+SIZE = 50
 
 
 def neighbours():
@@ -177,6 +181,12 @@ def generate_seed_2(n_locations:int, odds:list[int]) -> list[int]:
 
     return  seed
 def create_flat_list(red_amount:int, blue_amount:int, empty_amount:int)  -> list[Person]:
+    """creates a random flat list with all the abject in it according to the percentages given
+        Args:
+            amount of red, blue and empy cells
+        Returns:
+            a list of Person objects with all the amounts above
+    """
     reds = [create_person("red")] * red_amount
     blues = [create_person("blue")] * blue_amount
     empties = [create_person("none")] * empty_amount
@@ -184,6 +194,12 @@ def create_flat_list(red_amount:int, blue_amount:int, empty_amount:int)  -> list
     return reds+blues+empties
 
 def make_matrix(flat_list:list[Person], width:int) -> list[list[Person]]:
+    """Makes a matrix with a precific width from a flat list
+        Args:
+            the flat list, the width of the matrix
+        Returns:
+            The newly created matrix
+    """
     output_matrix = [flat_list[height*width: (height+1)*width] for height in range(width)]
     return output_matrix
 
@@ -299,7 +315,7 @@ def find_random_empty_place(empty_indexes:list[list[int]]):
     random_empty_place = empty_indexes[randint(0, len(empty_indexes)-1)]
     return random_empty_place
 
-def create_new_object_at_empty_index(empty_place:list[int], world:list[list[Person]], color:Actor):
+def create_new_object_at_empty_index(empty_place:list[int], world:list[list[Person]], color:Actor) -> list[list[Person]]:
     """Creates new object at an index
         Args:
             Empty index[x and y, the world matrix, color of the actor to be created
@@ -307,13 +323,13 @@ def create_new_object_at_empty_index(empty_place:list[int], world:list[list[Pers
     world[empty_place[0]][empty_place[1]] = Person(State.SATISFIED, color)
     return world
 
-def clear():
+def clear() -> Person:
     """Creates an empty player
         Returns: empty player
     """
     return Person(State.NA, Actor.NONE)
 
-def find_empty_indexes(world:list[list[Person]]):
+def find_empty_indexes(world:list[list[Person]]) -> list[list[int]]:
     """Finds empty indexes in the world
         Args:
             The world matrix
@@ -327,7 +343,7 @@ def find_empty_indexes(world:list[list[Person]]):
                 output.append([i,j])
     return output
 
-def set_poke_indexes(current_x: int, current_y: int):
+def set_poke_indexes(current_x: int, current_y: int) -> list[list[int]]:
     """Sets the indexes thats are to be poked
     """
     x1 = current_x + 1
@@ -348,7 +364,7 @@ def set_poke_indexes(current_x: int, current_y: int):
 
 
     # Check if inside world
-def is_valid_location(size: int, row: int, col: int):
+def is_valid_location(size: int, row: int, col: int) -> bool:
     return 0 <= row < size and 0 <= col < size
 
 
