@@ -64,7 +64,7 @@ class Person:
 World = List[List[Actor]]  # Type alias
 
 
-SIZE = 50
+SIZE = 30
 
 
 def neighbours():
@@ -77,7 +77,7 @@ def neighbours():
 class NeighborsModel:
 
     # Tune these numbers to test different distributions or update speeds
-    FRAME_RATE = 120      # Increase number to speed simulation up
+    FRAME_RATE = 120    # Increase number to speed simulation up
     DIST = [0.20, 0.20, 0.60]  # % of RED, BLUE, and NONE
     THRESHOLD = 0.75   # % of surrounding neighbours that should be like me for satisfaction
 
@@ -294,15 +294,18 @@ def move_cells(world:list[list[Person]]) -> list[list[Person]]:
         Returns:
             The new updated world matrix
     """
+    empty_indexes = find_empty_indexes(world)
     for i, row in enumerate(world, start = 0):
         for j, item in enumerate(row, start = 0):
             if item.state == State.UNSATISFIED:
                     color = item.color
-                    random_empty_place = find_random_empty_place(find_empty_indexes(world))
+                    random_empty_place = find_random_empty_place(empty_indexes)
                     #creates new object at emplty index
                     world = create_new_object_at_empty_index(random_empty_place, world, color)
                     #add an empty object at the old index
                     world[i][j] = clear()
+                    # adds the newly cleared index to the empty list
+                    empty_indexes.append([i,j])
     return world
                     
 def find_random_empty_place(empty_indexes:list[list[int]]):
@@ -312,7 +315,9 @@ def find_random_empty_place(empty_indexes:list[list[int]]):
         Returns:
             a random one in the list
     """
-    random_empty_place = empty_indexes[randint(0, len(empty_indexes)-1)]
+    i = randint(0, len(empty_indexes)-1)
+    random_empty_place = empty_indexes[i]
+    del empty_indexes[i] # removes the used index from the empty indexes list
     return random_empty_place
 
 def create_new_object_at_empty_index(empty_place:list[int], world:list[list[Person]], color:Actor) -> list[list[Person]]:
@@ -406,8 +411,8 @@ def count(a_list, to_find):
 # ... but by all means have a look at it, it's fun!
 class NeighboursView:
     # static class variables
-    WIDTH = 400   # Size for window
-    HEIGHT = 400
+    WIDTH = 1000   # Size for window
+    HEIGHT = 1000
     MARGIN = 50
 
     WHITE = (255, 255, 255)
