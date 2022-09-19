@@ -59,7 +59,7 @@ class Person:
 World = List[List[Actor]]  # Type alias
 
 
-SIZE = 150
+SIZE = 400
 
 
 def neighbours():
@@ -72,7 +72,7 @@ def neighbours():
 class NeighborsModel:
 
     # Tune these numbers to test different distributions or update speeds
-    FRAME_RATE = 120    # Increase number to speed simulation up
+    FRAME_RATE = 1000000   # Increase number to speed simulation up
     DIST = [0.25, 0.25, 0.50]  # % of RED, BLUE, and NONE
     THRESHOLD = 0.8   # % of surrounding neighbours that should be like me for satisfaction
 
@@ -91,7 +91,6 @@ class NeighborsModel:
     #updates world
     def __update_world(self):
         poke_cells_around(self.world)
-        # update_cells(self)
         self.world = move_cells(self.world)
         
         pass
@@ -228,23 +227,6 @@ def is_person(person:Person) -> bool:
         return False
     return  True
     
-# def update_cells(self):
-#     """Updates the cells depending on how many times and by who theyre been poked
-#         Args:
-#             self
-#     """
-#     for row in self.world:
-#         for item in row:
-#             #cxatches zero div error also the clause that makes blank spaces not matter in the calcultion of neightbours
-#             if has_neighbours(item): 
-#                 # TODO escape to different function
-#                 # checks for item threshold and updates state of items
-#                 if check_item_enough_friends(item, self):
-#                     set_satisfied(item)
-#                 elif is_person(item):
-#                     set_unsatisfied(item)
-#             item.friend_count = 0
-#             item.foe_count = 0
 
 def set_satisfied(person:Person):
     """sets person state to satisfied
@@ -260,15 +242,6 @@ def set_unsatisfied(person):
     """
     person.state = State.UNSATISFIED
 
-# def check_item_enough_friends(person, world) -> bool:
-#     """Checks if item has enough freinds arount it
-#         Args:
-#             person to be checked, world for threshold import
-#         Returns:
-#             bool if it has enough freinds"""
-#     if person.friend_count / (person.friend_count+person.foe_count) >= world.THRESHOLD:
-#          return True
-#     return False
 
 def has_neighbours(item:Person) -> bool:
     """Checks if there are any neighbours around the given item
@@ -277,10 +250,10 @@ def has_neighbours(item:Person) -> bool:
         Returns:
             A bool of wther the object has neighbours or not
     """
-    if not item.friend_count+item.foe_count == 0: 
-        return True
-    else:
+    if item.friend_count+item.foe_count == 0: 
         return False
+    else:
+        return True
 
 def move_cells(world:list[list[Person]]) -> list[list[Person]]:
     """Moves cells that are unsatisfied to new empty spaces
@@ -406,9 +379,9 @@ def count(a_list, to_find):
 # ... but by all means have a look at it, it's fun!
 class NeighboursView:
     # static class variables
-    WIDTH = 1000   # Size for window
+    WIDTH = 2000  # Size for window
     HEIGHT = 1000
-    MARGIN = 50
+    MARGIN = 10
 
     WHITE = (255, 255, 255)
     RED   = (255,   0,   0)
