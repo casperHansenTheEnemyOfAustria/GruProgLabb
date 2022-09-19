@@ -35,7 +35,7 @@ class Person:
         self.foe_count = 0
 
         
-    def poke(self, external_color:Actor):
+    def poke(self, external_color:Actor) -> None:
         """When cell is poked. Compares color of poking cell and itself
             Args: 
                 color of poing cell 
@@ -135,7 +135,7 @@ class NeighborsModel:
 
 # ---------------- Helper methods ---------------------
 
-def create_probability_map(chances:list[int]):
+def create_probability_map(chances:list[int]) -> list[int]:
     """Creates a 100 place long array where there are more of the more probable outcomes. This is for chanced randomization
         Args: 
             List of chances for the different outcomes
@@ -149,11 +149,10 @@ def create_probability_map(chances:list[int]):
             output.append(prob)   
     return output
 
-def generate_seed(n_locations:int, odds:list[int]):
+def generate_seed(n_locations:int, odds:list[int]) -> list[int]:
     """Generates seed from probability map
         Args:
             size of the map and the probability map
-        
         Returns:
             List of where everythings going to be
     """
@@ -164,7 +163,7 @@ def generate_seed(n_locations:int, odds:list[int]):
         seed.append(color)
     return  seed
 
-def assign_seed_colors(number:int):
+def assign_seed_colors(number:int) -> str:
     """Assigns a seed color from the input number where 0 is red, 1 is blue and anything else is empty
         Args:
             A number
@@ -179,7 +178,7 @@ def assign_seed_colors(number:int):
     else:
         return "empty"
    
-def generate_matrix_from_seed(seed:list[str], size:int):
+def generate_matrix_from_seed(seed:list[str], size:int) -> list[list[str]]:
     """Generates a matrix from a seed filled with stings that are either "red", "blue" or "empty" 
         Args:
             Seed, Size of the matrix
@@ -197,7 +196,7 @@ def generate_matrix_from_seed(seed:list[str], size:int):
             
     return empty_matrix
 
-def generate_matrix_height(height:int):
+def generate_matrix_height(height:int) -> list[list[]]:
     """Generates a matrix with no width and a certain height
         Args:   
             How high the matrix should be
@@ -209,7 +208,7 @@ def generate_matrix_height(height:int):
         output.append([])
     return output
 
-def insert_people_into_matrix(width:int, matrix:list[Person], seed:list[str]):
+def insert_people_into_matrix(width:int, matrix:list[Person], seed:list[str]) -> list[list[Person]]:
     """Adds object of the Person class to a matrix
         Args:
             The wanted width of the matrix, The matrix itself, A seed for how the diestribution of people should be
@@ -243,7 +242,7 @@ def poke_cells_around(world:list[list[Person]]):
                     if is_valid_location(size, index[1], index[0]): #checks if location is valid
                         world[index[1]][index[0]].poke(current.color)
                   
-def is_person(person:Person):
+def is_person(person:Person) -> bool:
     """checks if input item is empty square or person
         Args:
             person object
@@ -286,12 +285,17 @@ def set_unsatisfied(person):
     """
     person.state = State.UNSATISFIED
 
-def check_item_enough_friends(person, world):
+def check_item_enough_friends(person, world) -> bool:
+    """Checks if item has enough freinds arount it
+        Args:
+            person to be checked, world for threshold import
+        Returns:
+            bool if it has enough freinds"""
     if person.friend_count / (person.friend_count+person.foe_count) >= world.THRESHOLD:
          return True
     return False
 
-def has_neighbours(item:Person):
+def has_neighbours(item:Person) -> bool:
     """Checks if there are any neighbours around the given item
         Args:
             a Person object to be checked
@@ -303,7 +307,7 @@ def has_neighbours(item:Person):
     else:
         return False
 
-def move_cells(world:list[list[Person]]):
+def move_cells(world:list[list[Person]]) -> list[list[Person]]:
     """Moves cells that are unsatisfied to new empty spaces
         Args:
             The world matrix
