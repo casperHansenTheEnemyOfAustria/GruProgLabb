@@ -76,10 +76,9 @@ class NeighborsModel:
     def __create_world(self, size:int) -> World:
         
         n_locations = size**2
-        prob_map = create_probability_map(self.DIST)
-        seed = generate_seed(n_locations, prob_map)
+        seed = generate_seed_2(n_locations, self.DIST)
 
-        brave_new_world = generate_matrix_from_seed(seed, size)
+        brave_new_world = make_matrix(seed, size)
         return brave_new_world
 
     #updates world
@@ -135,95 +134,52 @@ class NeighborsModel:
 
 # ---------------- Helper methods ---------------------
 
-def create_probability_map(chances:list[int]) -> list[int]:
-    """Creates a 100 place long array where there are more of the more probable outcomes. This is for chanced randomization
-        Args: 
-            List of chances for the different outcomes
-        
-        Returns:
-            List of 100 items that correspond to the chances
-    """
-    output = []
-    for prob in range(len(chances)):
-        for i in range(int(100*chances[prob])):
-            output.append(prob)   
-    return output
 
-def generate_seed(n_locations:int, odds:list[int]) -> list[int]:
+
+#---------------World building methods----------------
+def create_person(color: Actor):
+    """creates person from given arguments
+        Args:
+            Color of the person
+        Returns:
+            the created person
+    """
+    if color == "red":
+        person = Person(State.SATISFIED, Actor.RED)
+    elif color == "blue":
+        person = Person(State.SATISFIED, Actor.BLUE)
+    else:
+        person = Person(State.NA, Actor.NONE)
+    return person
+
+def generate_seed_2(n_locations:int, odds:list[int]) -> list[int]:
     """Generates seed from probability map
         Args:
             size of the map and the probability map
         Returns:
-            List of where everythings going to be
+            flat list of where everythings going to be
     """
-    seed =[]
-    for i in range(n_locations):
-        random_state = randint(0, len(odds)-1)
-        color = assign_seed_colors(odds[random_state])
-        seed.append(color)
+    red_amount = int(odds[0]*n_locations)
+    blue_amount = int(odds[1]*n_locations)
+    empty_amount = int(odds[2]*n_locations)
+
+    flat_list = create_flat_list(red_amount, blue_amount, empty_amount)
+    shuffle(flat_list)
+    seed = flat_list
+
     return  seed
+def create_flat_list(red_amount:int, blue_amount:int, empty_amount:int)  -> list[Person]:
+    reds = [create_person("red")] * red_amount
+    blues = [create_person("blue")] * blue_amount
+    empties = [create_person("none")] * empty_amount
 
-def assign_seed_colors(number:int) -> str:
-    """Assigns a seed color from the input number where 0 is red, 1 is blue and anything else is empty
-        Args:
-            A number
+    return reds+blues+empties
 
-        Returns:    
-            String of what color it is
-    """
-    if number == 0:
-        return "red"
-    elif number == 1:
-        return "blue"
-    else:
-        return "empty"
-   
-def generate_matrix_from_seed(seed:list[str], size:int) -> list[list[str]]:
-    """Generates a matrix from a seed filled with stings that are either "red", "blue" or "empty" 
-        Args:
-            Seed, Size of the matrix
+def make_matrix(flat_list:list[Person], width:int) -> list[list[Person]]:
+    output_matrix = [flat_list[height*width: (height+1)*width] for height in range(width)]
+    return output_matrix
 
-        Returns:
-            A matrix filled with Person objects
-    """
-    height = size
-    width = size
-    empty_matrix = generate_matrix_height(height)
-    
-    print(f"width: {width}")
-    print(f"height: {height}")
-    empty_matrix = insert_people_into_matrix(width, empty_matrix, seed)
-            
-    return empty_matrix
-
-def generate_matrix_height(height:int) -> list[list[]]:
-    """Generates a matrix with no width and a certain height
-        Args:   
-            How high the matrix should be
-        Returns:
-            Matrix with input height and no width
-    """
-    output: List[List[any]] = []
-    for i in range(height):
-        output.append([])
-    return output
-
-def insert_people_into_matrix(width:int, matrix:list[Person], seed:list[str]) -> list[list[Person]]:
-    """Adds object of the Person class to a matrix
-        Args:
-            The wanted width of the matrix, The matrix itself, A seed for how the diestribution of people should be
-        Returns:
-            The filled matrix
-    """
-    start = 0
-    end = width
-    # TODO maybe modulo 30
-    for row_index, row in enumerate(matrix, start=0):
-        for i in range(start, end):
-            row.append(create_person(seed[i]))   
-        start+=width
-        end += width
-    return matrix
+#--------------Changing methods -------------------
 
 def poke_cells_around(world:list[list[Person]]):
     """Pokes all cells aroud all cells
@@ -382,20 +338,6 @@ def set_poke_indexes(current_x: int, current_y: int):
     ]
     return output
 
-def create_person(color: Actor):
-    """creates person from given arguments
-        Args:
-            Color of the person
-        Returns:
-            the created person
-    """
-    if color == "red":
-        person = Person(State.SATISFIED, Actor.RED)
-    elif color == "blue":
-        person = Person(State.SATISFIED, Actor.BLUE)
-    else:
-        person = Person(State.NA, Actor.NONE)
-    return person
 
     # Check if inside world
 def is_valid_location(size: int, row: int, col: int):
