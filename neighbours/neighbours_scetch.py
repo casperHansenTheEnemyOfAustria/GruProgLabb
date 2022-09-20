@@ -59,7 +59,7 @@ class Person:
 World = List[List[Actor]]  # Type alias
 
 
-SIZE = 400
+SIZE = 100
 
 
 def neighbours():
@@ -72,9 +72,9 @@ def neighbours():
 class NeighborsModel:
 
     # Tune these numbers to test different distributions or update speeds
-    FRAME_RATE = 1000000   # Increase number to speed simulation up
+    FRAME_RATE = 2   # Increase number to speed simulation up
     DIST = [0.25, 0.25, 0.50]  # % of RED, BLUE, and NONE
-    THRESHOLD = 0.8   # % of surrounding neighbours that should be like me for satisfaction
+    THRESHOLD = 0.7   # % of surrounding neighbours that should be like me for satisfaction
 
     # ########### These following two methods are what you're supposed to implement  ###########
     # In this method you should generate a new world
@@ -83,7 +83,7 @@ class NeighborsModel:
     def __create_world(self, size:int) -> World:
         
         n_locations = size**2
-        seed = generate_seed_2(n_locations, self.DIST)
+        seed = generate_seed(n_locations, self.DIST)
 
         brave_new_world = make_matrix(seed, size)
         return brave_new_world
@@ -158,7 +158,7 @@ def create_person(color: Actor):
         person = Person(State.NA, Actor.NONE)
     return person
 
-def generate_seed_2(n_locations:int, odds:list[int]) -> list[int]:
+def generate_seed(n_locations:int, odds:list[int]) -> list[int]:
     """Generates seed from probability map
         Args:
             size of the map and the probability map
@@ -379,8 +379,8 @@ def count(a_list, to_find):
 # ... but by all means have a look at it, it's fun!
 class NeighboursView:
     # static class variables
-    WIDTH = 2000  # Size for window
-    HEIGHT = 1000
+    WIDTH = 700  # Size for window
+    HEIGHT = 700
     MARGIN = 10
 
     WHITE = (255, 255, 255)
