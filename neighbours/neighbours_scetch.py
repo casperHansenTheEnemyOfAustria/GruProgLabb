@@ -44,7 +44,7 @@ class Person:
             self.foe_count = 0
         
 
-    def poke(self, external_color:Actor) -> None:
+    def poked_by(self, external_color:Actor) -> None:
         """When cell is poked. Compares color of poking cell and itself
             Args: 
                 color of poing cell 
@@ -214,7 +214,8 @@ def poke_cells_around(world:list[list[Person]]):
 
                 for index in indexes_to_be_poked: #checks if indexes are valid and pokes the valid ones
                     if is_valid_location(size, index[1], index[0]): #checks if location is valid
-                        world[index[1]][index[0]].poke(current.color)
+                        neighbour = world[index[1]][index[0]]
+                        neighbour.poked_by(current.color)
                   
 def is_person(person:Person) -> bool:
     """checks if input item is empty square or person
