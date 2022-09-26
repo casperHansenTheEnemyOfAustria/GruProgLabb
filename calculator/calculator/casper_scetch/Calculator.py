@@ -1,7 +1,11 @@
 # package calculator
 
+from curses.ascii import isdigit
 from math import nan
 from enum import Enum
+from re import A
+
+from GruProgLabb.GruProgLabb.calculator.calculator.Stack import *
 
 # A calculator for rather simple arithmetic expressions.
 # Your task is to implement the missing functions so the
@@ -20,6 +24,16 @@ from enum import Enum
 #
 # To run the program, run either CalculatorREPL or CalculatorGUI
 
+OPERATOR_ORDER: dict = {
+    "^":1,
+    "*":2,
+    "/":2,
+    "+":3,
+    "-":3,
+}
+    
+    
+
 MISSING_OPERAND:  str = "Missing or bad operand"
 DIV_BY_ZERO:      str = "Division with 0"
 MISSING_OPERATOR: str = "Missing operator or parenthesis"
@@ -27,9 +41,52 @@ OP_NOT_FOUND:     str = "Operator not found"
 OPERATORS:        str = "+-*/^"
 
 
-def infix_to_postfix(tokens):
+def infix_to_postfix(tokens: list):
+    op_stack = Stack()
     #inpus is an array ive looked lol
     #may need to ouput stack. like num>num>op>op 
+    output = []
+    #runs for all tokens
+    for token in token:
+        #checks if tokesn is digit
+        if token.isdigit:
+            output.append(token
+        #checks if token is operator
+        elif token in OPERATORS:
+            #if the operator stack is not mpty and the current token has a lower precedence than the nearest operator in the stack we pop the nearest operator into the output
+            while not op_stack.is_empty() and OPERATOR_ORDER[op_stack.head.value] >= OPERATOR_ORDER[token]:
+                output.append(op_stack.pop())
+            #then we push the token onto the stack
+            op_stack.push(token)
+        #if the token is an open parentheses we push it onto the stack
+        elif token == "(":
+            op_stack.push(token)
+        #if it is a closed parentheses we check if the stack isnt empty and then we pop all the operator until we find an open parentheses
+        elif token == ")":
+            if not op_stack.is_empty():
+                
+                while not op_stack.head.value == "(":
+                    output.append(op_stack.pop())
+                # pops the left parenthises from the stack if its there or raises an erro if it isnt
+                if op_stack.pop.head.value == "(":
+                    #when done the parentheses is discarded
+                    op_stack.pop()
+                else:
+                    raise MISSING_OPERATOR
+            else:
+                #error if the stack has no operators
+                raise MISSING_OPERATOR
+              
+    #pops the last of the operator to the outpout
+    while not  op_stack.is_empty 
+        #checs so thats there arent any parentheses left
+        if op_stack.head.value in ["()"]:
+            raise MISSING_OPERATOR
+        else:
+            output.append(op_stack.pop())
+            
+            
+            
     return []  # TODO
 
 
