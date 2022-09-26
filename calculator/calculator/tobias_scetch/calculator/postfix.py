@@ -1,7 +1,6 @@
 # package calculator
 
 
-# from calculator.calculator.tobias_scetch.calculator import postfix
 from math import nan
 from enum import Enum
 from re import A
@@ -71,30 +70,17 @@ def infix_to_postfix(tokens: list):
 
 # -----  Evaluate RPN expression -------------------
 def eval_postfix(postfix_tokens):
-    #TODo ----------fix-----------
-    stack = Stack()
-    print(postfix_tokens)
-    for token in postfix_tokens:
-        do_operation_list = []
-        if token.isdigit():
-            stack.push(token)
-        elif token == "+" or token == "-" or token == "*" or token == "/" or token == "^":
-            for i in range(2):
-                popped_token = stack.pop()
-                print(f"popped token: {popped_token}")
-                do_operation_list.append(int(popped_token))
-                print(f"op is: {token}")
-            result = apply_operator(token, do_operation_list[0], do_operation_list[1])
-            print(f"resuklt is: {result}")
-            stack.push(result)
-    return int(stack.head.value)
+    
+    
+    
+    return 0  # TODO
+
 
 # Method used in REPL
 def eval_expr(expr: str):
     if len(expr) == 0:
         return nan
-    tokens = tokenize(expr)
-    print(tokenize(expr))
+    tokens = expr.split()
     postfix_tokens = infix_to_postfix(tokens)
     return eval_postfix(postfix_tokens)
 
@@ -139,41 +125,21 @@ def get_associativity(op: str):
 
 
 # ---------- Tokenize -----------------------
-def tokenize(expr: str): #BEGINNING OF TOKENIZE, NEED TO IMPLEMENT SO THAT IT ONLY PRINTS OPERANDS (numbers), OPERATORS AND PARENTHESES
-    list_of_tokens = []
-    number = ''
-    i = 0
-    for token in expr:
-        if token.isdigit():
-            number += token
-            if not expr[(i+1) % len(expr)].isdigit()or i == len(expr)-1:
-                list_of_tokens.append(number)
-                number = ''
-            i += 1
-        elif token == "+" or token == "-" or token == "*" or token == "/"\
-                or token == "^" or token == "(" or token == ")":
-            list_of_tokens.append(number)
-            list_of_tokens.append(token)
-            number = ''
-            i += 1
-
-    return list_of_tokens
+def tokenize(expr: str):
+    return None   # TODO
 
 # TODO Possibly more methods
 
 def token_method(token:str, op_stack:Stack, list:list) -> list:
-    print(f"token:{token}")
     if token.isdigit():
         list.append(token)
     #checks if token is operator
-    elif token in OPERATORS and not token == "":
+    elif token in OPERATORS:
         #if the operator stack is not mpty and the current token has a lower precedence than the nearest operator in the stack we pop the nearest operator into the output
-        
         add_operator_to_stack(op_stack, token, list)          
     #if the token is an open parentheses we push it onto the stack
     elif token == "(":
         op_stack.push(token)
-        print("push 171")
     #if it is a closed parentheses we check if the stack isnt empty and then we pop all the operator until we find an open parentheses
     elif token == ")":
         add_items_in_parentheses(op_stack, list)
@@ -203,11 +169,9 @@ def has_greater_precedence(op1:str, op2:str) -> bool:
         return op2
 
 def add_operator_to_stack(op_stack:Stack, token:str, list:list) -> list:
-    if not op_stack.is_empty():
-        while not op_stack.is_empty() and (has_greater_precedence(op_stack.head.value, token) == op_stack.head.value or (has_greater_precedence == None and  get_associativity(token) == 1)):
-                    list.append(op_stack.pop()) 
-                #then we push the token onto the stack
+    while not op_stack.is_empty() and (has_greater_precedence(op_stack.head.value, token) == op_stack.head.value or (has_greater_precedence == None and  get_associativity(token) == 1)):
+                list.append(op_stack.pop()) 
+            #then we push the token onto the stack
     op_stack.push(token)
-    print("push 206")
 
-# print(infix_to_postfix(["3", "+", "3"]))
+# print(infix_to_postfix(["3", "*","(","1", "+", "2", "+", "10", ")"]))

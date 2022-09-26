@@ -1,5 +1,6 @@
 # package calculator
 
+# from postfix import infix_to_postfix
 from math import nan
 from enum import Enum
 from collections import deque
@@ -110,7 +111,9 @@ def get_precedence(op: str):
         "-": 2,
         "*": 3,
         "/": 3,
-        "^": 4
+        "^": 4,
+        "(":0,
+        ")":0,
     }
     return op_switcher.get(op, ValueError(OP_NOT_FOUND))
 
