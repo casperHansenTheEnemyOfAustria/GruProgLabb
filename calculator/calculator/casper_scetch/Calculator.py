@@ -57,10 +57,11 @@ def infix_to_postfix(tokens: list):
     #pops the last of the operator to the outpout
     while not  op_stack.is_empty():
         #checs so thats there arent any parentheses left
-        if op_stack.head.value in ["()"]:
+        print(op_stack.head.value)
+        if op_stack.head.value in "()":
+            print("missing op")
             raise MISSING_OPERATOR
         else:
-    
             output.append(op_stack.pop())
             
             
@@ -103,7 +104,7 @@ def get_precedence(op: str):
         "/": 3,
         "^": 4,
         "(":0,
-        "(":0,
+        ")":0,
 
     }
     return op_switcher.get(op, ValueError(OP_NOT_FOUND))
@@ -173,4 +174,4 @@ def add_operator_to_stack(op_stack:Stack, token:str, list:list) -> list:
             #then we push the token onto the stack
     op_stack.push(token)
 
-print(infix_to_postfix(["3", "*","(","1", "+", "2", "+", "10",")"]))
+print(infix_to_postfix(["3", "*","(","1", "+", "2", "+", "10", ")"]))
