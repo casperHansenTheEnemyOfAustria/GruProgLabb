@@ -187,14 +187,14 @@ def create_flat_list(red_amount:int, blue_amount:int, empty_amount:int)  -> list
 
     return reds+blues+empties
 
-def make_matrix(flat_list:list[Person], width:int) -> list[list[Person]]:
+def make_matrix(flat_list:list[Person], size:int) -> list[list[Person]]:
     """Makes a matrix with a precific width from a flat list
         Args:
             the flat list, the width of the matrix
         Returns:
             The newly created matrix
     """
-    output_matrix = [flat_list[height*width: (height+1)*width] for height in range(width)]
+    output_matrix = [flat_list[row_num*size: (row_num+1)*size] for row_num in range(size)]
     return output_matrix
 
 #--------------Changing methods -------------------

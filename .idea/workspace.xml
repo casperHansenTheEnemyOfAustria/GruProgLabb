@@ -25,14 +25,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/tobiaspettersson/Developer/GruProg/GruProgLabb"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/tobiaspettersson/Developer/GruProg/GruProgLabb&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Python.working_version">
+}</component>
+  <component name="RunManager" selected="Python.neighbours_scetch">
+    <configuration name="neighbours_scetch" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/local/bin/python3.10" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neighbours" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neighbours/neighbours_scetch.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="pig" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GruProgLabb" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -117,8 +138,16 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.pig" />
+      <item itemvalue="Python.neighbours_scetch" />
+      <item itemvalue="Python.tobias_version" />
+      <item itemvalue="Python.tobias_version copy 2" />
+      <item itemvalue="Python.working_version" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.neighbours_scetch" />
         <item itemvalue="Python.working_version" />
         <item itemvalue="Python.tobias_version copy 2" />
         <item itemvalue="Python.tobias_version" />
