@@ -25,15 +25,6 @@ from Stack import *
 #
 # To run the program, run either CalculatorREPL or CalculatorGUI
 
-OPERATOR_ORDER: dict = {
-    "^":1,
-    "*":2,
-    "/":2,
-    "+":3,
-    "-":3,
-    "(":4,
-    ")":4
-}
     
     
 
@@ -76,17 +67,7 @@ def eval_postfix(postfix_tokens):
     print(postfix_tokens)
     for token in postfix_tokens:
         do_operation_list = []
-        if token.isdigit():
-            stack.push(token)
-        elif token == "+" or token == "-" or token == "*" or token == "/" or token == "^":
-            for i in range(2):
-                popped_token = stack.pop()
-                print(f"popped token: {popped_token}")
-                do_operation_list.append(int(popped_token))
-                print(f"op is: {token}")
-            result = apply_operator(token, do_operation_list[0], do_operation_list[1])
-            print(f"resuklt is: {result}")
-            stack.push(result)
+        make_operations(stack, token, do_operation_list)
     return int(stack.head.value)
 
 # Method used in REPL
@@ -160,6 +141,21 @@ def tokenize(expr: str): #BEGINNING OF TOKENIZE, NEED TO IMPLEMENT SO THAT IT ON
     return list_of_tokens
 
 # TODO Possibly more methods
+def make_operations(stack, token, operations):
+    if token.isdigit():
+        stack.push(token)
+    elif token == "+" or token == "-" or token == "*" or token == "/" or token == "^":
+        
+        fill_op_list(stack, operations)
+            
+        result = apply_operator(token, operations[0], operations[1])
+        
+        stack.push(result)
+    
+def fill_op_list(stack, list_to_be_filled):
+    for i in range(2):
+        popped_token = stack.pop()
+        list_to_be_filled.append(int(popped_token))
 
 def token_method(token:str, op_stack:Stack, list:list) -> list:
     print(f"token:{token}")
