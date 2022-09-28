@@ -34,6 +34,11 @@ MISSING_OPERATOR: str = "Missing operator or parenthesis"
 OP_NOT_FOUND:     str = "Operator not found"
 OPERATORS:        str = "+-*/^"
 
+class MissingOperator(BaseException):
+    print(MISSING_OPERATOR)
+    pass
+    
+
 
 def infix_to_postfix(tokens: list):
     op_stack = Stack()
@@ -43,24 +48,34 @@ def infix_to_postfix(tokens: list):
     output = []
     #runs for all tokens
     for token in tokens:
-        token_method(token,op_stack,output)          
+        try:
+            token_method(token,op_stack,output)        
+        except MissingOperator as mo:
+            print(mo)  
 
  #TODO ----Escape this------
     #pops the last of the operator to the outpout
-    while not  op_stack.is_empty():
-        #checs so thats there arent any parentheses left
-        print(op_stack.head.value)
-        if op_stack.head.value in "()":
-            print("missing op")
-            raise MISSING_OPERATOR
-        else:
-            output.append(op_stack.pop())
+    try:
+        append_remaining_items(op_stack,output)
+    except MissingOperator as mo:
+        print(mo)
             
             
     return output
 
 
 # -----  Evaluate RPN expression -------------------
+def append_remaining_items(op_stack, expression_list):
+    while not  op_stack.is_empty():
+        #checs so thats there arent any parentheses left
+        print(op_stack.head.value)
+        if op_stack.head.value in "()":
+            print("missing op")
+            raise MissingOperator
+        else:
+            expression_list.append(op_stack.pop())
+    
+            
 def eval_postfix(postfix_tokens):
     #TODo ----------fix-----------
     stack = Stack()
@@ -122,21 +137,23 @@ def get_associativity(op: str):
 # ---------- Tokenize -----------------------
 def tokenize(expr: str): #BEGINNING OF TOKENIZE, NEED TO IMPLEMENT SO THAT IT ONLY PRINTS OPERANDS (numbers), OPERATORS AND PARENTHESES
     list_of_tokens = []
-    number = ''
-    i = 0
-    for token in expr:
+    current_number = ''
+
+    for i, token in enumerate(expr, start = 0):
         if token.isdigit():
-            number += token
-            if not expr[(i+1) % len(expr)].isdigit()or i == len(expr)-1:
-                list_of_tokens.append(number)
-                number = ''
-            i += 1
-        elif token == "+" or token == "-" or token == "*" or token == "/"\
-                or token == "^" or token == "(" or token == ")":
-            list_of_tokens.append(number)
+            current_number += token
+            next_token = expr[(i+1) % len(expr)]
+            
+            if not next_token.isdigit() or i == len(expr)-1:
+                list_of_tokens.append(current_number)
+                current_number = ''
+    
+        elif token in OPERATORS or token in "()":
+            list_of_tokens.append(current_number)
             list_of_tokens.append(token)
-            number = ''
-            i += 1
+            current_number = ''
+
+            
 
     return list_of_tokens
 
@@ -144,7 +161,7 @@ def tokenize(expr: str): #BEGINNING OF TOKENIZE, NEED TO IMPLEMENT SO THAT IT ON
 def make_operations(stack, token, operations):
     if token.isdigit():
         stack.push(token)
-    elif token == "+" or token == "-" or token == "*" or token == "/" or token == "^":
+    elif token in OPERATORS:
         
         fill_op_list(stack, operations)
             
@@ -163,8 +180,7 @@ def token_method(token:str, op_stack:Stack, list:list) -> list:
         list.append(token)
     #checks if token is operator
     elif token in OPERATORS and not token == "":
-        #if the operator stack is not mpty and the current token has a lower precedence than the nearest operator in the stack we pop the nearest operator into the output
-        
+       
         add_operator_to_stack(op_stack, token, list)          
     #if the token is an open parentheses we push it onto the stack
     elif token == "(":
@@ -181,13 +197,14 @@ def add_items_in_parentheses(op_stack:Stack, list:list):
         # pops the left parenthises from the stack if its there or raises an erro if it isnt
         check_for_and_discard_left_parentheses(op_stack)
     else:
-        raise MISSING_OPERATOR
+        raise MissingOperator
 
 def check_for_and_discard_left_parentheses(op_stack):
-    if op_stack.head.value == "(":
-                    op_stack.pop()
-    else:
-        raise MISSING_OPERATOR
+    try:
+        if op_stack.head.value == "(":
+            op_stack.pop()
+    except AttributeError:
+        raise MissingOperator
 
 
 def has_greater_precedence(op1:str, op2:str) -> bool:

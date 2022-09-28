@@ -76,7 +76,8 @@ class CalculatorGUI:
             self.__equation.set(str(result))
         except ValueError as ve:
             self.__equation.set(ve)
-
+        except MissingOperator as mo:
+            self.__equation.set(mo)
 
 if __name__ == "__main__":
     CalculatorGUI.calculator_program()
