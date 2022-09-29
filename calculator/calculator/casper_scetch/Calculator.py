@@ -4,6 +4,7 @@
 # from calculator.calculator.tobias_scetch.calculator import postfix
 from math import nan
 from enum import Enum
+from multiprocessing.sharedctypes import Value
 from re import A
 
 from Stack import *
@@ -34,32 +35,22 @@ MISSING_OPERATOR: str = "Missing operator or parenthesis"
 OP_NOT_FOUND:     str = "Operator not found"
 OPERATORS:        str = "+-*/^"
 
-class MissingOperator(BaseException):
-    print(MISSING_OPERATOR)
-    pass
     
 
 
 def infix_to_postfix(tokens: list):
     op_stack = Stack()
-    print(op_stack)
     #inpus is an array ive looked lol
     #may need to ouput stack. like num>num>op>op 
     output = []
     #runs for all tokens
     for token in tokens:
-        try:
-            token_method(token,op_stack,output)        
-        except MissingOperator as mo:
-            print(mo)  
+        token_method(token,op_stack,output)        
+
 
  #TODO ----Escape this------
     #pops the last of the operator to the outpout
-    try:
-        append_remaining_items(op_stack,output)
-    except MissingOperator as mo:
-        print(mo)
-            
+    append_remaining_items(op_stack,output)
             
     return output
 
@@ -68,10 +59,8 @@ def infix_to_postfix(tokens: list):
 def append_remaining_items(op_stack, expression_list):
     while not  op_stack.is_empty():
         #checs so thats there arent any parentheses left
-        print(op_stack.head.value)
         if op_stack.head.value in "()":
-            print("missing op")
-            raise MissingOperator
+            raise ValueError(MISSING_OPERATOR)
         else:
             expression_list.append(op_stack.pop())
     
@@ -79,7 +68,6 @@ def append_remaining_items(op_stack, expression_list):
 def eval_postfix(postfix_tokens):
     #TODo ----------fix-----------
     stack = Stack()
-    print(postfix_tokens)
     for token in postfix_tokens:
         do_operation_list = []
         make_operations(stack, token, do_operation_list)
@@ -90,7 +78,6 @@ def eval_expr(expr: str):
     if len(expr) == 0:
         return nan
     tokens = tokenize(expr)
-    print(tokenize(expr))
     postfix_tokens = infix_to_postfix(tokens)
     return eval_postfix(postfix_tokens)
 
@@ -163,19 +150,24 @@ def make_operations(stack, token, operations):
         stack.push(token)
     elif token in OPERATORS:
         
-        fill_op_list(stack, operations)
-            
-        result = apply_operator(token, operations[0], operations[1])
+        try:
+            fill_op_list(stack, operations)
+            result = apply_operator(token, operations[0], operations[1])
+        except ValueError:
+            raise ValueError(MISSING_OPERAND)
+        except IndexError:
+            raise ValueError(MISSING_OPERAND)
+        
         
         stack.push(result)
     
 def fill_op_list(stack, list_to_be_filled):
     for i in range(2):
+
         popped_token = stack.pop()
         list_to_be_filled.append(int(popped_token))
 
 def token_method(token:str, op_stack:Stack, list:list) -> list:
-    print(f"token:{token}")
     if token.isdigit():
         list.append(token)
     #checks if token is operator
@@ -185,7 +177,6 @@ def token_method(token:str, op_stack:Stack, list:list) -> list:
     #if the token is an open parentheses we push it onto the stack
     elif token == "(":
         op_stack.push(token)
-        print("push 171")
     #if it is a closed parentheses we check if the stack isnt empty and then we pop all the operator until we find an open parentheses
     elif token == ")":
         add_items_in_parentheses(op_stack, list)
@@ -197,14 +188,14 @@ def add_items_in_parentheses(op_stack:Stack, list:list):
         # pops the left parenthises from the stack if its there or raises an erro if it isnt
         check_for_and_discard_left_parentheses(op_stack)
     else:
-        raise MissingOperator
+        raise ValueError(MISSING_OPERATOR)
 
 def check_for_and_discard_left_parentheses(op_stack):
     try:
         if op_stack.head.value == "(":
             op_stack.pop()
     except AttributeError:
-        raise MissingOperator
+        raise ValueError(MISSING_OPERATOR)
 
 
 def has_greater_precedence(op1:str, op2:str) -> bool:
@@ -221,6 +212,5 @@ def add_operator_to_stack(op_stack:Stack, token:str, list:list) -> list:
                     list.append(op_stack.pop()) 
                 #then we push the token onto the stack
     op_stack.push(token)
-    print("push 206")
 
 # print(infix_to_postfix(["3", "+", "3"]))

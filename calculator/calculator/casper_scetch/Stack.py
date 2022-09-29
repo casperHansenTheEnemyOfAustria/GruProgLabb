@@ -47,7 +47,9 @@ class Stack:
     # Remove a value from the stack and return it
     def pop(self):
         if self.is_empty():
+            print("print now youre popping from the stack wrong")
             raise ValueError("Popping from an empty stack")
+
         node_to_pop = self.head
         self.head = self.head.next
         self.size -= 1
