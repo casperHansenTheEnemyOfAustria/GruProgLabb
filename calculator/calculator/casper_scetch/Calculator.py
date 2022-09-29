@@ -60,7 +60,7 @@ def append_remaining_items(op_stack, expression_list):
     while not  op_stack.is_empty():
         #checs so thats there arent any parentheses left
         if op_stack.head.value in "()":
-            raise ValueError(MISSING_OPERATOR)
+            raise ValueError(MISSING_OPERATOR +  ". Too many parentheses")
         else:
             expression_list.append(op_stack.pop())
     
@@ -151,8 +151,11 @@ def make_operations(stack, token, operations):
     elif token in OPERATORS:
         
         try:
+            #This one throws error when missiong operand because stack cant pop in function
             fill_op_list(stack, operations)
+            #this one throws error when mussing operand by design
             result = apply_operator(token, operations[0], operations[1])
+            #These might also throw index error since youre looking fro specific indexes 
         except ValueError:
             raise ValueError(MISSING_OPERAND)
         except IndexError:
@@ -188,14 +191,16 @@ def add_items_in_parentheses(op_stack:Stack, list:list):
         # pops the left parenthises from the stack if its there or raises an erro if it isnt
         check_for_and_discard_left_parentheses(op_stack)
     else:
-        raise ValueError(MISSING_OPERATOR)
+        #if the operator stack is empty when you open up a paren youre doing something wrong
+        raise ValueError(MISSING_OPERATOR + " in parentheses")
 
 def check_for_and_discard_left_parentheses(op_stack):
     try:
         if op_stack.head.value == "(":
             op_stack.pop()
     except AttributeError:
-        raise ValueError(MISSING_OPERATOR)
+        #WHy would you close a parentheses when you havent opened one???
+        raise ValueError(MISSING_OPERATOR + ". No open paren??? why???")
 
 
 def has_greater_precedence(op1:str, op2:str) -> bool:

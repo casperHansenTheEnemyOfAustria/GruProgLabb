@@ -28,13 +28,13 @@ class CalculatorGUI:
 
     # ----- Shhh, here be private methods ----
     def __setup_expression_field(self):
-        expression_field = Entry(self.__gui, textvariable=self.__equation)
-        expression_field.grid(columnspan=5, ipadx=70)
+        expression_field = Entry(self.__gui, textvariable=self.__equation, font=80)
+        expression_field.grid(columnspan=5, ipadx=130, ipady=50)
 
     def __setup_gui_window(self):
         self.__gui.configure(background="cyan")
         self.__gui.title("Simple Calculator")
-        self.__gui.geometry("290x130")
+        self.__gui.geometry("500x400")
 
     def __create_and_attach_buttons(self):
         buttons = ["123+C", "456-^", "789*.", "(0)/="]
@@ -48,7 +48,7 @@ class CalculatorGUI:
 
     def __create_button(self, text):
         return Button(self.__gui, text=text, fg='black', bg='blue',
-                      command=lambda: self.__handle_command(text), height=1, width=7)
+                      command=lambda: self.__handle_command(text), height=3, width=13)
 
     # ---- Callback handlers for button presses ----
     def __handle_command(self, button_pressed):
