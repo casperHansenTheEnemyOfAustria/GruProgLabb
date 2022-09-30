@@ -2,6 +2,7 @@
 
 
 # from calculator.calculator.tobias_scetch.calculator import postfix
+from argparse import ZERO_OR_MORE
 from math import nan
 from enum import Enum
 from multiprocessing.sharedctypes import Value
@@ -71,7 +72,7 @@ def eval_postfix(postfix_tokens):
     for token in postfix_tokens:
         do_operation_list = []
         make_operations(stack, token, do_operation_list)
-    return int(stack.head.value)
+    return stack.head.value
 
 # Method used in REPL
 def eval_expr(expr: str):
@@ -79,6 +80,7 @@ def eval_expr(expr: str):
         return nan
     tokens = tokenize(expr)
     postfix_tokens = infix_to_postfix(tokens)
+    
     return eval_postfix(postfix_tokens)
 
 
@@ -87,7 +89,7 @@ def apply_operator(op: str, d1: float, d2: float):
         "+": d1 + d2,
         "-": d2 - d1,
         "*": d1 * d2,
-        "/": nan if d1 == 0 else d2 / d1,
+        "/": d2 / d1,
         "^": d2 ** d1
     }
     return op_switcher.get(op, ValueError(OP_NOT_FOUND))
@@ -127,11 +129,12 @@ def tokenize(expr: str): #BEGINNING OF TOKENIZE, NEED TO IMPLEMENT SO THAT IT ON
     current_number = ''
 
     for i, token in enumerate(expr, start = 0):
-        if token.isdigit():
+        if token.isdigit() or token == ".":
             current_number += token
+            #mod length to not get overflow in index
             next_token = expr[(i+1) % len(expr)]
             
-            if not next_token.isdigit() or i == len(expr)-1:
+            if not (next_token.isdigit() or next_token == ".") or i == len(expr)-1:
                 list_of_tokens.append(current_number)
                 current_number = ''
     
@@ -146,7 +149,7 @@ def tokenize(expr: str): #BEGINNING OF TOKENIZE, NEED TO IMPLEMENT SO THAT IT ON
 
 # TODO Possibly more methods
 def make_operations(stack, token, operations):
-    if token.isdigit():
+    if is_number(token):
         stack.push(token)
     elif token in OPERATORS:
         
@@ -155,11 +158,14 @@ def make_operations(stack, token, operations):
             fill_op_list(stack, operations)
             #this one throws error when mussing operand by design
             result = apply_operator(token, operations[0], operations[1])
+
             #These might also throw index error since youre looking fro specific indexes 
         except ValueError:
             raise ValueError(MISSING_OPERAND)
         except IndexError:
             raise ValueError(MISSING_OPERAND)
+        except ZeroDivisionError:
+            raise ValueError(DIV_BY_ZERO)
         
         
         stack.push(result)
@@ -168,10 +174,10 @@ def fill_op_list(stack, list_to_be_filled):
     for i in range(2):
 
         popped_token = stack.pop()
-        list_to_be_filled.append(int(popped_token))
+        list_to_be_filled.append(float(popped_token))
 
 def token_method(token:str, op_stack:Stack, list:list) -> list:
-    if token.isdigit():
+    if is_number(token):
         list.append(token)
     #checks if token is operator
     elif token in OPERATORS and not token == "":
@@ -217,5 +223,14 @@ def add_operator_to_stack(op_stack:Stack, token:str, list:list) -> list:
                     list.append(op_stack.pop()) 
                 #then we push the token onto the stack
     op_stack.push(token)
+    
+def is_number(string: str) -> bool:
+    output = None
+    for letter in string:
+        if letter == "." or letter.isdigit():
+            output = True
+        else:
+            output = False
+    return output
 
 # print(infix_to_postfix(["3", "+", "3"]))
