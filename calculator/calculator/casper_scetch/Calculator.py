@@ -57,7 +57,7 @@ def infix_to_postfix(tokens: list):
 
 
 # -----  Evaluate RPN expression -------------------
-def append_remaining_items(op_stack, expression_list):
+def append_remaining_items(op_stack: Stack, expression_list: list[str]):
     while not  op_stack.is_empty():
         #checs so thats there arent any parentheses left
         if op_stack.head.value in "()":
@@ -66,7 +66,7 @@ def append_remaining_items(op_stack, expression_list):
             expression_list.append(op_stack.pop())
     
             
-def eval_postfix(postfix_tokens):
+def eval_postfix(postfix_tokens: list[str]) -> int:
     #TODo ----------fix-----------
     stack = Stack()
     for token in postfix_tokens:
@@ -84,7 +84,7 @@ def eval_expr(expr: str):
     return eval_postfix(postfix_tokens)
 
 
-def apply_operator(op: str, d1: float, d2: float):
+def apply_operator(op: str, d1: float, d2: float) -> float:
     op_switcher = {
         "+": d1 + d2,
         "-": d2 - d1,
@@ -95,7 +95,7 @@ def apply_operator(op: str, d1: float, d2: float):
     return op_switcher.get(op, ValueError(OP_NOT_FOUND))
 
 
-def get_precedence(op: str):
+def get_precedence(op: str) -> int:
     op_switcher = {
         "+": 2,
         "-": 2,
@@ -114,7 +114,7 @@ class Assoc(Enum):
     RIGHT = 2
 
 
-def get_associativity(op: str):
+def get_associativity(op: str) -> Assoc:
     if op in "+-*/":
         return Assoc.LEFT
     elif op in "^":
@@ -148,7 +148,7 @@ def tokenize(expr: str): #BEGINNING OF TOKENIZE, NEED TO IMPLEMENT SO THAT IT ON
     return list_of_tokens
 
 # TODO Possibly more methods
-def make_operations(stack, token, operations):
+def make_operations(stack: Stack, token: str, operations: list[str]):
     if is_number(token):
         stack.push(token)
     elif token in OPERATORS:
@@ -170,7 +170,7 @@ def make_operations(stack, token, operations):
         
         stack.push(result)
     
-def fill_op_list(stack, list_to_be_filled):
+def fill_op_list(stack: Stack, list_to_be_filled: list):
     for i in range(2):
 
         popped_token = stack.pop()
@@ -200,7 +200,7 @@ def add_items_in_parentheses(op_stack:Stack, list:list):
         #if the operator stack is empty when you open up a paren youre doing something wrong
         raise ValueError(MISSING_OPERATOR + " in parentheses")
 
-def check_for_and_discard_left_parentheses(op_stack):
+def check_for_and_discard_left_parentheses(op_stack: Stack):
     try:
         if op_stack.head.value == "(":
             op_stack.pop()
