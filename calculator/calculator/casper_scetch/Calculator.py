@@ -34,6 +34,7 @@ DIV_BY_ZERO:      str = "Division with 0"
 MISSING_OPERATOR: str = "Missing operator or parenthesis"
 OP_NOT_FOUND:     str = "Operator not found"
 OPERATORS:        str = "+-*/^"
+NO_EXPRESSION: str = "HELLO!? WHERE IS EXPRESSION"
 
     
 
@@ -76,7 +77,7 @@ def eval_postfix(postfix_tokens):
 # Method used in REPL
 def eval_expr(expr: str):
     if len(expr) == 0:
-        raise ValueError("you need to write something in here plz")
+        raise ValueError(NO_EXPRESSION)
     tokens = tokenize(expr)
     postfix_tokens = infix_to_postfix(tokens)
     
