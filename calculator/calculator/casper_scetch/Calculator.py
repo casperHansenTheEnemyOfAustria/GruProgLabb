@@ -2,7 +2,6 @@
 
 
 # from calculator.calculator.tobias_scetch.calculator import postfix
-from argparse import ZERO_OR_MORE
 from math import nan
 from enum import Enum
 from multiprocessing.sharedctypes import Value
@@ -77,7 +76,7 @@ def eval_postfix(postfix_tokens):
 # Method used in REPL
 def eval_expr(expr: str):
     if len(expr) == 0:
-        return nan
+        raise ValueError("you need to write something in here plz")
     tokens = tokenize(expr)
     postfix_tokens = infix_to_postfix(tokens)
     
