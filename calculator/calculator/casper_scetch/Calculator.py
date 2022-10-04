@@ -96,13 +96,14 @@ def apply_operator(op: str, d1: float, d2: float) -> float:
     """Applies operator to given operands
     """
     op_switcher = {
-        "+": d1 + d2,
-        "-": d2 - d1,
-        "*": d1 * d2,
-        "/": d2 / d1,
-        "^": d2 ** d1
+        "+": lambda x, y: x + y,
+        "-": lambda x, y: y - x,
+        "*": lambda x, y: x * y,
+        "/": lambda x, y: nan if x == 0 else y / x,
+        "^": lambda x, y: y ** x
     }
-    return op_switcher.get(op, ValueError(OP_NOT_FOUND))
+    fun_to_apply = op_switcher.get(op, ValueError(OP_NOT_FOUND))
+    return fun_to_apply(d1, d2)
 
 
 def get_precedence(op: str) -> int:
