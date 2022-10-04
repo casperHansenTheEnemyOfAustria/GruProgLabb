@@ -40,6 +40,8 @@ NO_EXPRESSION: str = "HELLO!? WHERE IS EXPRESSION"
 
 
 def infix_to_postfix(tokens: list):
+    """Sets infix to postfix
+    """
     op_stack = Stack()
     #inpus is an array ive looked lol
     #may need to ouput stack. like num>num>op>op 
@@ -58,6 +60,8 @@ def infix_to_postfix(tokens: list):
 
 # -----  Evaluate RPN expression -------------------
 def append_remaining_items(op_stack: Stack, expression_list: list[str]):
+    """Appends the last remaining items in the stack to the expression list
+    """
     while not  op_stack.is_empty():
         #checs so thats there arent any parentheses left
         if op_stack.head.value in "()":
@@ -67,6 +71,8 @@ def append_remaining_items(op_stack: Stack, expression_list: list[str]):
     
             
 def eval_postfix(postfix_tokens: list[str]) -> int:
+    """Evaluates the postfix expression
+    """
     #TODo ----------fix-----------
     stack = Stack()
     for token in postfix_tokens:
@@ -76,6 +82,8 @@ def eval_postfix(postfix_tokens: list[str]) -> int:
 
 # Method used in REPL
 def eval_expr(expr: str):
+    """Evaluates the entire expression in input
+    """
     if len(expr) == 0:
         raise ValueError(NO_EXPRESSION)
     tokens = tokenize(expr)
@@ -85,6 +93,8 @@ def eval_expr(expr: str):
 
 
 def apply_operator(op: str, d1: float, d2: float) -> float:
+    """Applies operator to given operands
+    """
     op_switcher = {
         "+": d1 + d2,
         "-": d2 - d1,
@@ -96,6 +106,7 @@ def apply_operator(op: str, d1: float, d2: float) -> float:
 
 
 def get_precedence(op: str) -> int:
+    """Returns the precedence of a given operation"""
     op_switcher = {
         "+": 2,
         "-": 2,
@@ -115,6 +126,7 @@ class Assoc(Enum):
 
 
 def get_associativity(op: str) -> Assoc:
+    """Returns the associativity of the given operator"""
     if op in "+-*/":
         return Assoc.LEFT
     elif op in "^":
@@ -149,6 +161,8 @@ def tokenize(expr: str): #BEGINNING OF TOKENIZE, NEED TO IMPLEMENT SO THAT IT ON
 
 # TODO Possibly more methods
 def make_operations(stack: Stack, token: str, operations: list[str]):
+    """Makes all operations according to the stack order
+    """
     if is_number(token):
         stack.push(token)
     elif token in OPERATORS:
@@ -171,12 +185,16 @@ def make_operations(stack: Stack, token: str, operations: list[str]):
         stack.push(result)
     
 def fill_op_list(stack: Stack, list_to_be_filled: list):
+    """Fills the list with operators and operands to be executed
+    """
     for i in range(2):
 
         popped_token = stack.pop()
         list_to_be_filled.append(float(popped_token))
 
 def token_method(token:str, op_stack:Stack, list:list) -> list:
+    """Adds tokens in different orders depending on their types
+    """
     if is_number(token):
         list.append(token)
     #checks if token is operator
@@ -191,6 +209,8 @@ def token_method(token:str, op_stack:Stack, list:list) -> list:
         add_items_in_parentheses(op_stack, list)
 
 def add_items_in_parentheses(op_stack:Stack, list:list):
+    """Adds items thats are inside of a given parentheses. Works after a close paren until an open paren
+    """
     if not op_stack.is_empty():
         while not op_stack.is_empty() and not op_stack.head.value == "(":
             list.append(op_stack.pop())
@@ -201,6 +221,8 @@ def add_items_in_parentheses(op_stack:Stack, list:list):
         raise ValueError(MISSING_OPERATOR + " in parentheses")
 
 def check_for_and_discard_left_parentheses(op_stack: Stack):
+    """Discards opening parentheses from the stack if found
+    """
     try:
         if op_stack.head.value == "(":
             op_stack.pop()
@@ -210,6 +232,8 @@ def check_for_and_discard_left_parentheses(op_stack: Stack):
 
 
 def has_greater_precedence(op1:str, op2:str) -> bool:
+    """Check which operator has greater precedence
+    """
     if get_precedence(op1) > get_precedence(op2):
         return op1
     elif get_precedence(op1) == get_precedence(op2):
@@ -218,6 +242,8 @@ def has_greater_precedence(op1:str, op2:str) -> bool:
         return op2
 
 def add_operator_to_stack(op_stack:Stack, token:str, list:list) -> list:
+    """Adds operator to the stack of operations
+    """
     if not op_stack.is_empty():
         while not op_stack.is_empty() and (has_greater_precedence(op_stack.head.value, token) == op_stack.head.value or (has_greater_precedence == None and  get_associativity(token) == 1)):
                     list.append(op_stack.pop()) 
@@ -225,6 +251,8 @@ def add_operator_to_stack(op_stack:Stack, token:str, list:list) -> list:
     op_stack.push(token)
     
 def is_number(string: str) -> bool:
+    """Check if string is a number both float and int
+    """
     output = None
     for letter in string:
         if letter == "." or letter.isdigit():
