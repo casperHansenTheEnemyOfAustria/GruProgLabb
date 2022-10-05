@@ -161,7 +161,7 @@ def tokenize(expr: str): #BEGINNING OF TOKENIZE, NEED TO IMPLEMENT SO THAT IT ON
     return list_of_tokens
 
 # TODO Possibly more methods
-def make_operations(stack: Stack, token: str, operations: list[str]):
+def make_operations(stack: Stack, token: str, operations: list):
     """Makes all operations according to the stack order
     """
     if is_number(token):
@@ -232,7 +232,7 @@ def check_for_and_discard_left_parentheses(op_stack: Stack):
         raise ValueError(MISSING_OPERATOR + ". No open paren??? why???")
 
 
-def has_greater_precedence(op1:str, op2:str) -> bool:
+def has_greater_precedence(op1:str, op2:str) -> str:
     """Check which operator has greater precedence
     """
     if get_precedence(op1) > get_precedence(op2):
