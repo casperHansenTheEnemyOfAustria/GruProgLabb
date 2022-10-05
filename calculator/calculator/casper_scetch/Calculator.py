@@ -129,9 +129,9 @@ class Assoc(Enum):
 def get_associativity(op: str) -> Assoc:
     """Returns the associativity of the given operator"""
     if op in "+-*/":
-        return Assoc.LEFT
+        return Assoc.LEFT.value
     elif op in "^":
-        return Assoc.RIGHT
+        return Assoc.RIGHT.value
     else:
         return ValueError(OP_NOT_FOUND)
 
@@ -246,7 +246,7 @@ def add_operator_to_stack(op_stack:Stack, token:str, list:list) -> list:
     """Adds operator to the stack of operations
     """
     if not op_stack.is_empty():
-        while not op_stack.is_empty() and (has_greater_precedence(op_stack.head.value, token) == op_stack.head.value or (has_greater_precedence == None and  get_associativity(token) == 1)):
+        while not op_stack.is_empty() and (has_greater_precedence(op_stack.head.value, token) == op_stack.head.value or (has_greater_precedence(op_stack.head.value, token) == None and  get_associativity(token) == 1)):
                     list.append(op_stack.pop()) 
                 #then we push the token onto the stack
     op_stack.push(token)
