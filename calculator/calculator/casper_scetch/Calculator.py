@@ -99,7 +99,7 @@ def apply_operator(op: str, d1: float, d2: float) -> float:
         "+": lambda x, y: x + y,
         "-": lambda x, y: y - x,
         "*": lambda x, y: x * y,
-        "/": lambda x, y: nan if x == 0 else y / x,
+        "/": lambda x, y: y / x,
         "^": lambda x, y: y ** x
     }
     fun_to_apply = op_switcher.get(op, ValueError(OP_NOT_FOUND))
