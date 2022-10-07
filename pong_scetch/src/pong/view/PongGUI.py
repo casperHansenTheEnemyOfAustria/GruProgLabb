@@ -1,7 +1,7 @@
 # package pong.view
 import pygame
 
-from pong.model import *
+from pong_scetch.src.pong.model import *
 from pong.event.ModelEvent import ModelEvent
 from pong.event.EventBus import EventBus
 from pong.event.EventHandler import EventHandler
