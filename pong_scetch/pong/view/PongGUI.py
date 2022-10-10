@@ -124,9 +124,11 @@ class PongGUI:
     @classmethod
     def render(cls, list_of_movables):
         for object in list_of_movables:
-            if object is Ball:
+            if type(object) == Ball:
+                #draw the ball here from built in attributes
                 print("hi")
-            elif object is Paddle:
+            elif type(object) == Paddle:
+                #draw the paddles here from built in attributes
                 print("ho")
         # TODO
         pass
