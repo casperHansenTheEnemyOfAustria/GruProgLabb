@@ -1,7 +1,9 @@
 # package pong.view
 import pygame
 
-from pong.model import *
+from pong.model.Pong import Pong
+from pong.model.Ball import Ball
+from pong.model.Paddle import Paddle
 from pong.event.ModelEvent import ModelEvent
 from pong.event.EventBus import EventBus
 from pong.event.EventHandler import EventHandler
@@ -118,11 +120,14 @@ class PongGUI:
             cls.assets = last_theme
 
     # ---------- Rendering -----------------
-    WIDTH: int = 400
-    HEIGHT: int = 400
     
     @classmethod
-    def render(cls):
+    def render(cls, list_of_movables):
+        for object in list_of_movables:
+            if object is Ball:
+                print("hi")
+            elif object is Paddle:
+                print("ho")
         # TODO
         pass
 
@@ -130,11 +135,13 @@ class PongGUI:
 
     @classmethod
     def run(cls):
-        cls.__screen = pygame.display.set_mode((cls.WIDTH, cls.HEIGHT))
+        cls.__screen = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
         playing = True
         while playing:
+            
             game = Pong()
-            cls.render()
+            list_of_movables = game.get_all_items_with_position()
+            cls.render(list_of_movables)
            
 
         # TODO

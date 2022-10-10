@@ -12,7 +12,8 @@ from .HasPosition import HasPosition
 class Ball(HasPosition):
     WIDTH = 40
     HEIGHT = 40
-    def __init__(self, x, y, dx, dy):
-        super().__init__(x, y, dx, dy)
+    def __init__(self, x, dx=0, dy=0):
+        y= 0
+        super().__init__(x, y)
         
     

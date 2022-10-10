@@ -1,7 +1,11 @@
 # package pong.model
 
+from pong.model.Config import GAME_WIDTH
 import pong.event.ModelEvent
 import pong.event.EventBus
+from .Paddle import Paddle
+from .Paddle import PADDLE_WIDTH
+from .Ball import Ball
 
 
 class Pong:
@@ -10,11 +14,17 @@ class Pong:
      * Model class representing the "whole" game
      * Nothing visual here
     """
+
+    
     # TODO More attributes
     points_left  = 0
     points_right = 0
 
     # TODO Initialization
+    def __init__(self):
+        self.paddle1  = Paddle(0)
+        self.paddle2 = Paddle(GAME_WIDTH - PADDLE_WIDTH)
+        self.ball = Ball(0)
 
     # --------  Game Logic -------------
 
@@ -26,10 +36,8 @@ class Pong:
         # TODO Game logic here
 
     # --- Used by GUI  ------------------------
-    @classmethod
     def get_all_items_with_position(cls):
-        drawables = []
-        # TODO
+        drawables = [cls.paddle1, cls.paddle2, cls.ball]
         return drawables
 
     @classmethod
