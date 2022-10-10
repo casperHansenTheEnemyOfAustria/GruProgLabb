@@ -120,7 +120,7 @@ class PongGUI:
     # ---------- Rendering -----------------
     WIDTH: int = 400
     HEIGHT: int = 400
-    __screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    
     @classmethod
     def render(cls):
         # TODO
@@ -130,6 +130,13 @@ class PongGUI:
 
     @classmethod
     def run(cls):
+        cls.__screen = pygame.display.set_mode((cls.WIDTH, cls.HEIGHT))
+        playing = True
+        while playing:
+            game = Pong()
+            cls.render()
+           
+
         # TODO
         pass
 
