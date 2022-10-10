@@ -1,7 +1,7 @@
 # package pong.model
 
 from pong.model.Config import GAME_WIDTH, GAME_HEIGHT
-from HasPosition import HasPosition
+from .HasPosition import HasPosition
 
 """
  * A Ball for the Pong game
