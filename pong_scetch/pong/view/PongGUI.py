@@ -11,7 +11,7 @@ from pong.view.theme.Duckie import Duckie
 from pong.model.Paddle import PADDLE_SPEED
 from pong.model.Config import *
 
-
+pygame.init()
 
 class PongGUI:
     """
@@ -30,6 +30,7 @@ class PongGUI:
         if not cls.running:
             return
         if event.type == pygame.KEYDOWN:
+            print("hi")
             if event.key == pygame.K_UP:
                 Pong.set_speed_left_paddle(-Paddle.PADDLE_SPEED)
                 # TODO
@@ -117,6 +118,9 @@ class PongGUI:
             cls.assets = last_theme
 
     # ---------- Rendering -----------------
+    WIDTH: int = 400
+    HEIGHT: int = 400
+    __screen = pygame.display.set_mode((WIDTH, HEIGHT))
     @classmethod
     def render(cls):
         # TODO

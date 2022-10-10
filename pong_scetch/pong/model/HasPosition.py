@@ -53,7 +53,8 @@ class HasPosition(ABC):
 
     @abstractmethod
     def get_width(self):
-        return self.WIDTH        raise NotImplementedError
+        return self.WIDTH        
+        raise NotImplementedError
 
     @abstractmethod
     def get_height(self):

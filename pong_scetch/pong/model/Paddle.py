@@ -3,7 +3,7 @@
 from mimetypes import init
 from pong.model.Config import GAME_HEIGHT
 
-from HasPosition import HasPosition
+from .HasPosition import HasPosition
 
 PADDLE_WIDTH = 10
 PADDLE_HEIGHT = 60
