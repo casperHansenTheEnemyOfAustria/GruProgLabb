@@ -37,7 +37,7 @@ class Pong:
 
     # --- Used by GUI  ------------------------
     def get_all_items_with_position(cls):
-        drawables = [cls.paddle1, cls.paddle2, cls.ball]
+        drawables = {"paddle1":cls.paddle1, "paddle2":cls.paddle2, "ball":cls.ball}
         return drawables
 
     @classmethod

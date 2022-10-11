@@ -129,13 +129,9 @@ class PongGUI:
     @classmethod
     def render(cls, list_of_movables):
         cls.__load_movable_images(list_of_movables)
-        ball = list_of_movables[0]
-        left_paddle = list_of_movables[1]
-        right_paddle = list_of_movables[2]
-        
+
         for object in Assets.object_image_map.keys():
             image = Assets.object_image_map[object]
-            
             x= object.get_x()
             y= object.get_y()
             width = object.get_width()
@@ -150,12 +146,11 @@ class PongGUI:
     
     @classmethod 
     def __load_movable_images(cls, list_of_objects):
-        ball = list_of_objects[2]
-        left_paddle = list_of_objects[0]
-        right_paddle = list_of_objects[1]
+        ball = list_of_objects["ball"]
+        left_paddle = list_of_objects["paddle1"]
+        right_paddle = list_of_objects["paddle2"]
         
         cls.bind_ball(ball, cls.assets)
-            
         cls.bind_paddles(left_paddle, right_paddle)
 
     def bind_paddles(left, right):
