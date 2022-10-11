@@ -108,7 +108,7 @@ class PongGUI:
 
     # ---------- Theme handling ------------------------------
 
-    assets = None
+    assets = Cool()
 
     @classmethod
     def handle_theme(cls, menu_event):
@@ -145,18 +145,29 @@ class PongGUI:
         
     @classmethod  
     def __add_background(cls):
-        image = Cool.get_background()
+        image = cls.assets.get_background()
         cls.__screen.blit(image, (0, 0))
-       
-    def __load_movable_images(list_of_objects):
+    
+    @classmethod 
+    def __load_movable_images(cls, list_of_objects):
         ball = list_of_objects[2]
         left_paddle = list_of_objects[0]
         right_paddle = list_of_objects[1]
         
-        Assets.object_image_map = {}
-        Assets.bind(left_paddle,"coolbluepaddle.png")
-        Assets.bind(right_paddle,"coolredpaddle.png")
-        Assets.bind(ball,"coolBall.png")
+        cls.bind_ball(ball, cls.assets)
+            
+        cls.bind_paddles(left_paddle, right_paddle)
+
+    def bind_paddles(left, right):
+        Assets.bind(left,"coolbluepaddle.png")
+        Assets.bind(right,"coolredpaddle.png")
+        
+    def bind_ball(ball, assets):
+        if assets == None:
+            Cool().get_ball(ball)
+        else:
+            assets.get_ball(ball)
+        
         
     @classmethod   
     def __blit_image_at_pos(cls, image, x, y, width, height):

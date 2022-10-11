@@ -14,8 +14,9 @@ class Cool(Assets):
     # ------------ Handling Images ------------------------
 
     background = Assets.get_image("coolBg.png")
-
-    Assets.bind(Ball, "coolBall.png")
+    
+    def get_ball(cls, obj):
+        Assets.bind(obj, "coolBall.png")
 
     @classmethod
     def get_background(cls):

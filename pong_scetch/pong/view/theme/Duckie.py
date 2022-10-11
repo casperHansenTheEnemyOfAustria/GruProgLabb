@@ -14,8 +14,11 @@ class Duckie(Assets):
     # ------------ Handling Images ------------------------
 
     background = Assets.get_image("duckieBg.jpg")
-
-    Assets.bind(Ball, "duckieBall.png")
+    
+    @classmethod
+    def get_ball(cls, obj):
+        Assets.bind(obj, "duckieBall.png")
+    
 
     @classmethod
     def get_background(cls):
