@@ -4,14 +4,18 @@ import pygame
 from pong.model.Pong import Pong
 from pong.model.Ball import Ball
 from pong.model.Paddle import Paddle
+
 from pong.event.ModelEvent import ModelEvent
 from pong.event.EventBus import EventBus
 from pong.event.EventHandler import EventHandler
+
 from pong.view.theme.Cool import Cool
 from pong.view.theme.Duckie import Duckie
 
 from pong.model.Paddle import PADDLE_SPEED
 from pong.model.Config import *
+
+from .Assets import Assets
 
 pygame.init()
 
@@ -123,26 +127,46 @@ class PongGUI:
     
     @classmethod
     def render(cls, list_of_movables):
-        for object in list_of_movables:
-            if type(object) == Ball:
-                #draw the ball here from built in attributes
-                print("hi")
-            elif type(object) == Paddle:
-                #draw the paddles here from built in attributes
-                print("ho")
-        # TODO
-        pass
-
+        list_of_images = cls.__load_movable_images()
+        ball = list_of_movables[0]
+        left_paddle = list_of_movables[1]
+        right_paddle = list_of_movables[2]
+        
+        for i in range(len(list_of_images)):
+            object = list_of_movables[i]
+            image = list_of_images[i]
+            x=object.get_x()
+            y=object.get_y()
+            width = object.get_width()
+            height = object.get_height()
+            cls.__blit_image_at_pos(image, x, y, width, height)
+        pygame.display.flip()
+        
+    @classmethod  
+    def __add_background(cls):
+        image = Cool.get_background()
+        cls.__screen.blit(image, (0, 0))
+       
+    def __load_movable_images():
+        return [Assets.get_image("coolbluepaddle.png"), Assets.get_image("coolredpaddle.png"), Assets.get_image("coolBall.png")]
+        
+    @classmethod   
+    def __blit_image_at_pos(cls, image, x, y, width, height):
+        cls.__screen.blit(image, (x, y))
+        
     # ---------- Game loop ----------------
 
     @classmethod
     def run(cls):
         cls.__screen = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
+        cls.__add_background()
         playing = True
+        game = Pong()
+        list_of_movables = game.get_all_items_with_position()
         while playing:
             
-            game = Pong()
-            list_of_movables = game.get_all_items_with_position()
+            
+            
             cls.render(list_of_movables)
            
 

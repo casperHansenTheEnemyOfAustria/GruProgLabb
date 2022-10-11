@@ -12,8 +12,14 @@ PADDLE_SPEED = 5
 
 # A Paddle for the Pong game
 class Paddle(HasPosition):
+    WIDTH = PADDLE_WIDTH
+    HEIGHT = PADDLE_HEIGHT
     def __init__(self, x, dx = 0, dy = 0):
         y = (GAME_HEIGHT  - PADDLE_HEIGHT)/2
         super().__init__(x, y)
     
-    pass
+    def get_start_pos(self):
+        return self.__y
+    
+    def get_end_pos(self):
+        return self.__y + PADDLE_HEIGHT

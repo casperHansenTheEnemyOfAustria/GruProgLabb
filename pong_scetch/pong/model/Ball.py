@@ -9,11 +9,14 @@ from .HasPosition import HasPosition
 """
 
 
+
+
 class Ball(HasPosition):
     WIDTH = 40
     HEIGHT = 40
-    def __init__(self, x, dx=0, dy=0):
-        y= 0
+    def __init__(self, x, dx=0, dy=0, ):
+        y= GAME_HEIGHT/2 - self.HEIGHT
+        x = GAME_WIDTH/2 - self.WIDTH
         super().__init__(x, y)
         
     
