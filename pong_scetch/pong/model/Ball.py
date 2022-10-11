@@ -15,8 +15,8 @@ class Ball(HasPosition):
     WIDTH = 40
     HEIGHT = 40
     def __init__(self, x, dx=0, dy=0, ):
-        y= GAME_HEIGHT/2 - self.HEIGHT
-        x = GAME_WIDTH/2 - self.WIDTH
+        y= (GAME_HEIGHT - self.HEIGHT)/2
+        x = (GAME_WIDTH - self.WIDTH)/2
         super().__init__(x, y)
         
     

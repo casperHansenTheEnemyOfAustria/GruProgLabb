@@ -152,7 +152,9 @@ class PongGUI:
         
     @classmethod   
     def __blit_image_at_pos(cls, image, x, y, width, height):
+        image = pygame.transform.scale(image, (width, height))
         cls.__screen.blit(image, (x, y))
+     
         
     # ---------- Game loop ----------------
 
