@@ -1,4 +1,5 @@
 # package pong.view
+from turtle import right
 import pygame
 
 from pong.model.Pong import Pong
@@ -148,10 +149,14 @@ class PongGUI:
         cls.__screen.blit(image, (0, 0))
        
     def __load_movable_images(list_of_objects):
+        ball = list_of_objects[2]
+        left_paddle = list_of_objects[0]
+        right_paddle = list_of_objects[1]
+        
         Assets.object_image_map = {}
-        Assets.bind(list_of_objects[0],"coolbluepaddle.png")
-        Assets.bind(list_of_objects[1],"coolredpaddle.png")
-        Assets.bind(list_of_objects[2],"coolBall.png")
+        Assets.bind(left_paddle,"coolbluepaddle.png")
+        Assets.bind(right_paddle,"coolredpaddle.png")
+        Assets.bind(ball,"coolBall.png")
         
     @classmethod   
     def __blit_image_at_pos(cls, image, x, y, width, height):
