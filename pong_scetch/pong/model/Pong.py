@@ -21,17 +21,20 @@ class Pong:
     points_right = 0
 
     # TODO Initialization
-    def __init__(self):
-        self.paddle1  = Paddle(0)
-        self.paddle2 = Paddle(GAME_WIDTH - PADDLE_WIDTH)
-        self.ball = Ball(0)
+
+    paddle1  = Paddle(0)
+    paddle2 = Paddle(GAME_WIDTH - PADDLE_WIDTH)
+    ball = Ball(0)
 
     # --------  Game Logic -------------
 
     timeForLastHit = 0         # To avoid multiple collisions
 
     @classmethod
-    def update(cls, now):
+    def update(cls, ):
+        cls.paddle1.move()
+        cls.paddle2.move()
+        cls.ball.move()
         pass
         # TODO Game logic here
 
@@ -50,10 +53,14 @@ class Pong:
 
     @classmethod
     def set_speed_right_paddle(cls, dy):
+        cls.paddle2.set_dy(dy)
+        
+        
         # TODO
         pass
 
     @classmethod
     def set_speed_left_paddle(cls, dy):
+        cls.paddle1.set_dy(dy)
         # TODO
         pass

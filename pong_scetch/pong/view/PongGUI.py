@@ -39,19 +39,19 @@ class PongGUI:
         if event.type == pygame.KEYDOWN:
             print("hi")
             if event.key == pygame.K_UP:
-                Pong.set_speed_left_paddle(-Paddle.PADDLE_SPEED)
+                Pong.set_speed_left_paddle(-PADDLE_SPEED)
                 # TODO
                 pass
             elif event.key == pygame.K_DOWN:
-                Pong.set_speed_left_paddle(Paddle.PADDLE_SPEED)
+                Pong.set_speed_left_paddle(PADDLE_SPEED)
                 # TODO
                 pass
             elif event.key == pygame.K_q:
-                Pong.set_speed_right_paddle(Paddle.PADDLE_SPEED)
+                Pong.set_speed_right_paddle(PADDLE_SPEED)
                 # TODO
                 pass
             elif event.key == pygame.K_a:
-                Pong.set_speed_right_paddle(-Paddle.PADDLE_SPEED)
+                Pong.set_speed_right_paddle(PADDLE_SPEED)
                 # TODO
                 pass
 
@@ -127,8 +127,11 @@ class PongGUI:
     # ---------- Rendering -----------------
     
     @classmethod
-    def render(cls, list_of_movables):
-        cls.__load_movable_images(list_of_movables)
+    def render(cls):
+        
+        
+         
+
 
         for object in Assets.object_image_map.keys():
             image = Assets.object_image_map[object]
@@ -137,20 +140,21 @@ class PongGUI:
             width = object.get_width()
             height = object.get_height()
             cls.__blit_image_at_pos(image, x, y, width, height)
-        pygame.display.flip()
+        pygame.display.flip() 
+        
         
     @classmethod  
     def __add_background(cls):
         image = cls.assets.get_background()
-        cls.__screen.blit(image, (0, 0))
+        cls.__screen.blit(image, (0, 20))
     
     @classmethod 
     def __load_movable_images(cls, list_of_objects):
         ball = list_of_objects["ball"]
         left_paddle = list_of_objects["paddle1"]
         right_paddle = list_of_objects["paddle2"]
-        
-        cls.bind_ball(ball, cls.assets)
+        Assets.object_image_map = {}
+        cls.bind_ball(ball, cls.assets) 
         cls.bind_paddles(left_paddle, right_paddle)
 
     def bind_paddles(left, right):
@@ -176,25 +180,48 @@ class PongGUI:
     def run(cls):
         cls.__screen = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
         cls.__add_background()
-        playing = True
+        cls.running = True
         game = Pong()
         list_of_movables = game.get_all_items_with_position()
-        while playing:
+        cls.__load_movable_images(list_of_movables)
+        while cls.running:
             
-            cls.render(list_of_movables)
+            cls.__screen.fill((0,0,10))
+            cls.__add_background()  
+            cls.render()
+            cls.update(game)
+            
+            
+            
+            #nödlösning
+            
+            
+            
            
 
         # TODO
         pass
 
     @classmethod
-    def update(cls):
+    def update(cls, game):
+        
+        game.update()
+        return cls.handle_events()
         # TODO
         pass
 
     @classmethod
     def handle_events(cls):
-        # TODO
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                cls.kill_game()
+                return False
+            cls.handle_theme(event)
+            cls.key_pressed(event)
+            cls.key_released(event)
+        return True
         pass
 
 

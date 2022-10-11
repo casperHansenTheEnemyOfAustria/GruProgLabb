@@ -13,8 +13,8 @@ class HasPosition(ABC):
     def __init__(self, x, y):
         self.__x = x      # 0, 0 is upper left corner
         self.__y = y
-        self.dx = 0
-        self.dy = 0
+        self.__dx = 0
+        self.__dy = 0
 
 
     def set_dx(self, dx):
