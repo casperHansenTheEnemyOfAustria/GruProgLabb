@@ -127,16 +127,16 @@ class PongGUI:
     
     @classmethod
     def render(cls, list_of_movables):
-        list_of_images = cls.__load_movable_images()
+        cls.__load_movable_images(list_of_movables)
         ball = list_of_movables[0]
         left_paddle = list_of_movables[1]
         right_paddle = list_of_movables[2]
         
-        for i in range(len(list_of_images)):
-            object = list_of_movables[i]
-            image = list_of_images[i]
-            x=object.get_x()
-            y=object.get_y()
+        for object in Assets.object_image_map.keys():
+            image = Assets.object_image_map[object]
+            
+            x= object.get_x()
+            y= object.get_y()
             width = object.get_width()
             height = object.get_height()
             cls.__blit_image_at_pos(image, x, y, width, height)
@@ -147,8 +147,11 @@ class PongGUI:
         image = Cool.get_background()
         cls.__screen.blit(image, (0, 0))
        
-    def __load_movable_images():
-        return [Assets.get_image("coolbluepaddle.png"), Assets.get_image("coolredpaddle.png"), Assets.get_image("coolBall.png")]
+    def __load_movable_images(list_of_objects):
+        Assets.object_image_map = {}
+        Assets.bind(list_of_objects[0],"coolbluepaddle.png")
+        Assets.bind(list_of_objects[1],"coolredpaddle.png")
+        Assets.bind(list_of_objects[2],"coolBall.png")
         
     @classmethod   
     def __blit_image_at_pos(cls, image, x, y, width, height):
@@ -166,8 +169,6 @@ class PongGUI:
         game = Pong()
         list_of_movables = game.get_all_items_with_position()
         while playing:
-            
-            
             
             cls.render(list_of_movables)
            
