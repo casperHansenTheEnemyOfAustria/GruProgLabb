@@ -18,17 +18,19 @@ class Pong:
 
     
     # TODO More attributes
-    points_left  = 0
-    points_right = 0
-
+   
+    paddle1  = Paddle(0)
+    paddle2 = Paddle(GAME_WIDTH - PADDLE_WIDTH)
+    ball = Ball(0)  
     # TODO Initialization
     
     def __init__(self) -> None:
+        print("Initialization")
+        self.points_left  = 0
+        self.points_right = 0
         pass
 
-    paddle1  = Paddle(0)
-    paddle2 = Paddle(GAME_WIDTH - PADDLE_WIDTH)
-    ball = Ball(0)
+
 
     # --------  Game Logic -------------
 
@@ -39,12 +41,21 @@ class Pong:
         self.paddle1.move()
         self.paddle2.move()
         self.ball.move()
-        self.collision_detector()
+        points_to = self.collision_detector()
         
-        
-        
-        pass
+        self.add_points_to_player(points_to)
         # TODO Game logic here
+        
+    def add_points_to_player(self, side):
+        if side =="left":
+            self.points_left += 1
+            print("player left +1")
+        elif side == "right":
+            self.points_right += 1
+            print("player right +1")
+        else:
+            pass
+            
 
     # --- Used by GUI  ------------------------
     
@@ -65,8 +76,12 @@ class Pong:
         elif (ball.get_x() <= 0+PADDLE_WIDTH and ball_in_range(ball, paddle1)) or (ball.get_x() + ball.get_width() >= GAME_WIDTH - PADDLE_WIDTH and ball_in_range(ball, paddle2)):
             EventBus.publish(ModelEvent(ModelEvent.EventType(0), "ball hit paddle"))
         
-        elif ball.get_x()+ball.get_width() < 0 or ball.get_x() > GAME_WIDTH: 
+        elif ball.get_x()+ball.get_width() < 0 :
             EventBus.publish(ModelEvent(ModelEvent.EventType(2), "ball out"))
+            return "left"
+        elif ball.get_x() > GAME_WIDTH: 
+            EventBus.publish(ModelEvent(ModelEvent.EventType(2), "ball out"))
+            return "right"
             
             
     

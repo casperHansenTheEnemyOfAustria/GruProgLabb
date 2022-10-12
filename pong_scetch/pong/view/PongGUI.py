@@ -216,6 +216,7 @@ class PongGUI:
     def update(cls, game):
         
         game.update()
+
         return cls.handle_events()
         # TODO
         pass
