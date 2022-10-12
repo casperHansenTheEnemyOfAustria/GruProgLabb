@@ -47,7 +47,7 @@ class PongGUI:
                 # TODO
                 pass
             elif event.key == pygame.K_q:
-                Pong.set_speed_right_paddle(PADDLE_SPEED)
+                Pong.set_speed_right_paddle(-PADDLE_SPEED)
                 # TODO
                 pass
             elif event.key == pygame.K_a:
@@ -108,7 +108,7 @@ class PongGUI:
 
     # ---------- Theme handling ------------------------------
 
-    assets = Cool()
+    assets = Duckie()
 
     @classmethod
     def handle_theme(cls, menu_event):
@@ -146,6 +146,8 @@ class PongGUI:
     @classmethod  
     def __add_background(cls):
         image = cls.assets.get_background()
+        image = pygame.transform.scale(image, (GAME_WIDTH, GAME_HEIGHT))
+        
         cls.__screen.blit(image, (0, 20))
     
     @classmethod 
@@ -184,6 +186,7 @@ class PongGUI:
         game = Pong()
         list_of_movables = game.get_all_items_with_position()
         cls.__load_movable_images(list_of_movables)
+        game.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
         while cls.running:
             
             #nödlösning
