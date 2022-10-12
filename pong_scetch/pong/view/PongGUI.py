@@ -1,6 +1,6 @@
 # package pong.view
-from turtle import right
 import pygame
+from random import randint
 
 from pong.model.Pong import Pong
 from pong.model.Ball import Ball
@@ -94,13 +94,17 @@ class PongGUI:
     # -------- Event handling (events sent from model to GUI) ------------
 
     class ModelEventHandler(EventHandler):
-        def on_model_event(self, evt: ModelEvent):
+        def on_model_event(evt: ModelEvent):
             if evt.event_type == ModelEvent.EventType.NEW_BALL:
-                # TODO Optional
+                Pong.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
+                Pong.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT))
                 pass
             elif evt.event_type == ModelEvent.EventType.BALL_HIT_PADDLE:
-                PongGUI.assets.ball_hit_paddle_sound.play()
+                # PongGUI.assets.ball_hit_paddle_sound.play()
+                Pong.ball_collide_with_paddle()
             elif evt.event_type == ModelEvent.EventType.BALL_HIT_WALL_CEILING:
+                
+                Pong.ball_wall_collision()
                 # TODO Optional
                 pass
 
@@ -180,7 +184,9 @@ class PongGUI:
 
     @classmethod
     def run(cls):
+        
         cls.__screen = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
+        clock = pygame.time.Clock()
         cls.__add_background()
         cls.running = True
         game = Pong()
@@ -189,6 +195,7 @@ class PongGUI:
         game.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
         while cls.running:
             
+            clock.tick(60)
             #nödlösning
             cls.__screen.fill((0,0,10))
             cls.__add_background()  
@@ -197,8 +204,6 @@ class PongGUI:
             cls.update(game)
             
             
-            
-            #nödlösning
             
             
             
@@ -217,6 +222,7 @@ class PongGUI:
 
     @classmethod
     def handle_events(cls):
+        EventBus.register(cls.ModelEventHandler)
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:

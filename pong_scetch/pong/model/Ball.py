@@ -3,7 +3,7 @@
 from pong.model.Config import GAME_WIDTH, GAME_HEIGHT
 from .HasPosition import HasPosition
 from .Config import *
-from random import uniform
+from random import uniform, randint
 
 """
  * A Ball for the Pong game
@@ -21,7 +21,7 @@ class Ball(HasPosition):
         x = (GAME_WIDTH - self.WIDTH)/2
         super().__init__(x, y)
     @classmethod
-    def random_ball_speed(ball):
+    def random_ball_speed(cls):
         return uniform(-1,1)*BALL_SPEED_FACTOR
-        
+
     

@@ -29,6 +29,7 @@ class EventBus:
         if cls.trace:
             print(evt)
         for evh in cls.handlers:
+            # print(evt)
             evh.on_model_event(evt)
 
     @classmethod
