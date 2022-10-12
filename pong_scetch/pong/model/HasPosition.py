@@ -44,6 +44,12 @@ class HasPosition(ABC):
     def get_y(self):
         return self.__y
         raise NotImplementedError
+    
+    def get_dy(self):
+        return self.__dy
+    
+    def get_dx(self):
+        return self.__dx
 
     def get_width(self):
         return self.WIDTH        

@@ -186,8 +186,10 @@ class PongGUI:
         cls.__load_movable_images(list_of_movables)
         while cls.running:
             
+            #nödlösning
             cls.__screen.fill((0,0,10))
             cls.__add_background()  
+            
             cls.render()
             cls.update(game)
             

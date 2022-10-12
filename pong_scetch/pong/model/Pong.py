@@ -64,3 +64,18 @@ class Pong:
         cls.paddle1.set_dy(dy)
         # TODO
         pass
+
+    @classmethod
+    def set_speed_ball(cls, dx, dy):
+        cls.ball.set_dy(dy)
+        cls.ball.set_dx(dx)
+        
+    @classmethod
+    def ball_collide_with_paddle(cls):
+        cls.set_speed_ball(-cls.ball.get_dx(), cls.ball.get_dy())
+        
+    @classmethod
+    def wall_collision(cls, obj):
+        obj.set_dy(-obj.get_dy())
+        
+                
