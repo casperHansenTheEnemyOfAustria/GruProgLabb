@@ -5,6 +5,7 @@ from abc import abstractmethod, ABC
 import pygame.color
 import pygame.image
 import pygame.mixer
+pygame.mixer.init()
 
 
 class Assets(ABC):
@@ -66,5 +67,8 @@ class Assets(ABC):
 
     @classmethod
     def get_sound(cls, file_name):
+        
         return pygame.mixer.Sound(cls.SOUND_DIR + file_name)
+    
+    
 

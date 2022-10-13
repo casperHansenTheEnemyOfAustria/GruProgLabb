@@ -25,3 +25,4 @@ class Duckie(Assets):
         return cls.background
 
     # -------------- Audio handling -----------------------------
+    ball_hit_paddle_sound = Assets.get_sound("ballhitpaddle.wav")

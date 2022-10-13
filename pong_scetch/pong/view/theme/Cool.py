@@ -23,3 +23,4 @@ class Cool(Assets):
         return cls.background
 
     # -------------- Audio handling -----------------------------
+    ball_hit_paddle_sound = Assets.get_sound("cool_sound.wav")

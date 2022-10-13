@@ -20,6 +20,7 @@ from .Assets import Assets
 
 pygame.init()
 
+
 class PongGUI:
     """
     The GUI for the Pong game (except the menu).
@@ -99,7 +100,8 @@ class PongGUI:
                 Pong.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT))
                 pass
             elif evt.event_type == ModelEvent.EventType.BALL_HIT_PADDLE:
-                # PongGUI.assets.ball_hit_paddle_sound.play()
+                if not PongGUI.assets is None:
+                    PongGUI.assets.ball_hit_paddle_sound.play()
                 Pong.ball_collide_with_paddle()
             elif evt.event_type == ModelEvent.EventType.BALL_HIT_WALL_CEILING:
                 
@@ -111,7 +113,7 @@ class PongGUI:
 
     # ---------- Theme handling ------------------------------
 
-    assets = None
+    assets = Cool()
 
     @classmethod
     def handle_theme(cls, menu_event):
@@ -151,12 +153,13 @@ class PongGUI:
         try:
             image = cls.assets.get_background()
             image = pygame.transform.scale(image, (GAME_WIDTH, GAME_HEIGHT))
-            return True
-        except AttributeError:
-            return False
-        
-        cls.__screen.blit(image, (0, 20))
+            cls.__screen.blit(image, (0, 20))
     
+            return False
+        except AttributeError:
+            return True
+        
+        
     @classmethod 
     def __load_movable_images(cls, list_of_objects):
         ball = list_of_objects["ball"]
@@ -200,9 +203,9 @@ class PongGUI:
         while cls.running:
             
             clock.tick(60)
+            
+            
             #nödlösning
-            
-            
             if cls.__add_background():
                 cls.__screen.fill((0,0,10))
                 
@@ -237,7 +240,7 @@ class PongGUI:
                 pygame.quit()
                 cls.kill_game()
                 return False
-            cls.handle_theme(event)
+            # cls.handle_theme(event)
             cls.key_pressed(event)
             cls.key_released(event)
         return True
