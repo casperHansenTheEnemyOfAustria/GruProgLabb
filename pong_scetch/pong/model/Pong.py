@@ -26,8 +26,8 @@ class Pong:
     
     def __init__(self) -> None:
         print("Initialization")
-        self.points_left  = 0
-        self.points_right = 0
+        self.__points_left  = 0
+        self.__points_right = 0
         pass
 
 
@@ -49,10 +49,10 @@ class Pong:
     
     def add_points_to_player(self, side):
         if side =="left":
-            self.points_left += 1
+            self.__points_left += 1
             print("player left +1")
         elif side == "right":
-            self.points_right += 1
+            self.__points_right += 1
             print("player right +1")
         else:
             pass
@@ -89,13 +89,13 @@ class Pong:
             
             
     
-    @classmethod
-    def get_points_left(cls):
-        return cls.points_left
+    
+    def get_points_left(self):
+        return self.__points_left
 
-    @classmethod
-    def get_points_right(cls):
-        return cls.points_right
+
+    def get_points_right(self):
+        return self.__points_right
 
     @classmethod
     def set_speed_right_paddle(cls, dy):

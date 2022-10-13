@@ -53,10 +53,12 @@ class HasPosition(ABC):
     def get_dx(self):
         return self.__dx
 
-    def get_width(self):
-        return self.WIDTH        
+    @classmethod
+    def get_width(cls):
+        return cls.WIDTH        
         raise NotImplementedError
 
-    def get_height(self):
-        return self.HEIGHT
+    @classmethod
+    def get_height(cls):
+        return cls.HEIGHT
         raise NotImplementedError

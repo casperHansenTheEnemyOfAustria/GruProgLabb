@@ -31,7 +31,9 @@ class PongGUI:
     See: https://en.wikipedia.org/wiki/Pong
     """
     running = False    # Is game running?
-
+    __clock = pygame.time.Clock()
+    __font = pygame.font.SysFont(None, 24)
+    
     # ------- Keyboard handling ----------------------------------
     @classmethod
     def key_pressed(cls, event):
@@ -97,7 +99,7 @@ class PongGUI:
         def on_model_event(evt: ModelEvent):
             if evt.event_type == ModelEvent.EventType.NEW_BALL:
                 Pong.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
-                Pong.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT))
+                Pong.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT-Ball.get_height()))
                 pass
             elif evt.event_type == ModelEvent.EventType.BALL_HIT_PADDLE:
                 if not PongGUI.assets is None:
@@ -113,7 +115,7 @@ class PongGUI:
 
     # ---------- Theme handling ------------------------------
 
-    assets = Cool()
+    assets = None
 
     @classmethod
     def handle_theme(cls, menu_event):
@@ -145,6 +147,7 @@ class PongGUI:
             width = object.get_width()
             height = object.get_height()
             cls.__blit_image_at_pos(image, x, y, width, height)
+        
         pygame.display.flip() 
         
         
@@ -187,39 +190,53 @@ class PongGUI:
         cls.__screen.blit(image, (x, y))
      
         
+        
+    # ---------- Score representation---
+    
+    @classmethod
+    def __render_scores(cls, game):
+        width = 50
+        height = 20
+        string = cls.__create_score_string(game.get_points_left(), game.get_points_right())
+        img = cls.__font.render(string, True, (100,255,0))
+        cls.__blit_image_at_pos(img, (GAME_WIDTH)/2 - width, 10, width, height)
+    
+     
+    def __create_score_string(left, right):
+        return f"{left}|{right}"
     # ---------- Game loop ----------------
 
     @classmethod
-    def run(cls):
+    def setup(cls) -> Pong:
         
         cls.__screen = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
-        clock = pygame.time.Clock()
         cls.__add_background()
         cls.running = True
         game = Pong()
         list_of_movables = game.get_all_items_with_position()
         cls.__load_movable_images(list_of_movables)
+        return game
+        
+    @classmethod
+    def run(cls):
+        
+        game = cls.setup()
         game.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
         while cls.running:
             
-            clock.tick(60)
+            cls.__clock.tick(60)
             
             
             #nödlösning
-            if cls.__add_background():
-                cls.__screen.fill((0,0,10))
+            
+            cls.__screen.fill((0,0,10))
+            cls.__add_background()
                 
-                
+            cls.__render_scores(game)   
             cls.render()
             cls.update(game)
             
-            
-            
-            
-            
-           
 
-        # TODO
         pass
 
     @classmethod
@@ -231,6 +248,7 @@ class PongGUI:
         # TODO
         pass
 
+
     @classmethod
     def handle_events(cls):
         EventBus.register(cls.ModelEventHandler)
@@ -241,8 +259,9 @@ class PongGUI:
                 cls.kill_game()
                 return False
             # cls.handle_theme(event)
-            cls.key_pressed(event)
             cls.key_released(event)
+            cls.key_pressed(event)
+            
         return True
         pass
 
