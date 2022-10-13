@@ -60,19 +60,19 @@ class PongGUI:
             return
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
-                Pong.set_speed_left_paddle(0)
+                Pong.set_speed_right_paddle(0)
                 # TODO
                 pass
             elif event.key == pygame.K_DOWN:
-                Pong.set_speed_left_paddle(0)
+                Pong.set_speed_right_paddle(0)
                 # TODO
                 pass
             elif event.key == pygame.K_q:
-                Pong.set_speed_right_paddle(0)
+                Pong.set_speed_left_paddle(0)
                 # TODO
                 pass
             elif event.key == pygame.K_a:
-                Pong.set_speed_right_paddle(0)
+                Pong.set_speed_left_paddle(0)
                 # TODO
                 pass
 

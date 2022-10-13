@@ -27,8 +27,10 @@ class HasPosition(ABC):
     def set_x(self, x):
         self.__x = x
 
+    
     def set_y(self, y):
         self.__y = y
+
 
     def stop(self):
         self.__dx = self.__dy = 0

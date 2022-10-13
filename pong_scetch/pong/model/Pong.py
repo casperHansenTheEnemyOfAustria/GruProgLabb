@@ -38,14 +38,15 @@ class Pong:
 
     
     def update(self):
-        self.paddle1.move()
-        self.paddle2.move()
+        paddle_boundaries(self.paddle1)
+        paddle_boundaries(self.paddle2)
         self.ball.move()
         points_to = self.collision_detector()
         
         self.add_points_to_player(points_to)
         # TODO Game logic here
         
+    
     def add_points_to_player(self, side):
         if side =="left":
             self.points_left += 1
@@ -56,6 +57,8 @@ class Pong:
         else:
             pass
             
+            
+
 
     # --- Used by GUI  ------------------------
     
@@ -82,6 +85,7 @@ class Pong:
         elif ball.get_x() > GAME_WIDTH: 
             EventBus.publish(ModelEvent(ModelEvent.EventType(2), "ball out"))
             return "right"
+        
             
             
     
@@ -104,7 +108,8 @@ class Pong:
     @classmethod
     def set_speed_left_paddle(cls, dy):
         cls.paddle1.set_dy(dy)
-        # TODO
+        
+        
         pass
 
     @classmethod
@@ -136,4 +141,12 @@ def ball_in_range(ball: Ball, paddle: Paddle)  -> bool:
             return True
         return False
         
+def paddle_boundaries(paddle: Paddle):
+    if paddle.get_y() < 0:
+        paddle.set_y(0)
+    elif paddle.get_y() > GAME_HEIGHT - PADDLE_HEIGHT:
+        paddle.set_y(GAME_HEIGHT  - PADDLE_HEIGHT)
+    else:
+        paddle.move()
+            
                 
