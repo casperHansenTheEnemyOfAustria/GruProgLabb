@@ -37,21 +37,20 @@ class PongGUI:
         if not cls.running:
             return
         if event.type == pygame.KEYDOWN:
-            print("hi")
             if event.key == pygame.K_UP:
-                Pong.set_speed_left_paddle(-PADDLE_SPEED)
-                # TODO
-                pass
-            elif event.key == pygame.K_DOWN:
-                Pong.set_speed_left_paddle(PADDLE_SPEED)
-                # TODO
-                pass
-            elif event.key == pygame.K_q:
                 Pong.set_speed_right_paddle(-PADDLE_SPEED)
                 # TODO
                 pass
-            elif event.key == pygame.K_a:
+            elif event.key == pygame.K_DOWN:
                 Pong.set_speed_right_paddle(PADDLE_SPEED)
+                # TODO
+                pass
+            elif event.key == pygame.K_q:
+                Pong.set_speed_left_paddle(-PADDLE_SPEED)
+                # TODO
+                pass
+            elif event.key == pygame.K_a:
+                Pong.set_speed_left_paddle(PADDLE_SPEED)
                 # TODO
                 pass
 
@@ -163,6 +162,7 @@ class PongGUI:
         ball = list_of_objects["ball"]
         left_paddle = list_of_objects["paddle1"]
         right_paddle = list_of_objects["paddle2"]
+        #clears the image map before making it new 
         Assets.object_image_map = {}
         cls.bind_ball(ball, cls.assets) 
         cls.bind_paddles(left_paddle, right_paddle)
