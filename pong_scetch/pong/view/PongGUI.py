@@ -112,7 +112,7 @@ class PongGUI:
 
     # ---------- Theme handling ------------------------------
 
-    assets = Duckie()
+    assets = None
 
     @classmethod
     def handle_theme(cls, menu_event):
@@ -148,9 +148,13 @@ class PongGUI:
         
         
     @classmethod  
-    def __add_background(cls):
-        image = cls.assets.get_background()
-        image = pygame.transform.scale(image, (GAME_WIDTH, GAME_HEIGHT))
+    def __add_background(cls) -> bool:
+        try:
+            image = cls.assets.get_background()
+            image = pygame.transform.scale(image, (GAME_WIDTH, GAME_HEIGHT))
+            return True
+        except AttributeError:
+            return False
         
         cls.__screen.blit(image, (0, 20))
     
@@ -197,9 +201,12 @@ class PongGUI:
             
             clock.tick(60)
             #nödlösning
-            cls.__screen.fill((0,0,10))
-            cls.__add_background()  
             
+            
+            if cls.__add_background():
+                cls.__screen.fill((0,0,10))
+                
+                
             cls.render()
             cls.update(game)
             
