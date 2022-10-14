@@ -46,7 +46,8 @@ class Pong:
         
         self.ball.move()
         # AI(self.paddle1, self.ball).run()
-        AI(self.paddle2, self.ball).run()
+        # AI(self.paddle2, self.ball).run()
+        
         points_to = self.collision_detector()
         
         self.add_points_to_player(points_to)
