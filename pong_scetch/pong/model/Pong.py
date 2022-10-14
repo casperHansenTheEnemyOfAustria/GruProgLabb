@@ -145,7 +145,7 @@ class Pong:
         
     @classmethod
     def ball_collide_with_paddle(cls):
-        cls.set_speed_ball(-cls.ball.get_dx()*1.0006, cls.ball.get_dy()*1.0006)
+        cls.set_speed_ball(-cls.ball.get_dx()*1.4, cls.ball.get_dy()*1.4)
         
     @classmethod
     def ball_wall_collision(cls):
