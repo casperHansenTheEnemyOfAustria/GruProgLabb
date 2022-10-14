@@ -8,6 +8,7 @@ from .Paddle import PADDLE_HEIGHT
 from .Ball import Ball
 from .Config import *
 from random import randint
+from numpy import arange
 
 from .ai import AI
 
@@ -82,11 +83,11 @@ class Pong:
 
             Pong.ball_wall_collision()
         
-        elif (ball.get_x() <= 0+PADDLE_WIDTH and ball_in_range(ball, paddle1)) or (ball.get_x() + ball.get_width() >= GAME_WIDTH - PADDLE_WIDTH and ball_in_range(ball, paddle2)):
+        elif (ball.get_x() <= 0+PADDLE_WIDTH and ball_in_range(ball, paddle1)) or\
+        (ball.get_x() + ball.get_width() >= GAME_WIDTH - PADDLE_WIDTH and ball_in_range(ball, paddle2)):
             EventBus.publish(ModelEvent(ModelEvent.EventType(0), "ball hit paddle"))
             
             self.ball_collide_with_paddle()
-
         
         elif ball.get_x()+ball.get_width() < 0 :
             EventBus.publish(ModelEvent(ModelEvent.EventType(2), "ball out"))
@@ -94,14 +95,14 @@ class Pong:
             self.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
             self.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT-Ball.get_height()))
             
-            return "left"
+            return "right"
         elif ball.get_x() > GAME_WIDTH: 
             EventBus.publish(ModelEvent(ModelEvent.EventType(2), "ball out"))
             
             self.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
             self.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT-Ball.get_height()))
             
-            return "right"
+            return "left"
         
             
             
@@ -165,5 +166,7 @@ def paddle_boundaries(paddle: Paddle):
         paddle.set_y(GAME_HEIGHT  - PADDLE_HEIGHT)
     else:
         paddle.move()
+        
+
             
                 

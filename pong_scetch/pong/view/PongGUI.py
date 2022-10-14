@@ -199,8 +199,8 @@ class PongGUI:
     
     @classmethod
     def __render_scores(cls, game):
-        width = 50
-        height = 20
+        width = 60
+        height = 30
         string = cls.__create_score_string(game.get_points_left(), game.get_points_right())
         img = cls.__font.render(string, True, (100,255,0))
         cls.__blit_image_at_pos(img, (GAME_WIDTH)/2 - width, 10, width, height)
