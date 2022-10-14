@@ -98,16 +98,15 @@ class PongGUI:
     class ModelEventHandler(EventHandler):
         def on_model_event(evt: ModelEvent):
             if evt.event_type == ModelEvent.EventType.NEW_BALL:
-                Pong.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
-                Pong.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT-Ball.get_height()))
+                
                 pass
             elif evt.event_type == ModelEvent.EventType.BALL_HIT_PADDLE:
                 if not PongGUI.assets is None:
                     PongGUI.assets.ball_hit_paddle_sound.play()
-                Pong.ball_collide_with_paddle()
+                
             elif evt.event_type == ModelEvent.EventType.BALL_HIT_WALL_CEILING:
                 
-                Pong.ball_wall_collision()
+                
                 # TODO Optional
                 pass
 
@@ -115,7 +114,7 @@ class PongGUI:
 
     # ---------- Theme handling ------------------------------
 
-    assets = None
+    assets = Duckie()
 
     @classmethod
     def handle_theme(cls, menu_event):
@@ -134,12 +133,20 @@ class PongGUI:
     # ---------- Rendering -----------------
     
     @classmethod
-    def render(cls):
+    def render(cls, game):
         
-        
+        cls.__screen.fill((0,0,10))
+        cls.__add_background()
          
 
-
+        
+        cls.__render_moveables()
+            
+        cls.__render_scores(game)   
+        
+        pygame.display.flip() 
+    @classmethod 
+    def __render_moveables(cls):
         for object in Assets.object_image_map.keys():
             image = Assets.object_image_map[object]
             x= object.get_x()
@@ -147,10 +154,7 @@ class PongGUI:
             width = object.get_width()
             height = object.get_height()
             cls.__blit_image_at_pos(image, x, y, width, height)
-        
-        pygame.display.flip() 
-        
-        
+            
     @classmethod  
     def __add_background(cls) -> bool:
         try:
@@ -164,10 +168,10 @@ class PongGUI:
         
         
     @classmethod 
-    def __load_movable_images(cls, list_of_objects):
-        ball = list_of_objects["ball"]
-        left_paddle = list_of_objects["paddle1"]
-        right_paddle = list_of_objects["paddle2"]
+    def __load_movable_images(cls, dict_of_objects):
+        ball = dict_of_objects["ball"]
+        left_paddle = dict_of_objects["paddle1"]
+        right_paddle = dict_of_objects["paddle2"]
         #clears the image map before making it new 
         Assets.object_image_map = {}
         cls.bind_ball(ball, cls.assets) 
@@ -229,12 +233,13 @@ class PongGUI:
             
             #nödlösning
             
-            cls.__screen.fill((0,0,10))
-            cls.__add_background()
+            
                 
-            cls.__render_scores(game)   
-            cls.render()
+            
+            cls.render(game)
+            
             cls.update(game)
+            
             
 
         pass

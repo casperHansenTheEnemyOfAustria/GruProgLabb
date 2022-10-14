@@ -4,6 +4,7 @@ from pong.model.Config import GAME_WIDTH, GAME_HEIGHT
 from .HasPosition import HasPosition
 from .Config import *
 from random import uniform, randint
+from numpy import arange
 
 """
  * A Ball for the Pong game
@@ -23,7 +24,11 @@ class Ball(HasPosition):
   
     @classmethod
     def random_ball_speed(cls):
-        return uniform(-1,1)*BALL_SPEED_FACTOR
+        output = uniform(-1,1)
+        while output in arange(-0.6, 0.6, 0.01):
+           output = uniform(-1,1) 
+        return output*BALL_SPEED_FACTOR
+        # return uniform(-1,1)*BALL_SPEED_FACTOR
     
    
     

@@ -7,7 +7,7 @@ from .HasPosition import HasPosition
 
 PADDLE_WIDTH = 10
 PADDLE_HEIGHT = 60
-PADDLE_SPEED = 5
+PADDLE_SPEED = 8
 
 
 # A Paddle for the Pong game
