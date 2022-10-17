@@ -14,7 +14,8 @@ class ModelEvent:
     class EventType(Enum):
         BALL_HIT_PADDLE = 0
         BALL_HIT_WALL_CEILING = 1
-        NEW_BALL = 2
+        NEW_BALL_LEFT = 2
+        NEW_BALL_RIGHT = 3
 
     def __init__(self, event_type: EventType, data=None):
         self.event_type = event_type

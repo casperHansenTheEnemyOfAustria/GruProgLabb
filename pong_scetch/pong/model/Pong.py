@@ -6,6 +6,8 @@ from .Paddle import Paddle
 from .Paddle import PADDLE_WIDTH
 from .Paddle import PADDLE_HEIGHT
 from .Ball import Ball
+from .Collision import Collision
+
 from .Config import *
 from random import randint
 from numpy import arange
@@ -79,32 +81,27 @@ class Pong:
         ball = self.ball
         paddle1 = self.paddle1
         paddle2 = self.paddle2
-        if ball.get_y() + ball.get_height() >= GAME_HEIGHT or ball.get_y() <= 0:
-            EventBus.publish(ModelEvent(ModelEvent.EventType(1),"Ball hit ceiling" ))
-
-            Pong.ball_wall_collision()
         
-        elif (ball.get_x() <= 0+PADDLE_WIDTH and ball_in_range(ball, paddle1)) or\
-        (ball.get_x() + ball.get_width() >= GAME_WIDTH - PADDLE_WIDTH and ball_in_range(ball, paddle2)):
-            EventBus.publish(ModelEvent(ModelEvent.EventType(0), "ball hit paddle"))
+        if Collision.get_collision_type(paddle1, paddle2, ball) == 0:
+            self.__ball_collide_with_paddle()
             
-            self.ball_collide_with_paddle()
-        
-        elif ball.get_x()+ball.get_width() < 0 :
-            EventBus.publish(ModelEvent(ModelEvent.EventType(2), "ball out"))
-            
-            self.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
-            self.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT-Ball.get_height()))
-            
-            return "right"
-        elif ball.get_x() > GAME_WIDTH: 
-            EventBus.publish(ModelEvent(ModelEvent.EventType(2), "ball out"))
-            
-            self.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
-            self.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT-Ball.get_height()))
-            
+        elif Collision.get_collision_type(paddle1, paddle2, ball) == 1:
+            self.__ball_wall_collision()  
+                
+        elif Collision.get_collision_type(paddle1, paddle2, ball) == 3:
+            self.__new_ball()
             return "left"
+            
+        elif Collision.get_collision_type(paddle1, paddle2, ball) == 2:
+            self.__new_ball()
+            return "right"
         
+        
+    @classmethod
+    def __new_ball(cls):
+        cls.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
+        cls.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT-Ball.get_height()))
+
             
             
     
@@ -144,21 +141,17 @@ class Pong:
     
         
     @classmethod
-    def ball_collide_with_paddle(cls):
+    def __ball_collide_with_paddle(cls):
         cls.set_speed_ball(-cls.ball.get_dx()*1.4, cls.ball.get_dy()*1.4)
         
     @classmethod
-    def ball_wall_collision(cls):
+    def __ball_wall_collision(cls):
         cls.ball.set_dy(-cls.ball.get_dy())
         
         
         
 # _____HELPERS___
-def ball_in_range(ball: Ball, paddle: Paddle)  -> bool:
-        #mult by 1000 to get accuarcy
-        if int((ball.get_y()+ball.get_height()/2)*1000) in range( int((paddle.get_y()-ball.get_height()/2)*1000), int(paddle.get_y()+PADDLE_HEIGHT + ball.get_height()/2)*1000):
-            return True
-        return False
+
         
 def paddle_boundaries(paddle: Paddle):
     if paddle.get_y()+paddle.get_dy() < 0:

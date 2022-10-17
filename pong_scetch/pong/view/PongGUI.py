@@ -97,7 +97,7 @@ class PongGUI:
 
     class ModelEventHandler(EventHandler):
         def on_model_event(evt: ModelEvent):
-            if evt.event_type == ModelEvent.EventType.NEW_BALL:
+            if evt.event_type == ModelEvent.EventType.NEW_BALL_RIGHT or evt.event_type == ModelEvent.EventType.NEW_BALL_LEFT:
                 
                 pass
             elif evt.event_type == ModelEvent.EventType.BALL_HIT_PADDLE:
