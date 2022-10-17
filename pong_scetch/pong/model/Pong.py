@@ -24,7 +24,7 @@ class Pong:
     
     # TODO More attributes
    
-    paddle1  = Paddle(0)
+    paddle1 = Paddle(0)
     paddle2 = Paddle(GAME_WIDTH - PADDLE_WIDTH)
     ball = Ball(0)  
     # TODO Initialization
@@ -42,9 +42,9 @@ class Pong:
     timeForLastHit = 0         # To avoid multiple collisions
 
     
-    def update(self):
-        paddle_boundaries(self.paddle1)
-        paddle_boundaries(self.paddle2)
+    def update(self) -> None:
+        self.paddle_boundaries(self.paddle1)
+        self.paddle_boundaries(self.paddle2)
         
         self.ball.move()
         # AI(self.paddle1, self.ball).run()
@@ -53,10 +53,9 @@ class Pong:
         points_to = self.collision_detector()
         
         self.add_points_to_player(points_to)
-        # TODO Game logic here
         
     
-    def add_points_to_player(self, side):
+    def add_points_to_player(self, side:str) -> None:
         if side =="left":
             self.__points_left += 1
             print("player left +1")
@@ -72,12 +71,12 @@ class Pong:
     # --- Used by GUI  ------------------------
     
     @classmethod
-    def get_all_items_with_position(cls):
+    def get_all_items_with_position(cls) -> dict:
         drawables = {"paddle1":cls.paddle1, "paddle2":cls.paddle2, "ball":cls.ball}
         return drawables
     
     
-    def collision_detector(self):
+    def collision_detector(self) -> str:
         ball = self.ball
         paddle1 = self.paddle1
         paddle2 = self.paddle2
@@ -98,7 +97,7 @@ class Pong:
         
         
     @classmethod
-    def __new_ball(cls):
+    def __new_ball(cls) -> None:
         cls.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
         cls.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT-Ball.get_height()))
 
@@ -106,61 +105,55 @@ class Pong:
             
     
     
-    def get_points_left(self):
+    def get_points_left(self) -> int:
         return self.__points_left
 
 
-    def get_points_right(self):
+    def get_points_right(self) -> int:
         return self.__points_right
 
     @classmethod
-    def set_speed_right_paddle(cls, dy):
+    def set_speed_right_paddle(cls, dy:float) -> None:
         cls.paddle2.set_dy(dy)
-        
-        
-        # TODO
-        pass
+    
 
     @classmethod
-    def set_speed_left_paddle(cls, dy):
+    def set_speed_left_paddle(cls, dy:float):
         cls.paddle1.set_dy(dy)
-        
-        
-        pass
 
     @classmethod
-    def set_speed_ball(cls, dx, dy):
+    def set_speed_ball(cls, dx:float, dy:float) -> None:
         cls.ball.set_dy(dy)
         cls.ball.set_dx(dx)
         
     @classmethod
-    def set_pos_ball(cls, x, y ):
+    def set_pos_ball(cls, x:float, y:float) -> None:
         cls.ball.set_x(x)
         cls.ball.set_y(y)
         
     
         
     @classmethod
-    def __ball_collide_with_paddle(cls):
+    def __ball_collide_with_paddle(cls) -> None:
         cls.set_speed_ball(-cls.ball.get_dx()*1.4, cls.ball.get_dy()*1.4)
         
     @classmethod
-    def __ball_wall_collision(cls):
+    def __ball_wall_collision(cls) -> None:
         cls.ball.set_dy(-cls.ball.get_dy())
         
         
         
 # _____HELPERS___
 
-        
-def paddle_boundaries(paddle: Paddle):
-    if paddle.get_y()+paddle.get_dy() < 0:
-        paddle.set_y(0)
-    elif paddle.get_y()+paddle.get_dy() > GAME_HEIGHT - PADDLE_HEIGHT:
-        paddle.set_y(GAME_HEIGHT  - PADDLE_HEIGHT)
-    else:
-        paddle.move()
-        
+    @staticmethod  
+    def paddle_boundaries(paddle: Paddle) -> None:
+        if paddle.get_y()+paddle.get_dy() < 0:
+            paddle.set_y(0)
+        elif paddle.get_y()+paddle.get_dy() > GAME_HEIGHT - PADDLE_HEIGHT:
+            paddle.set_y(GAME_HEIGHT  - PADDLE_HEIGHT)
+        else:
+            paddle.move()
+            
 
             
                 

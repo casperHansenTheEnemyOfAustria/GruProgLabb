@@ -42,20 +42,16 @@ class PongGUI:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
                 Pong.set_speed_right_paddle(-PADDLE_SPEED)
-                # TODO
-                pass
+                
             elif event.key == pygame.K_DOWN:
                 Pong.set_speed_right_paddle(PADDLE_SPEED)
-                # TODO
-                pass
+
             elif event.key == pygame.K_q:
                 Pong.set_speed_left_paddle(-PADDLE_SPEED)
-                # TODO
-                pass
+
             elif event.key == pygame.K_a:
                 Pong.set_speed_left_paddle(PADDLE_SPEED)
-                # TODO
-                pass
+
 
     @classmethod
     def key_released(cls, event):
@@ -64,20 +60,16 @@ class PongGUI:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
                 Pong.set_speed_right_paddle(0)
-                # TODO
-                pass
+     
             elif event.key == pygame.K_DOWN:
                 Pong.set_speed_right_paddle(0)
-                # TODO
-                pass
+              
             elif event.key == pygame.K_q:
                 Pong.set_speed_left_paddle(0)
-                # TODO
-                pass
+             
             elif event.key == pygame.K_a:
                 Pong.set_speed_left_paddle(0)
-                # TODO
-                pass
+         
 
     # ---- Menu handling (except themes) -----------------
 
@@ -85,13 +77,13 @@ class PongGUI:
 
     @classmethod
     def new_game(cls):
-        # TODO rebuild OO model as needed
-        pass
+        
+        cls.game = Pong()
+
 
     @classmethod
     def kill_game(cls):
         cls.running = False
-        # TODO kill all aspects of game
 
     # -------- Event handling (events sent from model to GUI) ------------
 
@@ -133,16 +125,17 @@ class PongGUI:
     # ---------- Rendering -----------------
     
     @classmethod
-    def render(cls, game):
+    def render(cls):
         
         cls.__screen.fill((0,0,10))
+        # cls.__screen.clear()
         cls.__add_background()
          
 
         
         cls.__render_moveables()
             
-        cls.__render_scores(game)   
+        cls.__render_scores(cls.game)   
         
         pygame.display.flip() 
     @classmethod 
@@ -216,16 +209,16 @@ class PongGUI:
         cls.__screen = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
         cls.__add_background()
         cls.running = True
-        game = Pong()
-        list_of_movables = game.get_all_items_with_position()
+        cls.game = Pong()
+        list_of_movables = cls.game.get_all_items_with_position()
         cls.__load_movable_images(list_of_movables)
-        return game
         
     @classmethod
     def run(cls):
         
-        game = cls.setup()
-        game.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
+        cls.setup()
+
+        cls.game.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
         while cls.running:
             
             cls.__clock.tick(60)
@@ -236,18 +229,18 @@ class PongGUI:
             
                 
             
-            cls.render(game)
+            cls.render()
             
-            cls.update(game)
+            cls.update()
             
             
 
         pass
 
     @classmethod
-    def update(cls, game):
+    def update(cls):
         
-        game.update()
+        cls.game.update()
 
         return cls.handle_events()
         # TODO
@@ -264,8 +257,10 @@ class PongGUI:
                 cls.kill_game()
                 return False
             # cls.handle_theme(event)
-            cls.key_released(event)
+            
             cls.key_pressed(event)
+            cls.__clock.tick_busy_loop
+            cls.key_released(event)
             
         return True
         pass

@@ -22,14 +22,14 @@ class Collision:
             return cls.__collision_type
             
         
-        elif (ball.get_x() <= 0+PADDLE_WIDTH and ball_in_range(ball, paddle1)) and not last_paddle_to_hit == "left" : #left paddle hit
+        elif (ball.get_x() <= 0+PADDLE_WIDTH and cls.ball_in_range(ball, paddle1)) and not last_paddle_to_hit == "left" : #left paddle hit
             
             cls.__collision_type = 0
             
             last_paddle_to_hit = "left"
             return cls.__collision_type
         
-        elif (ball.get_x() + ball.get_width() >= GAME_WIDTH - PADDLE_WIDTH and ball_in_range(ball, paddle2)) and not last_paddle_to_hit == "right": #right paddle hit
+        elif (ball.get_x() + ball.get_width() >= GAME_WIDTH - PADDLE_WIDTH and cls.ball_in_range(ball, paddle2)) and not last_paddle_to_hit == "right": #right paddle hit
             
             cls.__collision_type = 0
             
@@ -57,11 +57,11 @@ class Collision:
            
         
             
-#------HELPER------
+    #------HELPER------
+    @staticmethod     
+    def ball_in_range(ball, paddle)  -> bool:
+            #mult by 1000 to get accuarcy
+            if int((ball.get_y()+ball.get_height()/2)*1000) in range( int((paddle.get_y()-ball.get_height()/2)*1000), int(paddle.get_y()+PADDLE_HEIGHT + ball.get_height()/2)*1000):
+                return True
+            return False
             
-def ball_in_range(ball, paddle)  -> bool:
-        #mult by 1000 to get accuarcy
-        if int((ball.get_y()+ball.get_height()/2)*1000) in range( int((paddle.get_y()-ball.get_height()/2)*1000), int(paddle.get_y()+PADDLE_HEIGHT + ball.get_height()/2)*1000):
-            return True
-        return False
-        

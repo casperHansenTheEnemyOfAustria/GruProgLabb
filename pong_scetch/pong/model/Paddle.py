@@ -1,6 +1,7 @@
 # package pong.model
 
 from mimetypes import init
+from .Movable import Movable
 from pong.model.Config import GAME_HEIGHT
 
 from .HasPosition import HasPosition
@@ -11,20 +12,20 @@ PADDLE_SPEED = 8
 
 
 # A Paddle for the Pong game
-class Paddle(HasPosition):
+class Paddle(Movable):
     WIDTH = PADDLE_WIDTH
     HEIGHT = PADDLE_HEIGHT
     def __init__(self, x, dx = 0, dy = 0):
         y = (GAME_HEIGHT  - PADDLE_HEIGHT)/2
-        super().__init__(x, y)
-        self.__y = y
+        super().__init__(x, y, dx, dy)
+        self.y = y
     
 
     def get_start_pos(self):
-        return self.__y
+        return self.y
     
     def get_end_pos(self):
-        return self.__y + PADDLE_HEIGHT
+        return self.y + PADDLE_HEIGHT
 
     # def is_at_max(self):
         

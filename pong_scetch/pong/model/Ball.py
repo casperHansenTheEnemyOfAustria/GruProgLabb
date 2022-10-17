@@ -5,6 +5,7 @@ from .HasPosition import HasPosition
 from .Config import *
 from random import uniform, randint
 from numpy import arange
+from .Movable import Movable
 
 """
  * A Ball for the Pong game
@@ -14,13 +15,13 @@ from numpy import arange
 
 
 
-class Ball(HasPosition):
+class Ball(Movable):
     WIDTH = 40
     HEIGHT = 40
     def __init__(self, x, dx=0, dy=0, ):
         y= (GAME_HEIGHT - self.HEIGHT)/2
         x = (GAME_WIDTH - self.WIDTH)/2
-        super().__init__(x, y)
+        super().__init__(x, y, dx, dy)
   
     @classmethod
     def random_ball_speed(cls):
