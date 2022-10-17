@@ -16,20 +16,20 @@ class Collision:
     def get_collision_type(cls, paddle1, paddle2, ball):
         
         last_paddle_to_hit = ""
-        if ball.get_y() + ball.get_height() >= GAME_HEIGHT or ball.get_y() <= 0: #wall collision
+        if ball.get_y() + ball.get_height() > GAME_HEIGHT or ball.get_y() < 0: #wall collision
             
             cls.__collision_type = 1
             return cls.__collision_type
             
         
-        elif (ball.get_x() <= 0+PADDLE_WIDTH and cls.ball_in_range(ball, paddle1)) and not last_paddle_to_hit == "left" : #left paddle hit
+        elif (ball.get_x() < 0+PADDLE_WIDTH and cls.ball_in_range(ball, paddle1)) and not last_paddle_to_hit == "left" : #left paddle hit
             
             cls.__collision_type = 0
             
             last_paddle_to_hit = "left"
             return cls.__collision_type
         
-        elif (ball.get_x() + ball.get_width() >= GAME_WIDTH - PADDLE_WIDTH and cls.ball_in_range(ball, paddle2)) and not last_paddle_to_hit == "right": #right paddle hit
+        elif (ball.get_x() + ball.get_width() > GAME_WIDTH - PADDLE_WIDTH and cls.ball_in_range(ball, paddle2)) and not last_paddle_to_hit == "right": #right paddle hit
             
             cls.__collision_type = 0
             
