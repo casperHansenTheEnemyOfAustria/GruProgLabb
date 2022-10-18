@@ -10,7 +10,7 @@ from numpy import arange
 
 class Collision:
     __collision_type = None
-    __last_paddle_to_hit = None
+    __last_surface_to_hit = None
     @classmethod
     def __publish_collision(cls):
         if not cls.__collision_type == None:
@@ -22,21 +22,28 @@ class Collision:
         
 
         
-        if cls.is_in_range(ball, paddle1) and not cls.__last_paddle_to_hit == "left":
+        if cls.is_in_range(ball, paddle1) and not cls.__last_surface_to_hit == "left":
             cls.__collision_type = 0
             
-            cls.__last_paddle_to_hit = "left"
+            cls.__last_surface_to_hit = "left"
             return cls.__collision_type
         
-        elif cls.is_in_range(ball, paddle2) and not cls.__last_paddle_to_hit == "right":
+        elif cls.is_in_range(ball, paddle2) and not cls.__last_surface_to_hit == "right":
             cls.__collision_type = 0
             
-            cls.__last_paddle_to_hit = "right"
+            cls.__last_surface_to_hit = "right"
             return cls.__collision_type
         
-        elif ball.get_y() + ball.get_height() > GAME_HEIGHT or ball.get_y() < 0: #wall collision
+        
+        
+        elif ball.get_y() + ball.get_height() > GAME_HEIGHT and not cls.__last_surface_to_hit == "bottom":
+            cls.__collision_type = 1
+            cls.__last_surface_to_hit == "bottom"
+            return cls.__collision_type
+        elif ball.get_y() < 0 and not cls.__last_surface_to_hit == "top": #wall collision
             
             cls.__collision_type = 1
+            cls.__last_surface_to_hit == "top"
             return cls.__collision_type
             
         
@@ -44,7 +51,7 @@ class Collision:
 
             cls.__collision_type = 2
             
-            cls.__last_paddle_to_hit = None
+            cls.__last_surface_to_hit = None
             return cls.__collision_type
         
             
@@ -52,7 +59,7 @@ class Collision:
             
             cls.__collision_type = 3
             
-            cls.__last_paddle_to_hit = None
+            cls.__last_surface_to_hit = None
             return cls.__collision_type
           
         cls.__publish_collision()
