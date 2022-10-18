@@ -14,6 +14,7 @@ from pong.view.theme.Cool import Cool
 from pong.view.theme.Duckie import Duckie
 
 from pong.model.Paddle import PADDLE_SPEED
+from pong.model.Paddle import PADDLE_WIDTH
 from pong.model.Config import *
 
 from .Assets import Assets
@@ -30,9 +31,7 @@ class PongGUI:
 
     See: https://en.wikipedia.org/wiki/Pong
     """
-    running = False    # Is game running?
-    __clock = pygame.time.Clock()
-    __font = pygame.font.SysFont(None, 24)
+
     
     # ------- Keyboard handling ----------------------------------
     @classmethod
@@ -98,8 +97,6 @@ class PongGUI:
                 
             elif evt.event_type == ModelEvent.EventType.BALL_HIT_WALL_CEILING:
                 
-                
-                # TODO Optional
                 pass
 
     # ################## Nothing to do below ############################
@@ -153,7 +150,7 @@ class PongGUI:
         try:
             image = cls.assets.get_background()
             image = pygame.transform.scale(image, (GAME_WIDTH, GAME_HEIGHT))
-            cls.__screen.blit(image, (0, 20))
+            cls.__screen.blit(image, (0, 0))
     
             return False
         except AttributeError:
@@ -192,10 +189,10 @@ class PongGUI:
     
     @classmethod
     def __render_scores(cls, game):
-        width = 60
-        height = 30
+        width = 100
+        height = 55
         string = cls.__create_score_string(game.get_points_left(), game.get_points_right())
-        img = cls.__font.render(string, True, (100,255,0))
+        img = cls.__font.render(string, False, (100,255,0))
         cls.__blit_image_at_pos(img, (GAME_WIDTH)/2 - width, 10, width, height)
     
      
@@ -207,6 +204,8 @@ class PongGUI:
     def setup(cls) -> Pong:
         
         cls.__screen = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
+        cls.__clock = pygame.time.Clock()
+        cls.__font = pygame.font.SysFont(None, 24)
         cls.__add_background()
         cls.running = True
         cls.game = Pong()
@@ -218,52 +217,39 @@ class PongGUI:
         
         cls.setup()
 
-        cls.game.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
+        cls.game.new_ball()
         while cls.running:
             
             cls.__clock.tick(60)
             
             
-            #nödlösning
-            
-            
-                
-            
             cls.render()
             
             cls.update()
-            
-            
-
-        pass
 
     @classmethod
     def update(cls):
         
         cls.game.update()
 
-        return cls.handle_events()
-        # TODO
-        pass
+        cls.handle_events()
+
 
 
     @classmethod
     def handle_events(cls):
         EventBus.register(cls.ModelEventHandler)
+        
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 cls.kill_game()
-                return False
             # cls.handle_theme(event)
             
             cls.key_pressed(event)
-            cls.__clock.tick_busy_loop
+          
             cls.key_released(event)
-            
-        return True
-        pass
 
 
 if __name__ == "__main__":

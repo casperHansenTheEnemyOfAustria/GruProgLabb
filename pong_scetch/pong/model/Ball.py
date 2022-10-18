@@ -22,14 +22,6 @@ class Ball(Movable):
         y= (GAME_HEIGHT - self.HEIGHT)/2
         x = (GAME_WIDTH - self.WIDTH)/2
         super().__init__(x, y, dx, dy)
-  
-    @classmethod
-    def random_ball_speed(cls):
-        output = uniform(-1,1)
-        while abs(output) < 0.6:
-           output = uniform(-1,1) 
-        return output*BALL_SPEED_FACTOR
-        # return uniform(-1,1)*BALL_SPEED_FACTOR
-    
+
    
     

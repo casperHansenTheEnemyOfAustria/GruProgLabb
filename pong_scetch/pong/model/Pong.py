@@ -11,6 +11,7 @@ from .Collision import Collision
 from .Config import *
 from random import randint
 from numpy import arange
+from random import uniform
 
 from .ai import AI
 
@@ -22,18 +23,17 @@ class Pong:
     """
 
     
-    # TODO More attributes
-   
+       
     paddle1 = Paddle(0+10)
     paddle2 = Paddle(GAME_WIDTH - PADDLE_WIDTH-10)
     ball = Ball(0)  
-    # TODO Initialization
+
     
     def __init__(self) -> None:
         print("Initialization")
         self.__points_left  = 0
         self.__points_right = 0
-        pass
+
 
 
 
@@ -43,8 +43,8 @@ class Pong:
 
     
     def update(self) -> None:
-        self.paddle_boundaries(self.paddle1)
-        self.paddle_boundaries(self.paddle2)
+        self.move_paddle(self.paddle1)
+        self.move_paddle(self.paddle2)
         
         self.ball.move()
         # AI(self.paddle1, self.ball).run()
@@ -88,18 +88,26 @@ class Pong:
             self.__ball_wall_collision()  
                 
         elif Collision.get_collision_type(paddle1, paddle2, ball) == 3:
-            self.__new_ball()
+            self.new_ball()
             return "left"
             
         elif Collision.get_collision_type(paddle1, paddle2, ball) == 2:
-            self.__new_ball()
+            self.new_ball()
             return "right"
         
         
     @classmethod
-    def __new_ball(cls) -> None:
-        cls.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
+    def new_ball(cls) -> None:
+
+        cls.set_speed_ball(cls.get_random_number(), cls.get_random_number())
         cls.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT-Ball.get_height()))
+        
+    @staticmethod
+    def get_random_number():
+        random = 0
+        while (random==0):
+            random = randint(-1,1)
+        return (3-uniform(-1,1))*random
 
             
             
@@ -149,7 +157,7 @@ class Pong:
 # _____HELPERS___
 
     @staticmethod  
-    def paddle_boundaries(paddle: Paddle) -> None:
+    def move_paddle(paddle: Paddle) -> None:
         if paddle.get_y()+paddle.get_dy() < 0:
             paddle.set_y(0)
         elif paddle.get_y()+paddle.get_dy() > GAME_HEIGHT - PADDLE_HEIGHT:
