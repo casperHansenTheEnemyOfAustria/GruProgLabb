@@ -9,9 +9,10 @@ from .Ball import Ball
 from .Collision import Collision
 
 from .Config import *
+
 from random import randint
-from numpy import arange
 from random import uniform
+from random import choice
 
 from .ai import AI
 
@@ -88,26 +89,25 @@ class Pong:
             self.__ball_wall_collision()  
                 
         elif Collision.get_collision_type(paddle1, paddle2, ball) == 3:
-            self.new_ball()
+            self.new_ball(True)
             return "left"
             
         elif Collision.get_collision_type(paddle1, paddle2, ball) == 2:
-            self.new_ball()
+            self.new_ball(True)
             return "right"
         
         
     @classmethod
-    def new_ball(cls) -> None:
-
+    def new_ball(cls, in_match: bool) -> None:
+        if in_match:
+            cls.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT-Ball.get_height()))
         cls.set_speed_ball(cls.get_random_number(), cls.get_random_number())
-        cls.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT-Ball.get_height()))
+        
         
     @staticmethod
-    def get_random_number():
-        random = 0
-        while (random==0):
-            random = randint(-1,1)
-        return (3-uniform(-1,1))*random
+    def get_random_number() -> float:
+    
+        return (3-uniform(-1,1))*choice([-1, 1])
 
             
             

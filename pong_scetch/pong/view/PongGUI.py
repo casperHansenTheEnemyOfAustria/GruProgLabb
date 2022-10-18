@@ -217,7 +217,7 @@ class PongGUI:
         
         cls.setup()
 
-        cls.game.new_ball()
+        cls.game.new_ball(False)
         while cls.running:
             
             cls.__clock.tick(60)
