@@ -221,7 +221,7 @@ class PongGUI:
         cls.game.set_speed_ball(Ball.random_ball_speed(), Ball.random_ball_speed())
         while cls.running:
             
-            cls.__clock.tick(60)
+            cls.__clock.tick(20)
             
             
             #nödlösning

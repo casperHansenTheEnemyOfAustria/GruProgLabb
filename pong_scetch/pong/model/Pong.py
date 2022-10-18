@@ -24,8 +24,8 @@ class Pong:
     
     # TODO More attributes
    
-    paddle1 = Paddle(0)
-    paddle2 = Paddle(GAME_WIDTH - PADDLE_WIDTH)
+    paddle1 = Paddle(0+10)
+    paddle2 = Paddle(GAME_WIDTH - PADDLE_WIDTH-10)
     ball = Ball(0)  
     # TODO Initialization
     
@@ -135,7 +135,10 @@ class Pong:
         
     @classmethod
     def __ball_collide_with_paddle(cls) -> None:
-        cls.set_speed_ball(-cls.ball.get_dx()*1.4, cls.ball.get_dy()*1.4)
+        speed_mod = 0.4
+        
+        
+        cls.set_speed_ball(-(cls.ball.get_dx() ), cls.ball.get_dy())
         
     @classmethod
     def __ball_wall_collision(cls) -> None:

@@ -26,7 +26,7 @@ class Ball(Movable):
     @classmethod
     def random_ball_speed(cls):
         output = uniform(-1,1)
-        while output in arange(-0.6, 0.6, 0.01):
+        while abs(output) < 0.6:
            output = uniform(-1,1) 
         return output*BALL_SPEED_FACTOR
         # return uniform(-1,1)*BALL_SPEED_FACTOR

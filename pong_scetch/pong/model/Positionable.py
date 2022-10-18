@@ -29,13 +29,13 @@ class Positionable(HasPosition, ABC):
         return cls.HEIGHT
     
     def get_max_x(self):
-        return self.x + self.__width
+        return self.x + self.get_width()
 
     def get_max_y(self):
-        return self.y + self.__height
+        return self.y + self.get_height()
 
     def get_center_x(self):
-        return self.x + self.__width / 2
+        return self.x + self.get_width()/ 2
 
     def get_center_y(self):
-        return self.y + self.__height / 2
+        return self.y + self.get_height() / 2
