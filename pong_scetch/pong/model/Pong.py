@@ -34,6 +34,7 @@ class Pong:
         print("Initialization")
         self.__points_left  = 0
         self.__points_right = 0
+        self.__winner = None
 
 
 
@@ -54,7 +55,14 @@ class Pong:
         points_to = self.collision_detector()
         
         self.add_points_to_player(points_to)
+        self.__check_winner()
         
+    
+    def __check_winner(self):
+        if self.__points_left == 2:
+            self.__winner = " left"
+        elif self.__points_right == 2:
+            self.__winner = " right"
     
     def add_points_to_player(self, side:str) -> None:
         if side =="left":
@@ -66,17 +74,10 @@ class Pong:
         else:
             pass
             
-            
-
-
-    # --- Used by GUI  ------------------------
-    
-    @classmethod
-    def get_all_items_with_position(cls) -> dict:
-        drawables = {"paddle1":cls.paddle1, "paddle2":cls.paddle2, "ball":cls.ball}
-        return drawables
-    
-    
+          
+          
+          
+        
     def collision_detector(self) -> str:
         ball = self.ball
         paddle1 = self.paddle1
@@ -94,7 +95,21 @@ class Pong:
             
         elif Collision.get_collision_type(paddle1, paddle2, ball) == 2:
             self.new_ball(True)
-            return "right"
+            return "right"  
+
+
+    # --- Used by GUI  ------------------------
+    
+    @classmethod
+    def get_all_items_with_position(cls) -> dict:
+        drawables = {"paddle1":cls.paddle1, "paddle2":cls.paddle2, "ball":cls.ball}
+        return drawables
+    
+    
+    def get_winner(self):
+        return self.__winner
+    
+
         
         
     @classmethod
