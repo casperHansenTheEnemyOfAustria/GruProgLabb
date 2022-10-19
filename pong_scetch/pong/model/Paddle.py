@@ -26,14 +26,3 @@ class Paddle(Movable):
     
     def get_end_pos(self):
         return self.y + PADDLE_HEIGHT
-
-    # def is_at_max(self):
-        
-        
-
-            
-    #     elif self.__y > GAME_HEIGHT-PADDLE_HEIGHT:
-    #         print(self.__y)
-    #         self.__y = GAME_HEIGHT-PADDLE_HEIGHT
-    #         return True
-    #     return False
