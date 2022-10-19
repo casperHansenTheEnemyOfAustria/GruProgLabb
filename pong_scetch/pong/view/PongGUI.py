@@ -36,6 +36,8 @@ class PongGUI:
     # ------- Keyboard handling ----------------------------------
     @classmethod
     def key_pressed(cls, event):
+        """Handle keypresses, left paddle is controlled with 'q' and 'a' and the right paddle is controlled with 'up-arrow' and 'down-arrow'"""
+
         if not cls.running:
             return
         if event.type == pygame.KEYDOWN:
@@ -54,6 +56,7 @@ class PongGUI:
 
     @classmethod
     def key_released(cls, event):
+        """Handle key releases, When a key is released the corresponding paddles should stop moving"""
         if not cls.running:
             return
         if event.type == pygame.KEYUP:
@@ -76,12 +79,14 @@ class PongGUI:
 
     @classmethod
     def new_game(cls):
+        """Create an instance of the game model"""
         
         cls.game = Pong()
 
 
     @classmethod
     def kill_game(cls):
+        """Method to terminate the game"""
         cls.running = False
 
     # -------- Event handling (events sent from model to GUI) ------------
