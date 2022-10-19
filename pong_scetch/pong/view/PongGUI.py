@@ -17,6 +17,8 @@ from pong.model.Paddle import PADDLE_SPEED
 from pong.model.Paddle import PADDLE_WIDTH
 from pong.model.Config import *
 
+from time import sleep
+
 from .Assets import Assets
 
 pygame.init()
@@ -36,7 +38,7 @@ class PongGUI:
     # ------- Keyboard handling ----------------------------------
     @classmethod
     def key_pressed(cls, event):
-        if not cls.running:
+        if not cls.__running:
             return
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
@@ -54,7 +56,7 @@ class PongGUI:
 
     @classmethod
     def key_released(cls, event):
-        if not cls.running:
+        if not cls.__running:
             return
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
@@ -82,7 +84,7 @@ class PongGUI:
 
     @classmethod
     def kill_game(cls):
-        cls.running = False
+        cls.__running = False
 
     # -------- Event handling (events sent from model to GUI) ------------
 
@@ -198,6 +200,24 @@ class PongGUI:
      
     def __create_score_string(left, right):
         return f"{left}|{right}"
+    
+    @classmethod
+    def __display_winner(cls):
+        
+        #add bg fpr clearing
+        cls.__add_background()
+        
+        
+        width = GAME_WIDTH - 50
+        
+        height = GAME_HEIGHT - 120
+        
+        string = "winner: " + cls.game.get_winner()
+        img = cls.__font.render(string, False, (100,100,100))
+        cls.__blit_image_at_pos(img, (GAME_WIDTH-width)/2, 10, width, height)
+        
+        pygame.display.flip() 
+        
     # ---------- Game loop ----------------
 
     @classmethod
@@ -207,7 +227,7 @@ class PongGUI:
         cls.__clock = pygame.time.Clock()
         cls.__font = pygame.font.SysFont(None, 24)
         cls.__add_background()
-        cls.running = True
+        cls.__running = True
         cls.game = Pong()
         list_of_movables = cls.game.get_all_items_with_position()
         cls.__load_movable_images(list_of_movables)
@@ -218,9 +238,10 @@ class PongGUI:
         cls.setup()
 
         cls.game.new_ball(False)
-        while cls.running:
+        while cls.__running:
             
             cls.__clock.tick(60)
+            
             
             
             cls.render()
@@ -232,12 +253,21 @@ class PongGUI:
         
         cls.game.update()
 
-        cls.handle_events()
+        cls.__handle_events()
+        
+        cls.__check_for_winner()
 
+    @classmethod
+    def __check_for_winner(cls):
+        if not cls.game.get_winner() == None:
+            cls.__display_winner()
+            sleep(5)
+            pygame.event.post(pygame.event.Event(pygame.QUIT))
+            cls.kill_game()
 
 
     @classmethod
-    def handle_events(cls):
+    def  __handle_events(cls):
         EventBus.register(cls.ModelEventHandler)
         
         events = pygame.event.get()
