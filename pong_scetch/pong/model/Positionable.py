@@ -3,6 +3,7 @@ from .HasPosition import HasPosition
 
 
 class Positionable(HasPosition, ABC):
+    """Base class for anything that can be positioned in the GUI"""
     def __init__(self, x, y):
         self.x = x
         self.y = y

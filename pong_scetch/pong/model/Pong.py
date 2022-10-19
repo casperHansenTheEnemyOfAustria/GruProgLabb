@@ -24,7 +24,7 @@ class Pong:
     """
 
     
-       
+    # Class attributes for the moveable objects
     paddle1 = Paddle(0+10)
     paddle2 = Paddle(GAME_WIDTH - PADDLE_WIDTH-10)
     ball = Ball(0)  

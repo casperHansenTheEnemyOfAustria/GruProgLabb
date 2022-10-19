@@ -7,22 +7,23 @@ from .Config import *
 
 from numpy import arange
 
+"""COllision detection library"""
 
 class Collision:
+    #Num for type of collision. Maybe change to enum type==
     __collision_type = None
     __last_surface_to_hit = None
     @classmethod
-    def __publish_collision(cls):
+    def __publish_collision(cls) -> int:
+        """"publishes collision information to the Event bus and thourgh that to the gui. ()"""
         if not cls.__collision_type == None:
             EventBus.publish(ModelEvent(ModelEvent.EventType(cls.__collision_type)))
         return cls.__collision_type
        
          
     @classmethod
-    def get_collision_type(cls, paddle1, paddle2, ball):
-        
-
-        
+    def get_collision_type(cls, paddle1, paddle2, ball) -> int:
+        """Gets what type of collision it is. (left paddle, right paddle, ball). -> collision type"""
         if cls.is_in_range(ball, paddle1) and not cls.__last_surface_to_hit == "left":
             cls.__collision_type = 0
             
@@ -73,7 +74,8 @@ class Collision:
             
     #------HELPER------
     @staticmethod
-    def is_in_range(ball, paddle):
+    def is_in_range(ball, paddle) -> bool:
+        """Checks if ball is inside the area of the paddle for collisions. (ball, one of the paddles), -> bool if its inside it"""
         above = ball.get_max_y() < paddle.get_y()
         below = ball.get_y() > paddle.get_max_y()
         left_of = ball.get_max_x() < paddle.get_x()
