@@ -17,8 +17,10 @@ class Assets(ABC):
        *** Nothing to do here ***
     """
 
-    IMAGE_DIR = "GruProgLabb/pong_scetch/assets/img/"
-    SOUND_DIR = "GruProgLabb/pong_scetch/assets/sound/"
+    # IMAGE_DIR = "GruProgLabb/pong_scetch/assets/img/"
+    # SOUND_DIR = "GruProgLabb/pong_scetch/assets/sound/"
+    IMAGE_DIR = "pong_scetch/assets/img/"
+    SOUND_DIR = "pong_scetch/assets/sound/"
 
     # A Map to store which image belongs to which object
     object_image_map = {}

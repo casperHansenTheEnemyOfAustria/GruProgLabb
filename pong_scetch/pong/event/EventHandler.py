@@ -11,7 +11,6 @@ from abc import ABC, abstractmethod
      *** Nothing to do here ****
 """
 
-
 class EventHandler(ABC):
     @abstractmethod
     def on_model_event(self, evt: ModelEvent):

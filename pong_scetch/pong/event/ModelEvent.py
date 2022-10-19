@@ -7,7 +7,6 @@ Events passed from model to GUI
 """
 from enum import Enum
 
-
 class ModelEvent:
 
     # Enumeration of events

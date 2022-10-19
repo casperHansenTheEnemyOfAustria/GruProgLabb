@@ -14,7 +14,6 @@ from random import randint
 from random import uniform
 from random import choice
 
-from .ai import AI
 
 class Pong:
     """
@@ -22,7 +21,6 @@ class Pong:
      * Model class representing the "whole" game
      * Nothing visual here
     """
-
     
     # Class attributes for the moveable objects
     paddle1 = Paddle(0+10)
@@ -33,6 +31,7 @@ class Pong:
     def __init__(self):
         self.__points_left  = 0
         self.__points_right = 0
+        self.__points_to_win = 2
         self.__winner = None
 
     # --------  Game Logic -------------
@@ -56,10 +55,10 @@ class Pong:
     
     def __check_winner(self) -> None:
         """Check for a winner. () -> None"""
-        if self.__points_left == 2:
+        if self.__points_left == self.__points_to_win:
             self.__winner = " left"
 
-        elif self.__points_right == 2:
+        elif self.__points_right == self.__points_to_win:
             self.__winner = " right"
     
 
@@ -149,8 +148,8 @@ class Pong:
     @classmethod
     def set_speed_ball(cls, dx:float, dy:float) -> None:
         """Set speed of ball. (delta x, delta y) -> None"""
-        cls.ball.set_dy(dy)
         cls.ball.set_dx(dx)
+        cls.ball.set_dy(dy)
         
 
     @classmethod
@@ -163,8 +162,8 @@ class Pong:
     @classmethod
     def __ball_collide_with_paddle(cls) -> None:
         """When ball hits paddle increase the speed slightly. () -> None"""
-        speed_mod = 0.2
-        cls.set_speed_ball(-(cls.ball.get_dx()+ speed_mod*cls.ball.get_dx()), cls.ball.get_dy()+speed_mod*cls.ball.get_dy())
+        speed_mod = 1.05
+        cls.set_speed_ball(-(cls.ball.get_dx()*speed_mod), cls.ball.get_dy()*speed_mod)
 
 
     @classmethod

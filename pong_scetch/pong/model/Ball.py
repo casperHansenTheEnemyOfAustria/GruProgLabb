@@ -1,10 +1,6 @@
 # package pong.model
 
 from pong.model.Config import GAME_WIDTH, GAME_HEIGHT
-from .HasPosition import HasPosition
-from .Config import *
-from random import uniform, randint
-from numpy import arange
 from .Movable import Movable
 
 """
@@ -13,11 +9,11 @@ from .Movable import Movable
 """
 
 class Ball(Movable):
-    WIDTH = 40
-    HEIGHT = 40
-    def __init__(self, x, dx=0, dy=0, ):
-        y= (GAME_HEIGHT - self.HEIGHT)/2
-        x = (GAME_WIDTH - self.WIDTH)/2
+    WIDTH: int = 40
+    HEIGHT: int = 40
+    def __init__(self, x: int, dx: float = 0.0, dy: float = 0.0, ):
+        y: float = (GAME_HEIGHT - self.HEIGHT)/2
+        x: float = (GAME_WIDTH - self.WIDTH)/2
         super().__init__(x, y, dx, dy)
 
    

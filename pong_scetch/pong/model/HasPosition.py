@@ -6,11 +6,11 @@ from abc import abstractmethod, ABC
 class HasPosition(ABC):
     """
         Contract for anything that can be positioned in the world.
-
         NOTE: This must be fulfilled by any object the GUI shall render
+        Methods to implement: get_x(), get_y(), get_width(), get_height().
     """
     @abstractmethod
-    def get_x(self):      # Min x and y is upper left corner (y-axis pointing down)
+    def get_x(self):
         raise NotImplementedError
 
     @abstractmethod

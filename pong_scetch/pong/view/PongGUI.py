@@ -1,10 +1,12 @@
 # package pong.view
 import pygame
-from random import randint
+#from random import randint
 
 from pong.model.Pong import Pong
 from pong.model.Ball import Ball
 from pong.model.Paddle import Paddle
+from pong.model.Paddle import PADDLE_SPEED
+from pong.model.Config import *
 
 from pong.event.ModelEvent import ModelEvent
 from pong.event.EventBus import EventBus
@@ -12,10 +14,6 @@ from pong.event.EventHandler import EventHandler
 
 from pong.view.theme.Cool import Cool
 from pong.view.theme.Duckie import Duckie
-
-from pong.model.Paddle import PADDLE_SPEED
-from pong.model.Paddle import PADDLE_WIDTH
-from pong.model.Config import *
 
 from time import sleep
 
@@ -33,12 +31,13 @@ class PongGUI:
 
     See: https://en.wikipedia.org/wiki/Pong
     """
-
     
     # ------- Keyboard handling ----------------------------------
     @classmethod
     def key_pressed(cls, event: pygame.event) -> None:
-        """Handle keypresses, left paddle is controlled with 'q' and 'a' and the right paddle is controlled with 'up-arrow' and 'down-arrow. (event: pygame.event) -> None"""
+        """Handle keypresses, left paddle is controlled with 'q' and 'a' 
+        and the right paddle is controlled with 'up-arrow' and 'down-arrow. 
+        (event: pygame.event) -> None"""
         if not cls.__running:
             return
         if event.type == pygame.KEYDOWN:
@@ -57,7 +56,8 @@ class PongGUI:
 
     @classmethod
     def key_released(cls, event: pygame.event) -> None:
-        """Handle key releases, When a key is released the corresponding paddles should stop moving. (event: pygame.event) -> None"""
+        """Handle key releases, When a key is released the corresponding paddles should stop moving. 
+        (event: pygame.event) -> None"""
         if not cls.__running:
             return
         if event.type == pygame.KEYUP:
