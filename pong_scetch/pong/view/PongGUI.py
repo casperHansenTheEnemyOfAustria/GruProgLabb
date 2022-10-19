@@ -178,13 +178,13 @@ class PongGUI:
         cls.bind_paddles(left_paddle, right_paddle)
 
 
-    def bind_paddles(left: Paddle(), right: Paddle()) -> None:
+    def bind_paddles(left: Paddle, right: Paddle) -> None:
         """Bind paddle objects to papddle images. (left: Paddle(), right: Paddle()) -> None"""
         Assets.bind(left,"coolbluepaddle.png")
         Assets.bind(right,"coolredpaddle.png")
         
 
-    def bind_ball(ball: Ball(), assets: Duckie()) -> None:
+    def bind_ball(ball: Ball, assets: Duckie) -> None:
         """Bind ball object to ball image. (ball: Ball(), assets: Duckie()) -> None"""
         if assets == None:
             Cool().get_ball(ball)
@@ -203,7 +203,7 @@ class PongGUI:
     # ---------- Score representation---
     
     @classmethod
-    def __render_scores(cls, game: Pong()) -> None:
+    def __render_scores(cls, game: Pong) -> None:
         """Blit score board the screen. (game: Pong) -> None"""
         width = 100
         height = 55
