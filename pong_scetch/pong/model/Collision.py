@@ -21,8 +21,6 @@ class Collision:
     @classmethod
     def get_collision_type(cls, paddle1, paddle2, ball):
         
-
-        
         if cls.is_in_range(ball, paddle1) and not cls.__last_surface_to_hit == "left":
             cls.__collision_type = 0
             
@@ -48,7 +46,7 @@ class Collision:
             return cls.__publish_collision()
             
         
-        elif ball.get_x()+ball.get_width() < 0 : # ball out right
+        elif ball.get_x()+ball.get_width() < 0 : # ball out left
 
             cls.__collision_type = 2
             
@@ -56,7 +54,7 @@ class Collision:
             return cls.__publish_collision()
         
             
-        elif ball.get_x() > GAME_WIDTH: #ball out left
+        elif ball.get_x() > GAME_WIDTH: #ball out right
             
             cls.__collision_type = 3
             
