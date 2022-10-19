@@ -30,7 +30,7 @@ class Pong:
     ball = Ball(0)  
 
     
-    def __init__(self) -> None:
+    def __init__(self):
         print("Initialization")
         self.__points_left  = 0
         self.__points_right = 0
@@ -44,7 +44,7 @@ class Pong:
     timeForLastHit = 0         # To avoid multiple collisions
 
     
-    def update(self) -> None:
+    def update(self):
         self.move_paddle(self.paddle1)
         self.move_paddle(self.paddle2)
         
@@ -64,7 +64,7 @@ class Pong:
         elif self.__points_right == 2:
             self.__winner = " right"
     
-    def add_points_to_player(self, side:str) -> None:
+    def add_points_to_player(self, side:str):
         if side =="left":
             self.__points_left += 1
             print("player left +1")
