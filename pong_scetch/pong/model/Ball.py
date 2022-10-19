@@ -12,9 +12,6 @@ from .Movable import Movable
  * A model class
 """
 
-
-
-
 class Ball(Movable):
     WIDTH = 40
     HEIGHT = 40
