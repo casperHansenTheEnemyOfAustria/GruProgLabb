@@ -13,6 +13,7 @@ PADDLE_SPEED = 8
 
 # A Paddle for the Pong game
 class Paddle(Movable):
+    """Paddle for the Pong game"""
     WIDTH = PADDLE_WIDTH
     HEIGHT = PADDLE_HEIGHT
     def __init__(self, x, dx = 0, dy = 0):
@@ -22,7 +23,9 @@ class Paddle(Movable):
     
 
     def get_start_pos(self):
+        """Gets start coord for the paddle"""
         return self.y
     
     def get_end_pos(self):
+        """Gets end coord for the paddle"""
         return self.y + PADDLE_HEIGHT
