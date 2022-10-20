@@ -272,7 +272,7 @@ class PongGUI:
         if not cls.game.get_winner() == None:
             cls.__display_winner()
             sleep(5)
-            pygame.event.post(pygame.event.Event(pygame.QUIT))
+            pygame.quit()
             cls.kill_game()
 
 
