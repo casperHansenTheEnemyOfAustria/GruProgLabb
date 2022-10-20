@@ -21,12 +21,12 @@ class Positionable(HasPosition, ABC):
     
     def set_y(self, y) -> None:
         """Set value of y. (y: int) -> None"""
-        self. y = y
+        self.y = y
         
 
     def set_x(self, x) -> None:
         """Set value of x. (x: int) -> None"""
-        self. x = x
+        self.x = x
 
 
     @classmethod

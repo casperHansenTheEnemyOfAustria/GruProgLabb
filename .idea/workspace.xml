@@ -1,61 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a7a56eed-b9fb-4f0a-88e8-042fcd529683" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/GruProgLabb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GruProgLabb.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/.idea/calculator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/.idea/calculator.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/Calculator.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/Calculator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/CalculatorGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/CalculatorGUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/CalculatorREPL.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/CalculatorREPL.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/Stack.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/Stack.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/casper_scetch/Calculator.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/casper_scetch/Calculator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/casper_scetch/CalculatorGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/casper_scetch/CalculatorGUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/casper_scetch/CalculatorREPL.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/casper_scetch/CalculatorREPL.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/casper_scetch/Stack.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/casper_scetch/Stack.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/tobias_scetch/calculator/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/tobias_scetch/calculator/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/tobias_scetch/calculator/Stack.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/tobias_scetch/calculator/Stack.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator/calculator/tobias_scetch/calculator/postfix.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculator/calculator/tobias_scetch/calculator/postfix.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neighbours/Neighbours.py" beforeDir="false" afterPath="$PROJECT_DIR$/neighbours/Neighbours.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neighbours/neighbours_scetch.py" beforeDir="false" afterPath="$PROJECT_DIR$/neighbours/neighbours_scetch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pig/main_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/pig/main_game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pig/pig copy.py" beforeDir="false" afterPath="$PROJECT_DIR$/pig/pig copy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pig/pig.py" beforeDir="false" afterPath="$PROJECT_DIR$/pig/pig.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pig/tobias_version copy 2.py" beforeDir="false" afterPath="$PROJECT_DIR$/pig/tobias_version copy 2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pig/tobias_version copy.py" beforeDir="false" afterPath="$PROJECT_DIR$/pig/tobias_version copy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pig/tobias_version.py" beforeDir="false" afterPath="$PROJECT_DIR$/pig/tobias_version.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pig/working_version.py" beforeDir="false" afterPath="$PROJECT_DIR$/pig/working_version.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/.idea/pong.iml" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/.idea/pong.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong.iml" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong/event/EventBus.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong/event/EventBus.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong/event/EventHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong/event/EventHandler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong/event/ModelEvent.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong/event/ModelEvent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong/model/Ball.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong/model/Ball.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong/model/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong/model/Config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong/model/HasPosition.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong/model/HasPosition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong/model/Paddle.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong/model/Paddle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong/model/Pong.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong/model/Pong.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong/view/Assets.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong/view/Assets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong/view/PongGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong/view/PongGUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong/view/theme/Cool.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong/view/theme/Cool.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/pong/view/theme/Duckie.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/pong/view/theme/Duckie.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pong_scetch/test/pong/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/pong_scetch/test/pong/Test.py" afterDir="false" />
-    </list>
+    <list default="true" id="a7a56eed-b9fb-4f0a-88e8-042fcd529683" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -125,9 +71,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="./GruProgLabb" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="SDK_HOME" value="/usr/local/bin/python3.10" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pong_scetch/main.py" />

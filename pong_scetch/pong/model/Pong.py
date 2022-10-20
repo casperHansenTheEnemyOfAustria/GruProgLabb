@@ -23,9 +23,9 @@ class Pong:
     """
     
     # Class attributes for the moveable objects
-    paddle1 = Paddle(0+10)
+    paddle1 = Paddle(10)
     paddle2 = Paddle(GAME_WIDTH - PADDLE_WIDTH-10)
-    ball = Ball(0)  
+    ball = Ball(0)
 
     
     def __init__(self):
@@ -35,8 +35,6 @@ class Pong:
         self.__winner = None
 
     # --------  Game Logic -------------
-
-    timeForLastHit = 0         # To avoid multiple collisions
 
     
     def update(self) -> None:
@@ -51,8 +49,7 @@ class Pong:
         points_to = self.collision_detector()
         self.add_points_to_player(points_to)
         self.__check_winner()
-        
-    
+
     def __check_winner(self) -> None:
         """Check for a winner. () -> None"""
         if self.__points_left == self.__points_to_win:
@@ -80,19 +77,19 @@ class Pong:
         paddle1 = self.paddle1
         paddle2 = self.paddle2
         
-        if Collision.get_collision_type(paddle1, paddle2, ball) == 0:
+        if Collision.get_collision_type(paddle1, paddle2, ball) == 0: #If the ball collides with paddle
             self.__ball_collide_with_paddle()
             
-        elif Collision.get_collision_type(paddle1, paddle2, ball) == 1:
+        elif Collision.get_collision_type(paddle1, paddle2, ball) == 1: #If the ball collides with wall
             self.__ball_ceil_floor_collision()  
                 
-        elif Collision.get_collision_type(paddle1, paddle2, ball) == 3:
-            self.new_ball(True)
-            return "left"
+        elif Collision.get_collision_type(paddle1, paddle2, ball) == 3: #If the ball goes outside on the right side
+            self.new_ball(True) #spawn a new ball in the middle
+            return "left" #Points to the left player
             
-        elif Collision.get_collision_type(paddle1, paddle2, ball) == 2:
-            self.new_ball(True)
-            return "right"  
+        elif Collision.get_collision_type(paddle1, paddle2, ball) == 2: #If the ball goes outside on the left side
+            self.new_ball(True) #spawn a new ball in the middle
+            return "right" #Points to the right player
 
 
     # --- Used by GUI  ------------------------
@@ -100,7 +97,7 @@ class Pong:
     @classmethod
     def get_all_items_with_position(cls) -> dict:
         """Returns a dictionary with all positionable objects. () -> dict"""
-        drawables = {"paddle1":cls.paddle1, "paddle2":cls.paddle2, "ball":cls.ball}
+        drawables = {"paddle1": cls.paddle1, "paddle2": cls.paddle2, "ball": cls.ball}
         return drawables
     
     
@@ -114,7 +111,7 @@ class Pong:
         """Place ball in the middle of the screen but on random height. Set speed of ball to a randon dx and dy. (in_match: bool) -> None"""
         if in_match:
             cls.set_pos_ball(GAME_WIDTH/2, randint(0, GAME_HEIGHT-Ball.get_height()))
-        cls.set_speed_ball(cls.get_random_number(), cls.get_random_number())
+        cls.set_speed_ball(cls.get_random_number(), cls.get_random_number()) #Shoot the ball in a random direction with a random speed
         
         
     @staticmethod
@@ -174,16 +171,15 @@ class Pong:
         
         
 # _____HELPERS___
-
     @staticmethod  
     def move_paddle(paddle: Paddle) -> None:
         """Make sure the paddles can't move of the screen. (paddle: Paddle) -> None"""
-        if paddle.get_y()+paddle.get_dy() < 0:
+        if paddle.get_y()+paddle.get_dy() < 0: #The paddle should not go above the top wall
             paddle.set_y(0)
-        elif paddle.get_y()+paddle.get_dy() > GAME_HEIGHT - PADDLE_HEIGHT:
-            paddle.set_y(GAME_HEIGHT  - PADDLE_HEIGHT)
+        elif paddle.get_max_y() + paddle.get_dy() > GAME_HEIGHT: #The paddle should not go below the bottom wall
+            paddle.set_y(GAME_HEIGHT - PADDLE_HEIGHT)
         else:
-            paddle.move()
+            paddle.move() #If the ball is inbetween the walls, let it move
             
 
             

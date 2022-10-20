@@ -1,6 +1,7 @@
 # package pong.view
-import pygame
+
 #from random import randint
+import pygame
 
 from pong.model.Pong import Pong
 from pong.model.Ball import Ball
@@ -133,12 +134,12 @@ class PongGUI:
     @classmethod
     def render(cls) -> None:
         """Fill the screen with black then apply the background image, render all movable objects and then render the scoreboard. () -> None"""
-        cls.__screen.fill((0,0,10))
-        cls.__add_background()
-        cls.__render_moveables()
-        cls.__render_scores(cls.game)   
+        cls.__screen.fill((0,0,10)) #Black screen
+        cls.__add_background() #Blit the background image to the screen
+        cls.__render_moveables() #Step through the image_map and blit the image for the object with the right x, y, width and height
+        cls.__render_scores(cls.game) #Scoreboard, shows the points
         
-        pygame.display.flip()
+        pygame.display.flip() #Flip the display to show what we have drawn on the display
 
 
     @classmethod 
@@ -208,7 +209,7 @@ class PongGUI:
         width = 100
         height = 55
         string = cls.__create_score_string(game.get_points_left(), game.get_points_right())
-        img = cls.__font.render(string, False, (100,255,0))
+        img = cls.__font.render(string, False, (100, 255, 0))
         cls.__blit_image_at_pos(img, (GAME_WIDTH)/2 - width, 10, width, height)
     
      
@@ -235,25 +236,25 @@ class PongGUI:
 
     @classmethod
     def setup(cls) -> None:
-        """Setup the game before beginngin to play. () -> None"""
-        cls.__screen = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
-        cls.__clock = pygame.time.Clock()
-        cls.__font = pygame.font.SysFont(None, 24)
-        cls.__add_background()
-        cls.__running = True
-        cls.game = Pong()
-        list_of_movables = cls.game.get_all_items_with_position()
-        cls.__load_movable_images(list_of_movables)
+        """Setup the game before beginning to play. () -> None"""
+        cls.__screen = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT)) #Initialize a window with size GAME_WIDTH * GAME_HEIGHT
+        cls.__clock = pygame.time.Clock() #Clock to track time
+        cls.__font = pygame.font.SysFont(None, 24) #System font with size 24
+        cls.__add_background() #Blit the imagine on the display window
+        cls.__running = True #Running should be set on true for the run loop
+        cls.game = Pong() #Initialize the pong model
+        list_of_movables = cls.game.get_all_items_with_position() #a dictionary with all positionable objects
+        cls.__load_movable_images(list_of_movables) #Binds the images to the moving objects
         
     @classmethod
     def run(cls) -> None:
         """Game startup and loop. () -> None"""
-        cls.setup()
+        cls.setup() #Call the setup method
         cls.game.new_ball(False)
 
-        while cls.__running:
-            cls.__clock.tick(60)
-            cls.render()
+        while cls.__running: #The game loop, do this until someone wins or quits
+            cls.__clock.tick(60) #Capping the frames per second
+            cls.render() #For every loop, we should do a new rendering
             cls.update()
 
 
@@ -267,7 +268,7 @@ class PongGUI:
 
     @classmethod
     def __check_for_winner(cls) -> None:
-        """Check if there is a winner. If winner is found wait 5 sek before terminating game. () -> None"""
+        """Check if there is a winner. If winner is found wait 5 sec before terminating game. () -> None"""
         if not cls.game.get_winner() == None:
             cls.__display_winner()
             sleep(5)
@@ -290,4 +291,4 @@ class PongGUI:
 
 
 if __name__ == "__main__":
-        PongGUI.run()
+    PongGUI.run()
