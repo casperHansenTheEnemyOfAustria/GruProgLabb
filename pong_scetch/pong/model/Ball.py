@@ -11,7 +11,7 @@ from .Movable import Movable
 class Ball(Movable):
     WIDTH: int = 40
     HEIGHT: int = 40
-    def __init__(self, x: int, dx: float = 0.0, dy: float = 0.0, ):
+    def __init__(self, x: int = 0, dx: float = 0.0, dy: float = 0.0, ):
         y: float = (GAME_HEIGHT - self.HEIGHT)/2
         x: float = (GAME_WIDTH - self.WIDTH)/2
         super().__init__(x, y, dx, dy)

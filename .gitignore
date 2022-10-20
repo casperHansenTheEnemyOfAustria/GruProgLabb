@@ -163,3 +163,4 @@ cython_debug/
 *.pyc
 pong_scetch/pong/model/__pycache__/Paddle.cpython-310.pyc
 pong_scetch/pong/model/__pycache__/Ball.cpython-310.pyc
+*.pyc

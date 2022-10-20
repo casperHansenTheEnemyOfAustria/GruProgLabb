@@ -25,7 +25,7 @@ class Pong:
     # Class attributes for the moveable objects
     paddle1 = Paddle(10)
     paddle2 = Paddle(GAME_WIDTH - PADDLE_WIDTH-10)
-    ball = Ball(0)
+    ball = Ball()
 
     
     def __init__(self):
